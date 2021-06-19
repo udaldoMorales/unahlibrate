@@ -9,6 +9,8 @@ const app = express();
 
 //Cargar ficheros rutas.
 
+var user_routes = require('./routes/user_routes');
+
 //Cargar Middlewares.
 //app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.json());
@@ -26,7 +28,7 @@ app.use((req, res, next) => {
 
 
 //Añadir prefijos a las rutas y Cargar las rutas.
-
+app.use("/api", user_routes)
 
 //Ruta o método de prueba para el API:
 
@@ -38,7 +40,7 @@ app.get('/datos', (request, response) => {
 })
 
 app.get("/", (request, response) => {
-	return response.status(200).send('Este es el backend del Proyecto.')
+	return response.status(200).send('Este es el backend del Proyecto.') 
 })
 
 //Exportar el módulo (fichero actual).
