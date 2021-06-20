@@ -13,5 +13,7 @@ router.post('/lariza',UserController.datosCurso);
 //Ruta para guardar los archivos
 
 router.post('/save',UserController.saveData);
+router.get('/user/:id', UserController.getUser);
+router.get('/users', UserController.getUsers);
 
 module.exports = router;
