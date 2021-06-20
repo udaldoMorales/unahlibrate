@@ -1,10 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
-import { Login} from "./components/pages/"
+import "./App.css";
+import Routes from "./components/routes"
 
 function App() {
   return (
-     <Login/>
+      <Routes />
   );
 }
 
