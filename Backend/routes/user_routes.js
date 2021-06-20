@@ -8,12 +8,12 @@ var router = express.Router();
 
 //var md_upload = multiparty({uploadDir:'./upload/articles'});
 
-//Rutas de prueba
+//Rutas de prueba 
 router.post('/lariza',UserController.datosCurso);
-//Ruta para guardar los archivos
 
-router.post('/save',UserController.saveData);
+router.post('/save-user',UserController.saveData); //Ruta para guardar datos de usuario en la base
 router.get('/user/:id', UserController.getUser);
 router.get('/users', UserController.getUsers);
+router.post('/send-mail',UserController.sendMail);
 
 module.exports = router;
