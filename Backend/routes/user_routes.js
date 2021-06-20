@@ -11,7 +11,7 @@ var router = express.Router();
 //Rutas de prueba 
 router.post('/lariza',UserController.datosCurso);
 
-router.post('/save-user',UserController.saveData); //Ruta para guardar datos de usuario en la base
+router.post('/save-user',UserController.saveUser); //Ruta para guardar datos de usuario en la base
 router.get('/user/:id', UserController.getUser);
 router.get('/users', UserController.getUsers);
 router.post('/send-mail',UserController.sendMail);

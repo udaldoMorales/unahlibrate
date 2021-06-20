@@ -2,6 +2,7 @@
 var validator = require('validator');
 const user = require('../models/user');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
 var fs = require('fs');
 var path = require('path');
 
@@ -18,13 +19,13 @@ var controller = {
         });
     },
     //Guardar datos en la base de datos
-    saveData: (request, response) => {
+    saveUser: (request, response) => {
         //Recoger los paremetros por post
         var params = request.body;
         //console.log(request.body);
 
         user.find({ '$or': [{ 'email': params.email }, { 'user': params.user }] }, (err, existingUser) => {
-            console.log(existingUser);
+
             if (existingUser.length > 0) {
                 console.log('No te ejecutés acá, bacteria 1.');
                 return response.status(404).send({ status: "error", message: "Correo en uso ya." });
@@ -47,18 +48,20 @@ var controller = {
                     //Si los datos son validos
                     if (validateUser && validatePassword) { //Deberiamos validar el nombre tambien 
 
+                        //Encriptando la contrasena
+                        const hash =  bcrypt.hashSync(params.password, 10)
                         //Crear el objeto a guardar
 
                         var userToSave = new user(); //instanciando el modelo de datos
 
                         //Asiganar valores
                         userToSave.user = params.user;
-                        userToSave.password = params.password;
+                        userToSave.password = hash;
                         userToSave.email = params.email;
 
                         //Guardar el usuario a la base
                         userToSave.save((err, userStored) => {
-
+                            console.log(userStored,err)
                             if (err || !userStored) {
                                 return response.status(400).send({
                                     status: 'error',
@@ -138,7 +141,7 @@ var controller = {
             }
         });
         //Luego establecemos la opciones de envio
-        
+
         var mailOptions = {
             from: "bruce.hintz@ethereal.email",
             to: request.body.email,
@@ -151,11 +154,10 @@ var controller = {
                 console.log("hubo error")
                 return response.status(500).send(error.message);
             } else {
-                console.log(info)
                 console.log("Email enviando");
                 return response.status(200).send({
                     status: "success",
-                    userMailSent : request.body.email
+                    userMailSent: request.body.email
                 })
             }
         });
