@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 var fs = require('fs');
 var path = require('path');
 const jwt = require('jsonwebtoken');
+const RefreshToken = require('../models/refreshtoken');
 
 var controller = {
     //metodo de prueba
@@ -158,18 +159,33 @@ var controller = {
                     });
                 } else { //Hay acceso.
                     //Generación del Token.
-                    jwt.sign({user: userFound.user, email: userFound.email}, 'secretkey', {expiresIn: '5m'}, (err, token) => {
+                    jwt.sign({user: userFound.user, email: userFound.email}, 'secretkey', {expiresIn: '1m'}, (err, token) => {
                         if (err || !token || token == undefined){
+
                             response.status(404).send({
                                 status: 'failed',
                                 message: 'Ocurrio un error.'
                             });
                         } else {
-                            response.status(200).send({
-                                status: 'success',
-                                message: 'Acceso concedido.',
-                                token
-                            });
+
+                            //Creación del refresh token
+                            var refreshToken;
+                            RefreshToken.createToken(userFound)
+                            .then(data => {
+                                console.log(data)
+                                refreshToken = data; 
+                                if (refreshToken) {
+                                    response.status(200).send({
+                                        status: 'success',
+                                        message: 'Acceso concedido.',
+                                        token,
+                                        refreshToken
+                                    });                                    
+                                }
+                            })
+                            .catch(err => console.log(err));
+
+
                         }
 
                     });
@@ -179,6 +195,45 @@ var controller = {
 
         //return response.status(200).json(params);
     },
+
+    refreshToken: async (req, res) => {
+          const { refreshToken: requestToken } = req.body;
+
+          if (requestToken == null) {
+            return res.status(403).json({ message: "Refresh Token is required!" });
+          }
+
+          try {
+            let refreshToken = await RefreshToken.findOne({ token: requestToken });
+
+            if (!refreshToken) {
+              res.status(403).json({ message: "Refresh token is not in database!" });
+              return;
+            }
+
+            if (RefreshToken.verifyExpiration(refreshToken)) {
+              RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
+              
+              res.status(403).json({
+                message: "Refresh token was expired. Please make a new signin request",
+              });
+              return;
+            }
+
+            let newAccessToken = jwt.sign({ id: refreshToken.user._id }, 'secretkey', {
+              expiresIn: '1m',
+            });
+
+            return res.status(200).json({
+              accessToken: newAccessToken,
+              refreshToken: refreshToken.token,
+            });
+          } catch (err) {
+            console.log(err);
+            return res.status(500).send({ message: err });
+          }
+    },
+
     //Metodo para enviar correo electronico
     sendMail: (request, response) => {
         //Con servidor de prueba llamada Ethereal
@@ -209,9 +264,31 @@ var controller = {
                 return response.status(200).send({
                     status: "success",
                     userMailSent: request.body.email
-                })
+                });
             }
         });
+    },
+
+    //Método para probar el acceso a recursos con usuario autenticado.
+    userPanel: (request, response) => {
+        /*
+        response.status(200).json({
+            status: 'success',
+            message: 'Acceso concedido al contenido.'
+        });
+        */
+        return response.status(200).send({
+            status: 'success',
+            message: 'Tienes acceso, es permitido.',
+            loggedUser: response.userData
+        });
+    },
+
+    //Método de acceso público (que no necesita acceso de usuario).
+    generalPanel: (request, response) => {
+        return response.status(200).send({
+            status: 'success'
+        })
     }
 };
 
