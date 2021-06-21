@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 var fs = require('fs');
 var path = require('path');
+const jwt = require('jsonwebtoken');
 
 var controller = {
     //metodo de prueba
@@ -127,6 +128,56 @@ var controller = {
                 });
             }
         });
+    },
+    login: (request, response) => {
+        var params = request.body;
+        var username = params.user;
+        var password = params.password;
+
+        console.log(username);
+        console.log(password);
+
+        //Buscar el usuario.
+
+        user.findOne({user: username}, (err, userFound) => {
+            if (!userFound) {
+                return response.status(404).send({
+                    status: 'error',
+                    message: 'No existe el usuario.'
+                });
+            }
+            if (err) {
+                console.log(error);
+            } else {
+                //Verificando la contraseña.
+                var contrasenaCompatible = bcrypt.compareSync(password, userFound.password);
+                if (!contrasenaCompatible){ //No hay acceso.
+                    response.status(403).send({
+                        status: 'error',
+                        message: 'Tu contraseña es incorrecta, man..'
+                    });
+                } else { //Hay acceso.
+                    //Generación del Token.
+                    jwt.sign({user: userFound.user, email: userFound.email}, 'secretkey', {expiresIn: '5m'}, (err, token) => {
+                        if (err || !token || token == undefined){
+                            response.status(404).send({
+                                status: 'failed',
+                                message: 'Ocurrio un error.'
+                            });
+                        } else {
+                            response.status(200).send({
+                                status: 'success',
+                                message: 'Acceso concedido.',
+                                token
+                            });
+                        }
+
+                    });
+                }
+            }
+        })
+
+        //return response.status(200).json(params);
     },
     //Metodo para enviar correo electronico
     sendMail: (request, response) => {
