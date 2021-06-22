@@ -1,0 +1,16 @@
+.login_top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   }
+
+   .login_title{
+    color: #8a8c8b;
+    margin-bottom: 30px;
+}
+
+
+.login_title spam{
+    color: #f39b53;
+  
+}

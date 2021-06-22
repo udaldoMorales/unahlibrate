@@ -1,78 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom"
-import { Form, Input, Button, Checkbox } from 'antd';
-import 'antd/dist/antd.css'; 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
+import { Link } from "react-router-dom";
+import Titulo from "../../atoms/titulo";
+import Input from "../../atoms/input";
+import Boton from "../../atoms/boton";
+import Label from "../../atoms/label";
 
+
+
+import "antd/dist/antd.css";
+import "./style.css";
 
 const Login = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
+      
+  
+  return( 
+    <div className="login_container">
+    <Titulo/>
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+    <form className="login_form">
 
-  return (
-    <Form
-      {...layout}
-      name="basic"
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+      <Input/>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+     <Boton/>
 
-      <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+     <Label/>
+    </form>
+  </div>
   );
 };
 
