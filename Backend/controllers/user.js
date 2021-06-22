@@ -8,6 +8,7 @@ var path = require('path');
 const jwt = require('jsonwebtoken');
 const RefreshToken = require('../models/refreshtoken');
 const transporter = require('../config/email');
+const {urlApi} = require('../config/Global');
 
 var controller = {
     //metodo de prueba
@@ -156,7 +157,7 @@ var controller = {
                 if (!contrasenaCompatible){ //No hay acceso.
                     response.status(403).send({
                         status: 'error',
-                        message: 'Tu contraseña es incorrecta, man..'
+                        message: 'Tu contraseña es incorrecta, man.'
                     });
                 } else { //Hay acceso.
                     //Generación del Token.
@@ -179,6 +180,7 @@ var controller = {
                                     response.status(200).send({
                                         status: 'success',
                                         message: 'Acceso concedido.',
+                                        user: userFound,
                                         token,
                                         refreshToken
                                     });                                    
@@ -241,10 +243,13 @@ var controller = {
         //Establecemos la opciones de envio
 
         var mailOptions = {
-            from: "unahlibate-noreply@gmail.com",
-            to: request.body.email,
-            subject: "Esto es una prueba desde nodemailer",
-            text: "Holaaaa, soy sexi XD"
+            from: "UNAHLibrate <unahlibate-noreply@gmail.com>",
+            to: request.body.user.email,
+            subject: "Confirmación de cuenta: UNAHLibrate",
+            //text: "Holaaaa, soy sexi XD"
+            html: `<div><h3>¡Bienvenido a UNAHLibrate!</h3>
+            <p>Clickea el siguiente enlace para verificar tu cuenta y sé parte de la comunidad:</p>
+            <a href="${urlApi}verify-user/${request.body.user._id}">Verifica tu cuenta</a></div>`
         }
 
         //Finalmente se envia el correo
@@ -257,16 +262,29 @@ var controller = {
                 console.log("Email enviando");
                 return response.status(200).send({
                     status: "success",
-                    userMailSent: request.body.email
+                    userMailSent: request.body.user.email
                 });
             }
         });
     },
     verifyUser: (request, response) => {
-        return response.status(200).send({
-            status: 'success',
-            message: 'Falta programarlo.'
-        })
+        var userId = request.params.id;
+
+        user.findOneAndUpdate({_id: userId}, {verified: true}, {new:true}, (err, verifiedUser) => {
+            if (err || !verifiedUser){
+                console.log(err);
+                return response.status(404).send({
+                    status: 'error',
+                    message: "El usuario no ha podido ser verificado."
+                });
+            } else {
+                return response.status(200).send({
+                    status: 'success',
+                    user: verifiedUser
+                })
+            }
+        });
+
     },
 
     //Método para probar el acceso a recursos con usuario autenticado.

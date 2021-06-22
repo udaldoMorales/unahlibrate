@@ -21,6 +21,6 @@ router.post('/login', UserController.login);
 router.get('/user-panel', authJwt, UserController.userPanel);
 router.get('/general-panel', UserController.generalPanel);
 router.post("/refreshtoken", UserController.refreshToken);
-router.put('/verify-user/:id', UserController.verifyUser);
+router.get('/verify-user/:id', UserController.verifyUser);
 
 module.exports = router;

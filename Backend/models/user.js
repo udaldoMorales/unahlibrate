@@ -9,8 +9,10 @@ var UserSchema = Schema({
    // name: String,
    // lastname: String,
     email: String,
-    date: {type: Date,default: Date.now},
-    
+    verified: {
+        type: Boolean, default: false
+    },
+    date: {type: Date,default: Date.now}
 });
 
 
