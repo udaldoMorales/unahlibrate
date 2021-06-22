@@ -1,0 +1,11 @@
+.loginForm{
+    align-self: center;
+    background-color: black;
+}
+.input{
+    margin: .5rem 0;
+    padding: 1rem;
+    transition: all .7s;
+    border-radius: 8px;
+    border-color: white
+}
