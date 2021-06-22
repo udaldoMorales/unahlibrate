@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 const jwt = require('jsonwebtoken');
 const RefreshToken = require('../models/refreshtoken');
+const transporter = require('../config/email');
 
 var controller = {
     //metodo de prueba
@@ -236,28 +237,21 @@ var controller = {
 
     //Metodo para enviar correo electronico
     sendMail: (request, response) => {
-        //Con servidor de prueba llamada Ethereal
-        //Primero configuramos los datos del servidor de correo
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
-            auth: {
-                user: 'bruce.hintz@ethereal.email',
-                pass: 'BR7VrTAq1fG3g3bVvR'
-            }
-        });
-        //Luego establecemos la opciones de envio
+
+        //Establecemos la opciones de envio
 
         var mailOptions = {
-            from: "bruce.hintz@ethereal.email",
+            from: "unahlibate-noreply@gmail.com",
             to: request.body.email,
             subject: "Esto es una prueba desde nodemailer",
             text: "Holaaaa, soy sexi XD"
         }
+
         //Finalmente se envia el correo
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log("hubo error")
+                console.log("hubo error");
+                console.log(error)
                 return response.status(500).send(error.message);
             } else {
                 console.log("Email enviando");
@@ -267,6 +261,12 @@ var controller = {
                 });
             }
         });
+    },
+    verifyUser: (request, response) => {
+        return response.status(200).send({
+            status: 'success',
+            message: 'Falta programarlo.'
+        })
     },
 
     //Método para probar el acceso a recursos con usuario autenticado.
