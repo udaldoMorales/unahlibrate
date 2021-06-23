@@ -9,43 +9,36 @@ import Swal from "sweetalert2";
 const FormUser = ({ history }) => {
   //Creando el state para leer los inputs:
   const [infoUser, handleUserInfo] = useState({
-    email: "",
-    password: "",
-    phone: "",
-    address: "",
-    name: "",
-    lastname: "",
-    birth_date: "",
-    register_id: ""
+    Usuario: "",
+    Nombre: "",
+    Apellido: "",
+    Correo: "",
+    Contraseña: "",
   });
 
   const [enableButton, setEnableButton] = useState(true);
 
   //Extrayendo los valores con destructuring:
   const {
-    email,
-    password,
-    phone,
-    address,
-    name,
-    lastname,
-    birth_date,
-    register_id
+    Usuario,
+    Nombre,
+    Apellido,
+    Correo,
+    Contraseña,
   } = infoUser;
 
   useEffect(() => {
     if (
-      email.trim() !== "" &&
-      password.trim() !== "" &&
-      phone.trim() !== "" &&
-      address.trim() !== "" &&
-      name.trim() !== "" &&
-      register_id.trim() !== ""
+      Usuario.trim() !== "" &&
+      Nombre.trim() !== "" &&
+      Apellido.trim() !== "" &&
+      Correo.trim() !== "" &&
+      Contraseña.trim() !== "" 
     ) {
       setEnableButton(false);
       return;
     }
-  }, [register_id, name, phone, password, email]);
+  }, [Usuario, Nombre, Apellido, Correo, Contraseña]);
 
   //Funcion que se ejecuta cuando se escribe en un input:
   const handleChangeInfo = e => {
@@ -79,14 +72,11 @@ const FormUser = ({ history }) => {
 
     //Validacion:
     if (
-      email.trim() === "" ||
-      password.trim() === "" ||
-      phone.trim() === "" ||
-      address.trim() === "" ||
-      name.trim() === "" ||
-      lastname.trim() === "" ||
-      birth_date.trim() === "" ||
-      register_id.trim() === ""
+      Usuario.trim() === "" ||
+      Nombre.trim() === "" ||
+      Apellido.trim() === "" ||
+      Correo.trim() === "" ||
+      Contraseña.trim() === "" 
     ) {
       handleError(true);
       return;
@@ -94,16 +84,14 @@ const FormUser = ({ history }) => {
 
     handleError(false);
 
-    //Peticion al endpoint de usuario normal:
+    //Peticion al endpoint de usuario normal
+
     registerNormalUser(
-      email,
-      password,
-      phone,
-      address,
-      name,
-      lastname,
-      register_id,
-      birth_date
+      Usuario,
+      Nombre,
+      Apellido,
+      Correo,
+      Contraseña
     )
       .then(res => {
         Swal.fire(
@@ -126,22 +114,39 @@ const FormUser = ({ history }) => {
   return (
     <div className="limiter">
       <div className="container-login100 imgFormRegUs">
-        <div className="wrap-login100 p-l-50 p-r-50 p-t-50 p-b-30">
+        <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
           <form className="login100-form validate-form" onSubmit={submitUser}>
-            <span className="login100-form-title p-b-25">Registro Usuario</span>
+            <span className="login100-form-title p-b-35">Registro Usuario</span>
 
             <div
               className="wrap-input100 validate-input m-b-16"
               data-validate="Valid email is required: ex@abc.xyz"
             >
               <input
+                className="input100"
+                type="text"
+                name="Usuario"
+                onChange={handleChangeInfo}
+                value={Usuario}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <span className="lnr lnr-user"></span>
+              </span>
+            </div>
+            
+            <div
+              className="wrap-input100 validate-input m-b-16"
+              data-validate="Password is required"
+            >
+              <input
                 id="emailInput"
                 className="input100"
                 type="text"
-                name="email"
+                name="Correo"
                 placeholder="Correo"
                 onChange={handleChangeInfo}
-                value={email}
+                value={Correo}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
@@ -162,10 +167,10 @@ const FormUser = ({ history }) => {
               <input
                 className="input100"
                 type="password"
-                name="password"
+                name="Contraseña"
                 placeholder="Contraseña"
                 onChange={handleChangeInfo}
-                value={password}
+                value={Contraseña}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
@@ -179,47 +184,11 @@ const FormUser = ({ history }) => {
             >
               <input
                 className="input100"
-                type="phone"
-                name="phone"
-                placeholder="Teléfono"
-                onChange={handleChangeInfo}
-                value={phone}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-phone-handset"></span>
-              </span>
-            </div>
-
-            <div
-              className="wrap-input100 validate-input m-b-16"
-              data-validate="Password is required"
-            >
-              <input
-                className="input100"
-                type="address"
-                name="address"
-                placeholder="Dirección"
-                onChange={handleChangeInfo}
-                value={address}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-home"></span>
-              </span>
-            </div>
-
-            <div
-              className="wrap-input100 validate-input m-b-16"
-              data-validate="Password is required"
-            >
-              <input
-                className="input100"
                 type="text"
-                name="name"
+                name="Nombre"
                 placeholder="Nombre"
                 onChange={handleChangeInfo}
-                value={name}
+                value={Nombre}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
@@ -234,10 +203,10 @@ const FormUser = ({ history }) => {
               <input
                 className="input100"
                 type="text"
-                name="lastname"
+                name="Apellido"
                 placeholder="Apellido"
                 onChange={handleChangeInfo}
-                value={lastname}
+                value={Apellido}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
@@ -249,36 +218,6 @@ const FormUser = ({ history }) => {
               className="wrap-input100 validate-input m-b-16"
               data-validate="Password is required"
             >
-              <input
-                className="input100"
-                type="date"
-                name="birth_date"
-                onChange={handleChangeInfo}
-                value={birth_date}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-calendar-full"></span>
-              </span>
-            </div>
-
-            <div
-              className="wrap-input100 validate-input m-b-16"
-              data-validate="Password is required"
-            >
-              <input
-                className="input100"
-                type="text"
-                name="register_id"
-                placeholder="Número de Identidad"
-                onChange={handleChangeInfo}
-                value={register_id}
-                maxLength={13}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-license"></span>
-              </span>
             </div>
 
             {error ? (
