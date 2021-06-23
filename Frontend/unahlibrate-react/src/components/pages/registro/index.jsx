@@ -99,7 +99,7 @@ const FormUser = ({ history }) => {
           "Se ha creado el usuario exitosamente",
           "success"
         ).then(e => {
-          history.push("/login");
+          history.push("/");
         });
       })
       .catch(error => {
@@ -116,7 +116,7 @@ const FormUser = ({ history }) => {
       <div className="container-login100 imgFormRegUs">
         <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
           <form className="login100-form validate-form" onSubmit={submitUser}>
-            <span className="login100-form-title p-b-35">Registro Usuario</span>
+            <span className="login100-form-title p-b-35">Registro de Usuario</span>
 
             <div
               className="wrap-input100 validate-input m-b-16"
@@ -126,6 +126,7 @@ const FormUser = ({ history }) => {
                 className="input100"
                 type="text"
                 name="Usuario"
+                placeholder="Usario"
                 onChange={handleChangeInfo}
                 value={Usuario}
               />
