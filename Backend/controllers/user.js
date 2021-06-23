@@ -62,6 +62,8 @@ var controller = {
                         userToSave.user = params.user;
                         userToSave.password = hash;
                         userToSave.email = params.email;
+                        userToSave.name = params.name;
+                        userToSave.lastname = params.lastname;
 
                         //Guardar el usuario a la base
                         userToSave.save((err, userStored) => {

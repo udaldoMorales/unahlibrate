@@ -6,8 +6,8 @@ var Schema = mongoose.Schema;
 var UserSchema = Schema({
     user: String,
     password: String,
-   // name: String,
-   // lastname: String,
+    name: String,
+    lastname: String,
     email: String,
     verified: {
         type: Boolean, default: false
