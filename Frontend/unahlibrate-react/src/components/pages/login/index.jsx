@@ -177,15 +177,6 @@ const FormLog = ({ history }) => {
               </p>
             ) : null}
 
-            <div className="contact100-form-checkbox m-l-4">
-              <input
-                className="input-checkbox100"
-                id="ckb1"
-                type="checkbox"
-                name="remember-me"
-              />
-              <label className="label-checkbox100">Recuerdame</label>
-            </div>
 
             <div className="container-login100-form-btn p-t-25">
               <button type="submit" className="login100-form-btn">
@@ -198,12 +189,7 @@ const FormLog = ({ history }) => {
               <Link className="txt1 bo1 hov1" to="/registro">
                 Registrarse
               </Link>
-              <div className="pt-2">
-                <span className="txt1 mr-2">¿Olvidaste tu contraseña?</span>
-                <Link className="txt1 bo1 hov1" to="/recovery-password">
-                  Recupérala
-                </Link>
-              </div>
+  
             </div>
           </form>
         </div>

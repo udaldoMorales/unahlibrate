@@ -254,7 +254,7 @@ iframe {
 }
 
 .wrap-login300 {
-  width: 1000px;
+  width: 500px /*1000px*/;
   /* height: 800px; */
   background: #fff;
   border-radius: 3px;
