@@ -13,6 +13,7 @@ router.post('/lariza',UserController.datosCurso);
 
 router.post('/save-user',UserController.saveUser); //Ruta para guardar datos de usuario en la base
 router.get('/user/:id', UserController.getUser);
+router.get('/user-by-name/:nick', UserController.getUserByUsername); //Ruta para obtener un usuario por su nombre de usuario.
 router.get('/users', UserController.getUsers);
 router.post('/send-mail',UserController.sendMail); //Ruta que envía un correo electrónico de verificación de cuenta.
 router.post('/login', UserController.login);

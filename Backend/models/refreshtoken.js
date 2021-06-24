@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require('uuid');
+const {refreshTokenExpires} = require('../config/Global');
 
 const RefreshTokenSchema = new mongoose.Schema({
   token: String,
@@ -14,7 +15,7 @@ RefreshTokenSchema.statics.createToken = async function (user) {
   let expiredAt = new Date();
 
   expiredAt.setSeconds(
-    expiredAt.getSeconds() + 120 //Dos minutos.
+    expiredAt.getSeconds() + refreshTokenExpires //1 minuto.
   );
 
   let _token = uuidv4();

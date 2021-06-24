@@ -8,7 +8,7 @@ var path = require('path');
 const jwt = require('jsonwebtoken');
 const RefreshToken = require('../models/refreshtoken');
 const transporter = require('../config/email');
-const {urlApi} = require('../config/Global');
+const {urlApi, tokenExpires} = require('../config/Global');
 
 var controller = {
     //metodo de prueba
@@ -112,6 +112,26 @@ var controller = {
         })
 
     },
+    getUserByUsername: (request, response) => {
+        var userName = request.params.nick;
+        console.log(userName);
+
+        user.find({user: userName}, (error, foundUser) => {
+            if (error || !foundUser || foundUser == undefined) {
+                console.log(error);
+                console.log(foundUser);
+                return response.status(404).json({
+                    status: 'error',
+                    message: 'No se encuentra el usuario.'
+                })
+            } else {
+                return response.status(200).json({
+                    status: 'success',
+                    user: foundUser
+                })
+            }
+        })   
+    },
     getUsers: (request, response) => {
         user.find({}).sort('-date').exec((error, users) => {
             if (error) {
@@ -163,7 +183,7 @@ var controller = {
                     });
                 } else { //Hay acceso.
                     //Generación del Token.
-                    jwt.sign({user: userFound.user, email: userFound.email}, 'secretkey', {expiresIn: '20s'}, (err, token) => {
+                    jwt.sign({user: userFound.user, email: userFound.email}, 'secretkey', {expiresIn: tokenExpires}, (err, token) => {
                         if (err || !token || token == undefined){
                             console.log(err);
                             response.status(404).send({
@@ -203,7 +223,6 @@ var controller = {
 
     refreshToken: async (req, res) => {
           const { refreshToken: requestToken } = req.body;
-          const userF = req.body.user;
 
           if (requestToken == null) {
             return res.status(403).json({status: 'noToken', message: "Refresh Token is required!" });
@@ -228,29 +247,17 @@ var controller = {
             }
 
             let newAccessToken = jwt.sign({ id: refreshToken.user._id }, 'secretkey', {
-              expiresIn: '20s',
+              expiresIn: tokenExpires,
             });
 
-            user.findOne({_id: userF.user }, (err, userFound) => {
-                if (err || !userFound){
-                    console.log(err);
-                    return res.status(404).json({
-                        status: 'noUser',
-                        message: 'No hay usuario, man.'
-                    })
-                }else {
-                 return res.status(200).json({
-                  status: 'newToken',
-                  user: userFound,
-                  accessToken: newAccessToken,
-                  refreshToken: refreshToken.token,
-                });
-                }
+            return res.status(200).json({
+               status: 'newToken',
+               accessToken: newAccessToken,
+               refreshToken: refreshToken.token,
             });
-
           } catch (err) {
             console.log(err);
-            return res.status(500).send({status: 'failed', message: err });
+            return res.status(500).send({status: 'failed2', message: err });
           }
     },
 
@@ -295,10 +302,15 @@ var controller = {
                     message: "El usuario no ha podido ser verificado."
                 });
             } else {
+                /*
                 return response.status(200).send({
                     status: 'success',
                     user: verifiedUser
                 })
+                */
+                return response.status(200).send(`<div style='margin:auto;background-color: lightgrey; color: black;text-align:center;font-family:courier,arial,helvetica;margin-top:10%;'>
+                    Tu cuenta de UNAHLibrate "${verifiedUser.user}" en el correo ${verifiedUser.email} ha sido verificada.
+                    </div>`);
             }
         });
 
