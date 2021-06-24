@@ -163,9 +163,9 @@ var controller = {
                     });
                 } else { //Hay acceso.
                     //Generación del Token.
-                    jwt.sign({user: userFound.user, email: userFound.email}, 'secretkey', {expiresIn: '1m'}, (err, token) => {
+                    jwt.sign({user: userFound.user, email: userFound.email}, 'secretkey', {expiresIn: '20s'}, (err, token) => {
                         if (err || !token || token == undefined){
-
+                            console.log(err);
                             response.status(404).send({
                                 status: 'failed',
                                 message: 'Ocurrio un error.'
@@ -203,16 +203,17 @@ var controller = {
 
     refreshToken: async (req, res) => {
           const { refreshToken: requestToken } = req.body;
+          const userF = req.body.user;
 
           if (requestToken == null) {
-            return res.status(403).json({ message: "Refresh Token is required!" });
+            return res.status(403).json({status: 'noToken', message: "Refresh Token is required!" });
           }
 
           try {
             let refreshToken = await RefreshToken.findOne({ token: requestToken });
 
             if (!refreshToken) {
-              res.status(403).json({ message: "Refresh token is not in database!" });
+              res.status(403).json({status: 'noToken', message: "Refresh token is not in database!" });
               return;
             }
 
@@ -220,22 +221,36 @@ var controller = {
               RefreshToken.findByIdAndRemove(refreshToken._id, { useFindAndModify: false }).exec();
               
               res.status(403).json({
+                status: 'noTokenExp',
                 message: "Refresh token was expired. Please make a new signin request",
               });
               return;
             }
 
             let newAccessToken = jwt.sign({ id: refreshToken.user._id }, 'secretkey', {
-              expiresIn: '1m',
+              expiresIn: '20s',
             });
 
-            return res.status(200).json({
-              accessToken: newAccessToken,
-              refreshToken: refreshToken.token,
+            user.findOne({_id: userF.user }, (err, userFound) => {
+                if (err || !userFound){
+                    console.log(err);
+                    return res.status(404).json({
+                        status: 'noUser',
+                        message: 'No hay usuario, man.'
+                    })
+                }else {
+                 return res.status(200).json({
+                  status: 'newToken',
+                  user: userFound,
+                  accessToken: newAccessToken,
+                  refreshToken: refreshToken.token,
+                });
+                }
             });
+
           } catch (err) {
             console.log(err);
-            return res.status(500).send({ message: err });
+            return res.status(500).send({status: 'failed', message: err });
           }
     },
 

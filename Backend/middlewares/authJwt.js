@@ -21,7 +21,7 @@ verifyToken = (req, res, next) => {
      	if (err || !info){
      	if(err instanceof TokenExpiredError){
      			return res.status(403).send({
-     				status: 'error',
+     				status: 'expired',
      				message: 'El token ha expirado.'
      			});
      		} else {
