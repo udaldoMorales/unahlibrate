@@ -4,7 +4,9 @@ import "../../../styles/util.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import { registerNormalUser } from "../../../services/Register";
+import { loginUser } from '../../../services/Login';
 import Swal from "sweetalert2";
+import {Redirect} from 'react-router-dom';
 
 const FormUser = ({ history }) => {
   //Creando el state para leer los inputs:
@@ -17,6 +19,8 @@ const FormUser = ({ history }) => {
   });
 
   const [enableButton, setEnableButton] = useState(true);
+
+  const [registeredAndLogged, setLogin] = useState(false);
 
   //Extrayendo los valores con destructuring:
   const {
@@ -96,10 +100,18 @@ const FormUser = ({ history }) => {
       .then(res => {
         Swal.fire(
           "Registro Exitoso",
-          "Se ha creado el usuario exitosamente",
+          "Se ha creado el usuario exitosamente. Revisa tu correo, se envio una verificación de tu cuenta.",
           "success"
         ).then(e => {
-          history.push("/");
+              //Loggeo de usuario, instantáneamente al registrarse.
+              var logIn = loginUser(Usuario, Contraseña)
+              .then(res => {
+                console.log(res);
+                setLogin(true);
+              })
+              .catch(err => {
+                console.log(err);
+              });
         });
       })
       .catch(error => {
@@ -111,6 +123,10 @@ const FormUser = ({ history }) => {
       });
   };
 
+  
+  if (registeredAndLogged) {
+    return (<Redirect to='/home' />)
+  }
   return (
     <div className="limiter">
       <div className="container-login100 imgFormRegUs">
@@ -126,7 +142,7 @@ const FormUser = ({ history }) => {
                 className="input100"
                 type="text"
                 name="Usuario"
-                placeholder="Usario"
+                placeholder="Usuario"
                 onChange={handleChangeInfo}
                 value={Usuario}
               />

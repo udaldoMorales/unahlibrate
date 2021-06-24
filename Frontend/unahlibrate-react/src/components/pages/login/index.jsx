@@ -6,6 +6,8 @@ import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import Swal from "sweetalert2";
 import SessionStorageService from "../../../services/Storage";
+import { loginUser } from '../../../services/Login';
+import {Redirect} from 'react-router-dom';
 
 const FormLog = ({ history }) => {
   //Creando el state para leer los inputs:
@@ -23,20 +25,25 @@ const FormLog = ({ history }) => {
   };
 
   //Funcion para validar el correo:
+  /*
   const validarEmail = () => {
     const patron = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (patron.test(document.getElementById("emailInput").value)) {
+    if (patron.test(document.getElementById("userInput").value)) {
       handleErrorEmail(false);
     } else {
       handleErrorEmail(true);
     }
   };
+  */
 
   //State para el error:
   const [error, handleError] = useState(false);
 
+  //State para la respuesta:
+  const [respuesta, setRespuesta] = useState({});
+
   //State para validacion del correo:
-  const [errorEmail, handleErrorEmail] = useState(false);
+  //const [errorUser, handleErrorUser] = useState(false);
 
   //Extrayendo los valores con destructuring:
   const { Usuario, Contraseña } = information;
@@ -45,8 +52,6 @@ const FormLog = ({ history }) => {
   const submitUser = (e) => {
     e.preventDefault();
 
-    validarEmail();
-
     //Validacion:
     if (Usuario.trim() === "" || Contraseña.trim() === "") {
       handleError(true);
@@ -54,11 +59,55 @@ const FormLog = ({ history }) => {
     }
 
     handleError(false);
-
-    //Peticion a endpoint de user
     
-  };
+    var resp = loginUser(Usuario, Contraseña)
+      .then(res => {
+        //console.log('From respuesta');
+        if (res.code === 403){
+          //Contraseña incorrecta.
+          setRespuesta({
+            status: 'incorrect pass'
+          });
+          console.log(respuesta);
+        } else if (res.code === 404 && res.status === 'error'){
+          //Usuario inexistente.
+          setRespuesta({
+            status: 'incorrect user'
+          });
+          console.log(respuesta);
+        } else if (res.code === 404 && res.status === 'failed'){
+          //Error en el touken.
+          setRespuesta({
+            status: 'server error'
+          });
+          console.log(respuesta);
+          } else {
+            setRespuesta({
+              status: 'logged'
+            }); 
+        }
+        console.log(respuesta);
+      })
+      .catch(err => {
+        console.log('From error');
+      })
 
+    //Peticion al servidor Login
+
+    //Almaceno el token.
+
+    //Hacer nueva petición al backend con el token en la cookie.
+    //Retornar un nuevo componente.
+
+    //--FUERA DE TODO ESO, ACÁ ANDO PROBANDO
+  }
+  
+  if (respuesta.status === 'logged'){
+    console.log(respuesta);
+    return (
+      <Redirect to='/home' />
+      )
+  }
   return (
     <div className="limiter">
       <div className="container-login100 bkgImgLogIn">
@@ -71,7 +120,7 @@ const FormLog = ({ history }) => {
               data-validate="Valid email is required: ex@abc.xyz"
             >
               <input
-                id="emailInput"
+                id="userInput"
                 className="input100"
                 type="text"
                 name="Usuario"
@@ -85,7 +134,8 @@ const FormLog = ({ history }) => {
               </span>
             </div>
 
-            {errorEmail ? (
+
+            {respuesta.status === 'incorrect user' ? (
               <p className="alert alert-danger error-p text-white">
                 El usuario ingresado no es valido
               </p>
@@ -112,6 +162,12 @@ const FormLog = ({ history }) => {
             {error ? (
               <p className="alert alert-danger error-p text-white">
                 La contraseña no puede estar vacia
+              </p>
+            ) : null}
+
+            {respuesta.status === 'incorrect pass' ? (
+              <p className="alert alert-danger error-p text-white">
+                La contraseña no es válida
               </p>
             ) : null}
 

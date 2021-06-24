@@ -3,9 +3,9 @@ const urlApi = 'http://localhost:3900';
 //Url estaticas
 export const URL_POST_SAVE_USER = urlApi +"/api/save-user";
 export const URL_POST_SEND_MAIL = urlApi +"/api/send-mail";
-export const URL_GET_SECTORS_SELECT = urlApi + "/api/data/sectors";
-export const URL_POST_LOGIN = urlApi + "/api/auth/login";
-export const URL_POST_RECOVER_PASS = "/api/auth/forgotpassword";
+//export const URL_GET_SECTORS_SELECT = urlApi + "/api/data/sectors";
+export const URL_POST_LOGIN = urlApi + "/api/login";
+//export const URL_POST_RECOVER_PASS = "/api/forgotpassword";
 
 
 
