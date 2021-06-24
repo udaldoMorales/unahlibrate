@@ -27,7 +27,7 @@ class Home extends Component {
 		};
 
 	peticionDatoUsuario = async () => {
-		var userName = this.props.location.state.user;
+		var userName = this.state.userName || this.props.location.state.user;
 		console.log('me ejecuté acá.')
 		try {
 			var rrr = await axios.get(`${URL_GET_GET_USERNAME}${userName}`);
@@ -128,7 +128,8 @@ class Home extends Component {
 		}
 
 	render () {
-
+	console.log('User: ')
+	console.log(this.state.user);
 	if (this.state.allowed.status == false){
 		return (<div>
 		<div className="limiter">
