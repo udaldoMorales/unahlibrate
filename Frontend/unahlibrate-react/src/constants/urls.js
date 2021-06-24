@@ -7,7 +7,8 @@ export const URL_POST_SEND_MAIL = urlApi +"/api/send-mail";
 export const URL_POST_LOGIN = urlApi + "/api/login";
 //export const URL_POST_RECOVER_PASS = "/api/forgotpassword";
 
-
+export const URL_GET_USER_ACCESS = `${urlApi}/api/user-panel`;
+export const URL_POST_USER_REFRESH = `${urlApi}/api/refreshtoken`;
 
 
 

@@ -19,7 +19,7 @@ export const loginUser = async (user, password) => {
 			code: peiticion.status,
 			response: peiticion.data
 		}
-		return toSend;	
+		return toSend;
  	} catch (err) {
  		//console.log(err);
 		console.log('Aquí llega el error.');

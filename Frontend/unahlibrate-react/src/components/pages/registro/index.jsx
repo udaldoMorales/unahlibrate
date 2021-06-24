@@ -7,6 +7,7 @@ import { registerNormalUser } from "../../../services/Register";
 import { loginUser } from '../../../services/Login';
 import Swal from "sweetalert2";
 import {Redirect} from 'react-router-dom';
+import {useCookies} from 'react-cookie';
 
 const FormUser = ({ history }) => {
   //Creando el state para leer los inputs:
@@ -51,6 +52,9 @@ const FormUser = ({ history }) => {
       [e.target.name]: e.target.value
     });
   };
+
+  /*COOKIE*/
+  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken']);
 
   //Funcion para validar el correo:
   const validarEmail = () => {
@@ -107,7 +111,10 @@ const FormUser = ({ history }) => {
               var logIn = loginUser(Usuario, Contraseña)
               .then(res => {
                 console.log(res);
+                setCookie('auth', res.response.token, {path: "/"});
+                setCookie('refreshToken', res.response.refreshToken, {path: "/"});
                 setLogin(true);
+
               })
               .catch(err => {
                 console.log(err);
@@ -125,7 +132,7 @@ const FormUser = ({ history }) => {
 
   
   if (registeredAndLogged) {
-    return (<Redirect to='/home' />)
+    return (<Redirect to={{pathname:'/home', state: {user: Usuario, email: Correo}}}/>)
   }
   return (
     <div className="limiter">

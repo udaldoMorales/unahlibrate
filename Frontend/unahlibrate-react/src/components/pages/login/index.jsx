@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import SessionStorageService from "../../../services/Storage";
 import { loginUser } from '../../../services/Login';
 import {Redirect} from 'react-router-dom';
+import {useCookies} from 'react-cookie';
 
 const FormLog = ({ history }) => {
   //Creando el state para leer los inputs:
@@ -36,6 +37,9 @@ const FormLog = ({ history }) => {
   };
   */
 
+  /*COOKIE*/
+  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken']);
+
   //State para el error:
   const [error, handleError] = useState(false);
 
@@ -62,7 +66,7 @@ const FormLog = ({ history }) => {
     
     var resp = loginUser(Usuario, Contraseña)
       .then(res => {
-        //console.log('From respuesta');
+        console.log(res);
         if (res.code === 403){
           //Contraseña incorrecta.
           setRespuesta({
@@ -82,9 +86,11 @@ const FormLog = ({ history }) => {
           });
           console.log(respuesta);
           } else {
+            setCookie('auth', res.response.token, {path: "/"});
+            setCookie('refreshToken', res.response.refreshToken, {path: "/"});
             setRespuesta({
               status: 'logged'
-            }); 
+            });
         }
         console.log(respuesta);
       })
@@ -105,7 +111,7 @@ const FormLog = ({ history }) => {
   if (respuesta.status === 'logged'){
     console.log(respuesta);
     return (
-      <Redirect to='/home' />
+      <Redirect to={{pathname:'/home', state: {user: Usuario}}}/>
       )
   }
   return (
