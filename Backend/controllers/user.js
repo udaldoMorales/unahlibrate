@@ -185,7 +185,7 @@ var controller = {
                                         user: userFound,
                                         token,
                                         refreshToken
-                                    });                                    
+                                    });
                                 }
                             })
                             .catch(err => console.log(err));
