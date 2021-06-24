@@ -38,7 +38,7 @@ const FormLog = ({ history }) => {
   */
 
   /*COOKIE*/
-  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken']);
+  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken', 'user']);
 
   //State para el error:
   const [error, handleError] = useState(false);
@@ -88,6 +88,7 @@ const FormLog = ({ history }) => {
           } else {
             setCookie('auth', res.response.token, {path: "/"});
             setCookie('refreshToken', res.response.refreshToken, {path: "/"});
+            setCookie('user', res.response.user.user, {path: "/"});
             setRespuesta({
               status: 'logged'
             });
@@ -119,7 +120,8 @@ const FormLog = ({ history }) => {
       <div className="container-login100 bkgImgLogIn">
         <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-30">
           <form className="login-form validate-form" onSubmit={submitUser}>
-            <span className="login100-form-title p-b-55">Login UNAHLibrate</span>
+            <span className="login100-form-title p-b-20">UNAHLibrate</span>
+            <p className='text-center w-full p-b-25'>Bienvenido a esta comunidad en crecimiento.</p>
 
             <div
               className="wrap-input100 validate-input m-b-16"
@@ -185,9 +187,9 @@ const FormLog = ({ history }) => {
             </div>
 
             <div className="text-center w-full p-t-115">
-              <span className="txt1 mr-2">¿No tienes cuenta?</span>
+              <span className="txt1 mr-2">¿No tienes cuenta? </span>
               <Link className="txt1 bo1 hov1" to="/registro">
-                Registrarse
+                Regístrate
               </Link>
   
             </div>

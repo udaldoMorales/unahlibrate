@@ -1,12 +1,14 @@
 import {URL_POST_USER_REFRESH, URL_GET_USER_ACCESS} from '../constants/urls';
 import axios from 'axios';
 
-export const esUsuario = async (user, cookie, refreshCookie) => {
+export const esUsuario = async (cookie, refreshCookie) => {
 
 	var responseTo;
 
 	try {
 
+		console.log(cookie);
+		console.log(refreshCookie);
 		var peticionToken = await axios.get(URL_GET_USER_ACCESS, { headers: {'Authorization': `Bearer ${cookie}`} })
 		
 		responseTo = peticionToken.data;
@@ -41,12 +43,13 @@ export const esUsuario = async (user, cookie, refreshCookie) => {
 			console.log(response.data);
 			try {
 				console.log('Llegaste?');
-				var refresh = await axios.post(URL_POST_USER_REFRESH, {user, refreshToken: refreshCookie});
-				console.log('Llegá, pues.');
+				var refresh = await axios.post(URL_POST_USER_REFRESH, {refreshToken: refreshCookie});
+				console.log(refresh.status);
 				return refresh.data;
 			} catch(err) {
 				console.log('Response pre');
 				var queDa = err.response;
+				console.log(queDa.status);
 				console.log('Response fff');
 				console.log(queDa);
 				return queDa.data;

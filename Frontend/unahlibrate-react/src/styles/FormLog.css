@@ -244,13 +244,13 @@ iframe {
 }
 
 .wrap-login200 {
-  width: 950px;
+  width: 50%;
   /* height: 800px; */
   background: #fff;
   border-radius: 3px;
   overflow: hidden;
   margin-left: 0px;
-  margin-right: 233px;
+  margin-right: 0px;
 }
 
 .wrap-login300 {
@@ -309,7 +309,7 @@ iframe {
   font-size: 30px;
   color: #333333;
   line-height: 1.2;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   text-align: center;
   width: 100%;
   display: block;

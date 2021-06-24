@@ -54,7 +54,7 @@ const FormUser = ({ history }) => {
   };
 
   /*COOKIE*/
-  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken']);
+  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken', 'user']);
 
   //Funcion para validar el correo:
   const validarEmail = () => {
@@ -113,6 +113,7 @@ const FormUser = ({ history }) => {
                 console.log(res);
                 setCookie('auth', res.response.token, {path: "/"});
                 setCookie('refreshToken', res.response.refreshToken, {path: "/"});
+                setCookie('user', res.response.user.user, {path: "/"});
                 setLogin(true);
 
               })
@@ -139,7 +140,9 @@ const FormUser = ({ history }) => {
       <div className="container-login100 imgFormRegUs">
         <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
           <form className="login100-form validate-form" onSubmit={submitUser}>
-            <span className="login100-form-title p-b-35">Registro de Usuario</span>
+            <span className="login100-form-title p-b-35">Registro</span>
+            <p className='text-center w-full'>No te quedes con las ganas, únete.</p>
+            <p className='text-center w-full p-b-25'>Solo requerimos estos pequeños datos tuyos:</p>
 
             <div
               className="wrap-input100 validate-input m-b-16"
