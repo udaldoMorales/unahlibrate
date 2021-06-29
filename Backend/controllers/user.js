@@ -407,7 +407,129 @@ var controller = {
                 return res.sendFile(path.resolve(pathFile));
             }  
         }); 
-    }
+    },
+
+    //Actualizar usuario -sin contraseña-.
+    updateUser: (request, response) => {
+        
+        //Recoger el id del usuario por la URL
+        var userId = request.params.id;
+
+        //Recoger los datos que llegan por put
+        var params = request.body;
+        console.log(params);
+
+        //Por si se va a cambiar el correo:
+        var verificarOtraVez;
+        var newParams = params;
+
+        //Por el momento, es obligatorio recibir en la petición el "user" y el "email" del usuario a actualizar.
+        if (!params.user || !params.email) return response.status(404).json({status: 'failed', message: 'Faltan datos.'});
+        
+        //Encontrar el usuario que se va a actualizar:
+        user.findById(userId, (errr, userToUpdate) => {
+
+            if (errr || !userToUpdate){
+                console.log(err);
+                return response.status(500).send({status: 'serverError', message: '(find) Error del servidor.'});                
+            }
+
+            else if (userToUpdate){ //Si está, hacer las comparaciones.
+
+                //Buscar por el usuario.
+                user.find({'user': params.user}, (err, foundUser) => {
+                    
+                    if (err){
+                        console.log(err);
+                        return response.status(500).send({status: 'serverError', message: '(user) Error del servidor.'});
+                    }
+                    
+                    if (foundUser.length == 0 || foundUser[0].user === userToUpdate.user){
+
+                        //No hay problema con el usuario, ahora veremos el correo.
+                        user.find({'email': params.email}, (error, foundEmail) => {
+
+                            if (error) {
+                            console.log(error);
+                            return response.status(500).send({status: 'serverError', message: '(email) Error del servidor.'});                        
+                            }
+                            
+                            if (foundEmail == 0 || foundEmail[0].email === userToUpdate.email){
+                                
+                                //Esto es por si se cambió de correo el usuario. Necesita volverse a validar.
+                                if (foundEmail == 0) verificarOtraVez = true;
+
+                                //Se gana acceso a actualizar el usuario.
+                                //Es decir, es permitido que se actualice el usuario.
+                                console.log('Llego acá, a ver.');
+                                //Validar los datos con validator
+                                try {
+                                    console.log('Llego acá.');
+                                    var validateUser = !validator.isEmpty(params.user);
+                                    var validateEmail = !validator.isEmpty(params.email);
+                                    var validateName = !validator.isEmpty(params.name);
+                                    var validateLastName = !validator.isEmpty(params.lastname);
+                                } catch (err) {
+                                    return response.status(400).send({
+                                        status: 'error',
+                                        message: "Faltan datos por enviar"
+                                    });
+                                }
+
+                                if (verificarOtraVez === true){
+                                    console.log(verificarOtraVez);
+                                    newParams.verified = false;
+                                }
+
+                                if(validateUser && validateEmail && validateName && validateLastName){
+                                    //Find and update
+                                    user.findOneAndUpdate({_id: userId}, newParams, {new:true}, (error, userUpdated) => {
+                                        if (error){
+                                            return response.status(500).send({
+                                                status: 'error',
+                                                message: 'Error al actualizar.'
+                                            });
+                                        }
+                                        if (!userUpdated){
+                                            return response.status(404).send({
+                                                status: 'error',
+                                                message: 'El artículo no existe.'
+                                            });
+                                        }
+
+                                        //Se guardan los datos
+                                        console.log('Lo logré:');
+                                        return response.status(200).send({
+                                            status: 'success',
+                                            user: userUpdated
+                                        })
+                                    })
+                                } else {
+                                    return response.status(404).send({
+                                        status: 'error',
+                                        message: 'La validación no es correcta.'
+                                    });
+                                }
+
+                            } else {
+                                console.log(foundUser[0]);
+                                return response.status(404).send({status: 'emailError', message: 'Correo en uso ya.'});
+                            }
+
+                        }); //Fin del find por correo.
+
+                    } else {
+                        console.log(foundUser[0]);
+                        return response.status(404).send({status: 'userError', message: 'Usuario en uso ya.'});
+                    }
+                
+                }); //Fin del find por user.
+
+            }
+
+        }) //Fin del user.findById.
+
+    }, //Fin del método updateUser.
 
 
 };

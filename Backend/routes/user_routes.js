@@ -25,6 +25,9 @@ router.post('/login', UserController.login);
 router.post('/upload-image/:id',md_upload,UserController.uploadProfileImage);
 router.get('/get-image/:image',UserController.getProfileImage);
 
+//Ruta para actualizar información de perfil de usuario -sin tocar la contraseña-.
+router.put('/update-user/:id', UserController.updateUser);
+
 //Rutas para probar inicio de sesión y tokens de dicho inicio.
 router.get('/user-panel', authJwt, UserController.userPanel);
 router.get('/general-panel', UserController.generalPanel);
