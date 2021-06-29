@@ -4,9 +4,12 @@ var UserController = require('../controllers/user');
 const authJwt = require('../middlewares/authJwt');
 var router = express.Router();
 
-//var multiparty = require('connect-multiparty');
+//Varibles necesarias para subir imagen de perfil de usuario
 
-//var md_upload = multiparty({uploadDir:'./upload/articles'});
+var multiparty = require('connect-multiparty');
+
+var md_upload = multiparty({uploadDir:'./uploads/users'});
+
 
 //Rutas de prueba 
 router.post('/lariza',UserController.datosCurso);
@@ -17,6 +20,10 @@ router.get('/user-by-name/:nick', UserController.getUserByUsername); //Ruta para
 router.get('/users', UserController.getUsers);
 router.post('/send-mail',UserController.sendMail); //Ruta que envía un correo electrónico de verificación de cuenta.
 router.post('/login', UserController.login);
+
+//Ruta para subir imagen de perfil del usuario registrado y obtenerla
+router.post('/upload-image/:id',md_upload,UserController.uploadProfileImage);
+router.get('/get-image/:image',UserController.getProfileImage);
 
 //Rutas para probar inicio de sesión y tokens de dicho inicio.
 router.get('/user-panel', authJwt, UserController.userPanel);

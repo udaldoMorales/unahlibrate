@@ -9,6 +9,9 @@ var UserSchema = Schema({
     name: String,
     lastname: String,
     email: String,
+    imageProfile : {
+        type:String,default: ''
+    },
     verified: {
         type: Boolean, default: false
     },
