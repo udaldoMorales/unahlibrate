@@ -417,11 +417,26 @@ var controller = {
 
         //Recoger los datos que llegan por put
         var params = request.body;
+        console.log('Params con campos especiales.');
+        console.log(params);
+        
+        //Si viene una contraseña en el cuerpo de la petición.
+        if (params.password) delete params.password;
+        
+        if (params.verified != undefined){
+            console.log('El verified se comprueba aquí.');
+            delete params.verified;
+        }
+
+        if (params.date) delete params.date;
+        console.log('Params con lo eliminado.');
         console.log(params);
 
         //Por si se va a cambiar el correo:
         var verificarOtraVez;
         var newParams = params;
+
+        console.log(newParams);
 
         //Por el momento, es obligatorio recibir en la petición el "user" y el "email" del usuario a actualizar.
         if (!params.user || !params.email) return response.status(404).json({status: 'failed', message: 'Faltan datos.'});
@@ -454,14 +469,15 @@ var controller = {
                             return response.status(500).send({status: 'serverError', message: '(email) Error del servidor.'});                        
                             }
                             
-                            if (foundEmail == 0 || foundEmail[0].email === userToUpdate.email){
+                            if (foundEmail.length  == 0 || foundEmail[0].email === userToUpdate.email){
                                 
+                                console.log(foundEmail);
                                 //Esto es por si se cambió de correo el usuario. Necesita volverse a validar.
-                                if (foundEmail == 0) verificarOtraVez = true;
+                                if (foundEmail.length == 0) verificarOtraVez = true;
 
                                 //Se gana acceso a actualizar el usuario.
                                 //Es decir, es permitido que se actualice el usuario.
-                                console.log('Llego acá, a ver.');
+                                console.log('Llego acá, a ver con verificarOtraVez', verificarOtraVez);
                                 //Validar los datos con validator
                                 try {
                                     console.log('Llego acá.');
@@ -493,7 +509,7 @@ var controller = {
                                         if (!userUpdated){
                                             return response.status(404).send({
                                                 status: 'error',
-                                                message: 'El artículo no existe.'
+                                                message: 'El usuario no existe.'
                                             });
                                         }
 
@@ -530,6 +546,75 @@ var controller = {
         }) //Fin del user.findById.
 
     }, //Fin del método updateUser.
+    //Método para cambiar la contraseña, con la sesión iniciada. Se tiene que tratar con una promesa.
+    changePassword: async (request, response) => {
+        // return response.status(200).send({status: 'success'});
+        var userId = request.params.id;
+        var params = request.body;
+
+        if (!(params.oldPass) || !(params.newPass)) {
+            console.log("Falta algún parámetro.");
+            return response.status(404).send({status: 'dataError', message: 'Faltan datos. Se necesitan contraseña actual y nueva.'});
+        } else if (params.oldPass == params.newPass){
+            console.log("Contraseñas iguales");
+            return response.status(404).send({status: 'sameValuesError', message: "Son la misma contraseña, intenta con diferentes."});
+        }
+
+        try {
+            var foundUser = await user.findById(userId).exec();
+        }
+        catch (findError) {
+            console.log(findError);
+            return response.status(500).send({status:'findFailed', message: 'Error en el servidor, intente de nuevo.'});
+        }
+
+        try{
+            var validateOldPass = !(validator.isEmpty(params.oldPass));
+            var validateNewPass = !(validator.isEmpty(params.oldPass));
+        }
+        catch (err) {
+            console.log(err);
+            return response.status(500).send({status:'validateFailed', message: 'Faltan datos por enviar, intente de nuevo.'});
+        }
+        
+        if (validateOldPass && validateNewPass){
+
+            //var hashOldPass = bcrypt.hashSync(params.oldPass, 10);
+
+            //var contrasenaCompatible = bcrypt.compareSync(hashOldPass, foundUser.password);
+            var contrasenaCompatible = bcrypt.compareSync(params.oldPass, foundUser.password);
+            if (!contrasenaCompatible) {
+                console.log(contrasenaCompatible);
+                return response.status(404).send({status: 'oldPassError', message: 'Tu contraseña actual es incorrecta.'});
+            }
+            else {
+                try {
+
+                    var hashNewPass = bcrypt.hashSync(params.newPass, 10);
+
+                    var userUpdated = await user.findOneAndUpdate({_id: userId}, {password: hashNewPass}, {new:true}).exec();
+                    
+                    return response.status(200).send(
+                        {
+                            status: 'success',
+                            user: userUpdated
+                        }
+                    );
+
+                } catch (updateError) {
+                    console.log (updateError);
+                    return response.status(500).send({status: 'failed', message: 'Error, intente de nuevo.'});
+                }
+            }
+        
+        } else {
+            return response.status(404).send({
+                status: 'error', 
+                message: 'Validacion incorrecta.'
+            });
+        }
+
+    } //Fin de changePassword.
 
 
 };

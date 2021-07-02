@@ -28,6 +28,9 @@ router.get('/get-image/:image',UserController.getProfileImage);
 //Ruta para actualizar información de perfil de usuario -sin tocar la contraseña-.
 router.put('/update-user/:id', UserController.updateUser);
 
+//Ruta para actualización de contraseña de usuario.
+router.put('/change-password/:id', UserController.changePassword);
+
 //Rutas para probar inicio de sesión y tokens de dicho inicio.
 router.get('/user-panel', authJwt, UserController.userPanel);
 router.get('/general-panel', UserController.generalPanel);
