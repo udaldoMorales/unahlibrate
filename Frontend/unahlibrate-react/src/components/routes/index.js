@@ -2,15 +2,15 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import { Login, Registro } from "./../pages";
-import Home from './../Home';
-
+import Home from './../pages/Home/Home';
 const Routes = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/registro" component={Registro} />
-        <Route exact path="/home" component={Home} />
+        <Route exact path="/" component={Home} />
+        
       </Switch>
     </Router>
   );
