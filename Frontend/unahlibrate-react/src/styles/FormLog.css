@@ -27,7 +27,7 @@ a:focus {
 
 a:hover {
   text-decoration: none;
-  color: #d33f8d;
+  color: #fff;
 }
 
 /*---------------------------------------------*/
@@ -628,7 +628,7 @@ iframe {
 
 .btn-face:hover,
 .btn-google:hover {
-  border-color: #d33f8d;
+  border-color: #fff;
 }
 
 /*------------------------------------------------------------------
@@ -732,6 +732,3 @@ input[type="radio"] {
   border-radius: 3px;
   overflow: hidden;
 }
-
-
-
