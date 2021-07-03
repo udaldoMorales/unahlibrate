@@ -1,0 +1,18 @@
+.imagen{
+    background: url("../../../img/23178.jpg") no-repeat center center fixed;
+}
+
+.form-control {
+    margin-bottom: 20px;
+}
+
+.ant-btn{
+    margin-bottom: 20px;
+    background: #e6e6e6;
+    margin-top: 10px;
+}
+
+.ant-upload-list-text-container, .ant-upload-list-picture-container {
+    transition: opacity 0.3s, height 0.3s;
+    margin-bottom: 20px;
+}
