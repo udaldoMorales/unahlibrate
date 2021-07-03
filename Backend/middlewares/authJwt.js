@@ -33,6 +33,8 @@ verifyToken = (req, res, next) => {
      		}
      	} else if (info) {
      		console.log('Correcto.');
+               console.log(`Este es info:`);
+               console.log(info);
      		//Esto, traer la información decodificada.
      		res.userData = info;
      		next();

@@ -15,7 +15,8 @@ var UserSchema = Schema({
     verified: {
         type: Boolean, default: false
     },
-    date: {type: Date,default: Date.now}
+    date: {type: Date,default: Date.now},
+    restoreToken: String
 });
 
 

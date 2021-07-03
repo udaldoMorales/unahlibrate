@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 var fs = require('fs');
 var path = require('path');
 const jwt = require('jsonwebtoken');
+const {TokenExpiredError} = jwt;
 const RefreshToken = require('../models/refreshtoken');
 const transporter = require('../config/email');
 const { urlApi, tokenExpires } = require('../config/Global');
@@ -421,6 +422,7 @@ var controller = {
         console.log(params);
         
         //Si viene una contraseña en el cuerpo de la petición.
+        if (params._id) delete params._id;
         if (params.password) delete params.password;
         
         if (params.verified != undefined){
@@ -429,6 +431,7 @@ var controller = {
         }
 
         if (params.date) delete params.date;
+        if (params.restoreToken) delete params.restoreToken;
         console.log('Params con lo eliminado.');
         console.log(params);
 
@@ -445,7 +448,7 @@ var controller = {
         user.findById(userId, (errr, userToUpdate) => {
 
             if (errr || !userToUpdate){
-                console.log(err);
+                console.log(errr);
                 return response.status(500).send({status: 'serverError', message: '(find) Error del servidor.'});                
             }
 
@@ -614,7 +617,160 @@ var controller = {
             });
         }
 
-    } //Fin de changePassword.
+    }, //Fin de changePassword.
+    forgotPassword: async (request, response) => {
+
+        //¿Tengo una pregunta existencial acá, lo voy a dejar como usuario o como correo? Jaja. Lo dejaré por usuario, el método por correo solo llevaría pequeños cambios.
+        
+        //Por usuario, acá:
+
+        var userName = request.body.user;
+        console.log(userName);
+
+        try {
+            var foundUser = await user.findOne({user: userName}).exec();
+            console.log(foundUser);
+            //Si se encuentra, generar el token.
+            var restoreToken = jwt.sign({user: foundUser.user, email: foundUser.email}, 'secretsecret', {expiresIn: '1m'});
+            //Generar también un enlace para enviar en el correo al que se va a recuperar la contraseña.
+            var linkForEmail = `http://localhost:3000/restore-password/${restoreToken}`;
+
+        } catch (foundUserErr) {
+            console.log(foundUserErr);
+            if (foundUser == null) return response.status(404).send({status: 'userError', message: 'No existe usuario.'});
+            return response.status(500).send({status: 'serverError', message: 'Error en la búsqueda.'});
+        }
+
+        try {
+
+            //Agregar al modelo ese último token. Se agrega al modelo "user" este campo para tener un mayor control de las recuperaciones de contraseña.
+            var userUpdated = await user.findOneAndUpdate({user: userName}, {restoreToken}, {new:true}).exec();
+
+        } catch (userUpdatedError) {
+            console.log(userUpdatedError);
+            return response.status(500).send({status: 'serverError', message: 'Error en la actualización.'});
+        }
+
+        //Si se hace lo anterior correctamente, se envía el correo. (PARA ESTO, EL TRANSPORTER DEBE ESTAR ACTIVADO CON LAS CREDENCIALES QUE DEBEN SER).
+        if (linkForEmail) {
+            var mailOptions = {
+            from: "UNAHLibrate <unahlibate-noreply@gmail.com>",
+            to: foundUser.email,
+            subject: "Recuperación de cuenta: UNAHLibrate",
+            //text: "Holaaaa, soy sexi XD"
+            html: `<div>
+            <p>Clickea el siguiente enlace para recuperar tu cuenta y tener una nueva contraseña:</p>
+            <a href="${linkForEmail}">${linkForEmail}</a></div>`
+            }
+
+            //Finalmente se envia el correo
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log("hubo error enviando correo");
+                    console.log(error)
+                    return response.status(500).send(error.message);
+                } else {
+                    console.log("Email de recuperación enviado");
+                    return response.status(200).send({
+                        status: "success",
+                        userMailSent: foundUser.email,
+                        message: "Revisa tu correo, te enviamos uno con pasos para recuperar tu cuenta."
+                    });
+                }
+            });
+        }
+
+        /* RETORNO PARA MOTIVOS DE PRUEBAS. ESTE RETORNO SE USA EN CASO DE QUE NO SE IMPLEMENTE EL CORREO.
+        return response.status(200).send({
+            status: "success",
+            userMailSent: foundUser.email,
+            message: "Revisa tu correo, te enviamos uno con pasos para recuperar tu cuenta.",
+            //token: restoreToken,
+            //userUpdated,
+            //linkForEmail
+        });
+        */
+
+    }, //Fin forgotPassword
+    restorePassword: (request, response) => {
+
+        //Tomando los parámetros, el token -que se envía en el header de la petición, uno llamado "reset"- y la nueva contraseña en los parámetros.
+        const restoreToken = request.headers.reset;
+        const {newPass} = request.body; //La nueva contraseña.
+
+        //Verificar que el token esté válido y aún no expirado.
+        jwt.verify(restoreToken, 'secretsecret', (err, payloadFound) => {
+            if (err || !payloadFound){
+            if(err instanceof TokenExpiredError){
+                 return response.status(403).send({
+                     status: 'expired',
+                     message: 'El token ha expirado.'
+                 });
+             } else {
+                 console.log(err);
+                 return response.status(401).send({
+                     status: 'tokenError',
+                     message: 'El token no sirve.'
+                 });
+             }
+            } else if (payloadFound) {
+                 console.log(`Este es payload:`);
+                 console.log(payloadFound);
+                 //Esto, traer la información decodificada.
+                 var payload = payloadFound;
+                 
+                 
+                 //Se encontró que el token es bueno, ese lo utilizaremos para encontrar el usuario en cuestión.
+                 //Ahora, tengo que buscar el usuario por el restoreToken.
+                 user.findOne({restoreToken: restoreToken}, (error, foundUser) => {
+
+                     if (error || !foundUser || foundUser == undefined){
+                         console.log(error);
+                         return response.status(404).send({status: 'userError', message: "Error encontrando al usuario"});
+                     } else {
+                         
+                         //Se encontró el usuario.
+                         //Validación de que exista newPass.
+                         try {
+                             var validateNewPass = !validator.isEmpty(newPass);
+                         } catch (errorr) {
+                             return response.status(501).send({status: 'passFailed', message: 'Error en las validaciones.'});
+                         }
+
+                         if (validateNewPass){
+
+                             //Aquí hacemos lo referente al cambio de contraseña.
+
+                             var hash = bcrypt.hashSync(newPass, 10);
+
+                             //Actualizo la contraseña del usuario.
+                             user.findOneAndUpdate({restoreToken}, {password: hash}, {new:true}, (updateErr, userUpdated) => {
+
+                                 if (updateErr || !userUpdated || userUpdated == undefined){
+                                     console.log(updateErr);
+                                     return response.status(501).send({status: 'updateFailed', message: 'Error en la actualización.'});
+                                 } else {
+                                     console.log('This is the updated user: ');
+                                     console.log(userUpdated);
+                                     return response.status(200).send({
+                                         status: 'success',
+                                         message: 'Contraseña cambiada.',
+                                         //user: userUpdated
+                                     })
+                                 }
+
+                             }); //Fin del user.findOneandUpdate
+
+                         } else return response.status(404).send({status: 'passFailed', message: 'La contraseña debe ingresarse.'});
+
+                     }
+
+                 }); //Fin del user.findOne
+
+            }
+        }); //Fin del jwt.verify.
+
+    } //Fin restorePassword
 
 
 };
