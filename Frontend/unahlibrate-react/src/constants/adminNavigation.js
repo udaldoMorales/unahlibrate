@@ -6,7 +6,7 @@ import { FiPackage } from "react-icons/fi";
 import { FaTruckMoving } from 'react-icons/fa'
 
 const items = [
-  {
+ {
     name: "home",
     label: "Inicio",
     icon: <MdHome size={30} />,

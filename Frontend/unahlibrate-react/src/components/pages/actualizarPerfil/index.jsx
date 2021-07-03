@@ -41,7 +41,7 @@ const ActualizarPerfil = () => {
 
   return (
     <div className="limiter">
-      <div className="container-login100 imagen">
+      <div className="container-login100 imagenFondo">
         <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
           <form
             className="login100-form validate-form btn"

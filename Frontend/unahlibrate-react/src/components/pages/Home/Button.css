@@ -27,6 +27,7 @@
 .btn--medium {
   padding: 8px 20px;
   font-size: 18px;
+  margin-bottom: 30px;
 }
 
 .btn--large {
@@ -41,3 +42,4 @@
   color: #242424;
   transition: 250ms;
 }
+

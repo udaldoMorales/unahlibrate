@@ -156,3 +156,18 @@
     transition: 250ms;
   }
 }
+
+.btn-opciones{
+  height: 70px;
+}
+
+.btn-options-full{
+  padding: 8px 20px;
+  font-size: 18px;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid var(--primary);
+  height: 45px;
+  margin-bottom: 40px;
+  margin-left: 10px;
+}

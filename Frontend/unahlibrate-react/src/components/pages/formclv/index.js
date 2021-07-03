@@ -52,7 +52,7 @@ const Formclv = ({ history }) => {
  
   return (
     <div className="limiter">
-      <div className="container-login100 imagen">
+      <div className="container-login100 imagenFondo">
         <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-30">
           <form className="login-form validate-form" >
             <span className="login100-form-title p-b-21">Cambiar Contraseña</span>
