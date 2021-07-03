@@ -210,6 +210,8 @@ iframe {
   width: 900px;
 }
 
+
+
 .bkgImgLogIn {
   background: url("../img/Libros.jpg") no-repeat center center fixed;
 }
@@ -221,6 +223,7 @@ iframe {
 .bkg-request {
   background-color: #175ca8;
 }
+
 
 .container-login100::before {
   content: "";
@@ -262,6 +265,7 @@ iframe {
   margin-left: 0px;
   margin-right: 120px;
   margin-left: 120px;
+ 
 }
 
 .wrap-filter {
