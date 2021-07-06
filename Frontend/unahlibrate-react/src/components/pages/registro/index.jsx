@@ -7,7 +7,13 @@ import { registerNormalUser } from "../../../services/Register";
 import { loginUser } from '../../../services/Login';
 import Swal from "sweetalert2";
 import {Redirect} from 'react-router-dom';
-import {useCookies} from 'react-cookie';
+import Cookies from 'universal-cookie';
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import Navbar from './../Home/Navbar';
+import './../Home/Navbar.css';
+
+const cookies = new Cookies();
 
 const FormUser = ({ history }) => {
   //Creando el state para leer los inputs:
@@ -54,7 +60,7 @@ const FormUser = ({ history }) => {
   };
 
   /*COOKIE*/
-  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken', 'user']);
+  //const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken', 'user']);
 
   //Funcion para validar el correo:
   const validarEmail = () => {
@@ -111,9 +117,9 @@ const FormUser = ({ history }) => {
               var logIn = loginUser(Usuario, Contraseña)
               .then(res => {
                 console.log(res);
-                setCookie('auth', res.response.token, {path: "/"});
-                setCookie('refreshToken', res.response.refreshToken, {path: "/"});
-                setCookie('user', res.response.user.user, {path: "/"});
+                cookies.set('auth', res.response.token, {path: "/"});
+                cookies.set('refreshToken', res.response.refreshToken, {path: "/"});
+                cookies.set('user', res.response.user.user, {path: "/"});
                 setLogin(true);
 
               })

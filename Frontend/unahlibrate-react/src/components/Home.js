@@ -1,23 +1,20 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {URL_GET_USER_ACCESS, URL_GET_GET_USERNAME} from './../constants/urls';
-import { instanceOf } from 'prop-types';
-import { withCookies, Cookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 import {esUsuario} from '../services/Auth';
 import {Link} from 'react-router-dom';
 
 //this.props.location.state.
 
+const cookies = new Cookies();
+
 class Home extends Component {
 
-	static propTypes = {
-		cookies: instanceOf(Cookies).isRequired
-	}
-
 	state = {
-			aute: this.props.cookies.get("auth"),
-			refresco: this.props.cookies.get("refreshToken"),
-			userName: this.props.cookies.get("user"),
+			aute: cookies.get("auth"),
+			refresco: cookies.get("refreshToken"),
+			userName: cookies.get("user"),
 			userLogged: {}, 
 			user: {},
 			allowed: {
@@ -112,9 +109,9 @@ class Home extends Component {
 
 		logout = () => {
 			//e.preventDefault();
-			this.props.cookies.remove("auth");
-			this.props.cookies.remove('refreshToken');
-			this.props.cookies.remove('user');
+			ookies.remove("auth", {path: '/'});
+			cookies.remove('refreshToken', {path: '/'});
+			cookies.remove('user', {path: '/'});
 		}
 
 		componentWillMount(){

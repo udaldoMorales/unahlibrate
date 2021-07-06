@@ -3,13 +3,29 @@ import { Button } from "./Button";
 import { Menu, Dropdown, Button as Buttonand, Space } from "antd";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import Cookies from 'universal-cookie';
+import axios from 'axios';
+import {esUsuario, peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+
+import {URL_GET_USER_ACCESS, URL_GET_GET_USERNAME} from './../../../constants/urls';
+
+
+const cookies = new Cookies();
 
 function Navbar() {
+
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
 
         /**Estado de nav , opciones */
-  const [isSigned, setIsSigned] = useState(false);
+  const [isSigned, setIsSigned] = useState(null);
+
+  //Estado para saber el usuario
+  const [user, setUser] = useState({});
+  const [userLogged, setUserLogged] = useState({});
+
+  //Estado para saber el allowed del thiis.
+  const [allowed, setAllow] = useState({});
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -22,9 +38,75 @@ function Navbar() {
     }
   };
 
+  const pedirDatos = async () => {
+
+    try {
+      console.log(2);
+      var rr = await peticionDatoUsuario(cookies.get('user'));
+      setUser(rr.user);
+      console.log('Yo también.')
+    } catch (err) {
+        console.log(err);
+    }
+
+  }
+
+  const pedirLogg = async () => {
+    
+    try {
+
+      console.log(1);
+      var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
+      setAllow(response);
+      setIsSigned(response.status);
+      console.log("Me ejecuté.")
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const cerrarSesionActual = () => {
+    cerrarSesion();
+    setIsSigned(false);
+  }
+
   useEffect(() => {
+
+    pedirLogg();
+    pedirDatos();
+
+
+    /*
+    peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'))
+      .then(response => {
+        if (response) {
+          setAllow(response);
+          setIsSigned(response.status);
+          console.log("Ejecuté peticionUsuarioLoggeado");
+        }
+      })
+      .catch(err => {if (err) {console.log(err)}});
+
+    peticionDatoUsuario(cookies.get('user'))
+      .then(rr => {
+        if (rr){
+          setUser(rr.user);
+          console.log('Ejecuté peticionusuario');
+        }
+      })
+      .catch(err => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    */
+
+    console.log('isSigned en el useEffect');
+    console.log(isSigned);
+
     showButton();
-  }, []);
+  }, [isSigned]);
 
   window.addEventListener("resize", showButton);
 
@@ -34,7 +116,7 @@ function Navbar() {
         <Link to="/formclv">Actualizar Contraseña</Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/">Cerrar Sesión </Link>
+        <Link to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Link>
       </Menu.Item>
     </Menu>
   );
@@ -110,17 +192,17 @@ function Navbar() {
             </ul>
           )}
 
-          {button && !isSigned && (
+          {button && !isSigned  && (
             <Button buttonStyle="btn--outline">Login</Button>
           )}
 
           {button && isSigned && (
             <Dropdown
-              classNamee="btn--outline "
+              classNamee="btn--outline"
               overlay={menu}
               placement="bottomLeft"
             >
-              <Buttonand className="btn-options-full">Opciones</Buttonand>
+              <Buttonand className="btn-options-full">{user.user}</Buttonand>
             </Dropdown>
           )}
         </div>

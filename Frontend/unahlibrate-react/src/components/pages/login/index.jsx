@@ -8,7 +8,14 @@ import Swal from "sweetalert2";
 import SessionStorageService from "../../../services/Storage";
 import { loginUser } from '../../../services/Login';
 import {Redirect} from 'react-router-dom';
-import {useCookies} from 'react-cookie';
+import Cookies from 'universal-cookie';
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import Navbar from './../Home/Navbar';
+import './../Home/Navbar.css';
+
+
+const cookies = new Cookies();
 
 const FormLog = ({ history }) => {
   //Creando el state para leer los inputs:
@@ -38,7 +45,7 @@ const FormLog = ({ history }) => {
   */
 
   /*COOKIE*/
-  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken', 'user']);
+  //const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken', 'user']);
 
   //State para el error:
   const [error, handleError] = useState(false);
@@ -86,9 +93,9 @@ const FormLog = ({ history }) => {
           });
           console.log(respuesta);
           } else {
-            setCookie('auth', res.response.token, {path: "/"});
-            setCookie('refreshToken', res.response.refreshToken, {path: "/"});
-            setCookie('user', res.response.user.user, {path: "/"});
+            cookies.set('auth', res.response.token, {path: "/"});
+            cookies.set('refreshToken', res.response.refreshToken, {path: "/"});
+            cookies.set('user', res.response.user.user, {path: "/"});
             setRespuesta({
               status: 'logged'
             });
@@ -112,7 +119,7 @@ const FormLog = ({ history }) => {
   if (respuesta.status === 'logged'){
     console.log(respuesta);
     return (
-      <Redirect to={{pathname:'/home', state: {user: Usuario}}}/>
+      <Redirect to={{pathname:'/perfil', state: {user: Usuario}}}/>
       )
   }
   return (

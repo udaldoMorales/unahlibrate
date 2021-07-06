@@ -11,6 +11,9 @@ import "./estilos.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 
+import Navbar from './../Home/Navbar';
+import './../Home/Navbar.css';
+
 const ActualizarPerfil = () => {
   const [infoUser, handleUserInfo] = useState({
     Usuario: "",

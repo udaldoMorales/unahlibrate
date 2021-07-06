@@ -9,7 +9,10 @@ import Swal from "sweetalert2";
 import SessionStorageService from "../../../services/Storage";
 import { loginUser } from '../../../services/Login';
 import {Redirect} from 'react-router-dom';
-import {useCookies} from 'react-cookie';
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import Navbar from './../Home/Navbar';
+import './../Home/Navbar.css';
 
 const Formclv = ({ history }) => {
   //Creando el state para leer los inputs:
@@ -28,9 +31,6 @@ const Formclv = ({ history }) => {
     });
   };
 
-
-  /*COOKIE*/
-  const [cookies, setCookie, removeCookie] = useCookies(['auth', 'refreshToken', 'user']);
 
   //State para el error:
   const [error, handleError] = useState(false);
