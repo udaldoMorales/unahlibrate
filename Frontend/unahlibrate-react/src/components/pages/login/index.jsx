@@ -123,6 +123,9 @@ const FormLog = ({ history }) => {
       )
   }
   return (
+    <React.Fragment>
+      <Navbar />
+
     <div className="limiter">
       <div className="container-login100 bkgImgLogIn">
         <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-30">
@@ -204,6 +207,7 @@ const FormLog = ({ history }) => {
         </div>
       </div>
     </div>
+    </React.Fragment>
   );
 };
 

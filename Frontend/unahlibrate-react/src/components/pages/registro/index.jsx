@@ -139,9 +139,11 @@ const FormUser = ({ history }) => {
 
   
   if (registeredAndLogged) {
-    return (<Redirect to={{pathname:'/home', state: {user: Usuario, email: Correo}}}/>)
+    return (<Redirect to={{pathname:'/perfil', state: {user: Usuario, email: Correo}}}/>)
   }
   return (
+    <React.Fragment>
+      <Navbar />
     <div className="limiter">
       <div className="container-login100 imgFormRegUs">
         <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
@@ -285,6 +287,7 @@ const FormUser = ({ history }) => {
         </div>
       </div>
     </div>
+    </React.Fragment>
   );
 };
 

@@ -80,7 +80,6 @@ export const peticionDatoUsuario = async (userName) => {
         let {response} = err;
         console.log(response);
     }
-         
 }
 
 export const peticionUsuarioLoggeado = async (cookie, refreshCookie) => {

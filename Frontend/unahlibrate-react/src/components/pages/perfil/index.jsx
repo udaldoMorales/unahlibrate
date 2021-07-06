@@ -48,6 +48,8 @@ const Perfil = () => {
       };
     
      return(
+       <React.Fragment>
+         <Navbar />
         <div className="limiter">
             <div className=" justify-content-center imagenFondo">
                 <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
@@ -153,7 +155,8 @@ const Perfil = () => {
             </form>
             </div>
        </div>
-    </div>
+    </div> 
+    </React.Fragment>
      );
 
 }
