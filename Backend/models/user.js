@@ -9,6 +9,14 @@ var UserSchema = Schema({
     name: String,
     lastname: String,
     email: String,
+    phone: {
+        type:String,
+        default:''
+    },
+    ubication: {
+        type:String,
+        default:''
+    },
     imageProfile : {
         type:String,default: ''
     },
