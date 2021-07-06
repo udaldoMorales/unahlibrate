@@ -5,6 +5,7 @@ import { Login } from "./components/pages";
 import { Registro, ActualizarPerfil, Formclv } from "./components/pages";
 import Home from "./components/pages/Home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Perfil } from "./components/pages";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/registro" component={Registro} />
         <Route path="/actualizarPerfil" component={ActualizarPerfil} />
         <Route path="/Formclv" component={Formclv} />
+        <Route path="/perfil" component={Perfil}/>
       </Switch>
     </Router>
   );

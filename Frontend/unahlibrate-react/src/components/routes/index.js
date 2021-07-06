@@ -6,13 +6,14 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import { Login, Registro, ActualizarPerfil, Formclv } from "./../pages";
+import { Login, Registro, ActualizarPerfil, Perfil, Formclv } from "./../pages";
 
 import Home from "./../pages/Home/Home";
 const Routes = () => {
   return (
     <Router>
       <Switch>
+        <Route exact path="/perfil" component={Perfil} />
         <Route exact path="/actualizarPerfil" component={ActualizarPerfil} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/registro" component={Registro} />
