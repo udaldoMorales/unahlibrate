@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {Redirect} from 'react-router-dom';
 import { Row, Col } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ProfileUser } from "../../atoms";
@@ -10,9 +11,12 @@ import "../../../styles/util.css";
 import "./style.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
-
+import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import Cookies from 'universal-cookie';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
+
+const cookies = new Cookies();
 
 
 const Perfil = () => {
@@ -20,11 +24,15 @@ const Perfil = () => {
 
     const [goEdit, setGoEdit] = useState(false);
 
+    const [sent, setSent] = useState(false);
+
     //State que guarda los datos de la BD
     const [data, setData] = useState({
         usuario: "",
     
-        contraseña: "",
+        nombre: "",
+
+        apellido: "",
     
         email: "",
     
@@ -33,20 +41,81 @@ const Perfil = () => {
         ubicacion: ""
       });
 
-    /*  useEffect(() => {
-        "Funcion que recibe la info"()
+        
+      //State que recibe el allow de peticionUsuarioLoggeado:
+      const [allowed, setAllow] = useState({});
+
+      //State que confirma una sesión iniciada:
+      const [isSigned, setIsSigned] = useState(null);
+
+      const pedirDatos = async () => {
+
+        try {
+          console.log(2);
+          var rr = await peticionDatoUsuario(cookies.get('user'));
+          setData({
+            usuario: rr.user.user,
+            nombre: rr.user.name,
+            apellido: rr.user.lastname,
+            email: rr.user.email,
+            telefono: rr.user.phone,
+            ubicacion: rr.user.ubication
+          });
+          console.log('Yo también.')
+        } catch (err) {
+            console.log(err);
+        }
+    
+      }
+
+      const pedirLogg = async () => {
+    
+        try {
+    
+          console.log(1);
+          var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
+          setAllow(response);
+          setIsSigned(response.status);
+          console.log("Me ejecuté.")
+    
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      const actualizar = (event) => {
+        event.preventDefault();
+        setSent(true);
+      }
+
+    useEffect(() => {
+        /*"Funcion que recibe la info"()
           .then((res) => {
             setData(res);
     
           })
     
-          .catch((err) => console.log(err));
-      }, []);*/
+          .catch((err) => console.log(err));*/
+
+          pedirDatos();
+          pedirLogg();
+
+      }, [isSigned]);
 
       const goToEdit = () => {
         setGoEdit(true);
       };
     
+    if (sent == true){
+      return (
+        <Redirect to='/actualizarPerfil' />
+      )
+    } else {
+      if (isSigned == false){
+        return (
+          <Redirect to='/login' />
+        );
+      } else if (isSigned == true) {
      return(
        <React.Fragment>
          <Navbar />
@@ -54,13 +123,14 @@ const Perfil = () => {
             <div className=" justify-content-center imagenFondo">
                 <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
                 <form
+                  onSubmit={actualizar}
                   className="login100-form validate-form btn"
                 >
             <span className="login100-form-title p-b-34">
               Perfil de Usuario
             </span>
             <div>
-              <ProfileUser />
+              {/*<ProfileUser />*/}
             </div>
             <br />
 
@@ -72,7 +142,7 @@ const Perfil = () => {
                 type="text"
                 name="Usuario"
                 placeholder="Usuario"
-                value={"3psil0n274"}
+                value={`Usuario: ${data.usuario}`}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
@@ -85,14 +155,30 @@ const Perfil = () => {
             >
               <input
                 className="input100"
-                type="password"
-                name="Password"
-                placeholder="Password"
-                value={"Lisandro"}
+                type="text"
+                name="Nombre"
+                placeholder="Nombre"
+                value={`Nombre: ${data.nombre}`}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
-                <span className="lnr lnr-lock"></span>
+                <span className="lnr lnr-user"></span>
+              </span>
+            </div>
+
+            <div
+              className="wrap-input100  m-b-16"
+            >
+              <input
+                className="input100"
+                type="text"
+                name="Apellido"
+                placeholder="Apellido"
+                value={`Apellido: ${data.apellido}`}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <span className="lnr lnr-user"></span>
               </span>
             </div>
 
@@ -106,7 +192,7 @@ const Perfil = () => {
                 type="text"
                 name="Correo"
                 placeholder="Correo"
-                value={"lisan3@hotmail.com"}
+                value={`Correo: ${data.email}`}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
@@ -123,7 +209,7 @@ const Perfil = () => {
                 type="text"
                 name="NumeroTelefono"
                 placeholder="Numero de Telefono"
-                value={"88063544"}
+                value={`Telefono: ${data.telefono}`}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
@@ -140,7 +226,7 @@ const Perfil = () => {
                 type="text"
                 name="Ubicacion"
                 placeholder="Ubicacion"
-                value={"Tegucigalpa"}
+                value={`Ubicación: ${data.ubicacion}`}
               />
               <span className="focus-input100"></span>
               <span className="symbol-input100">
@@ -158,6 +244,14 @@ const Perfil = () => {
     </div> 
     </React.Fragment>
      );
+    } else {
+      return (
+      <React.Fragment>
+      <Navbar />
+      </React.Fragment>
+      );
+    }
+    }
 
 }
 

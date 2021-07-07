@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./Button";
 import { Menu, Dropdown, Button as Buttonand, Space } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./Navbar.css";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import {esUsuario, peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
 
 import {URL_GET_USER_ACCESS, URL_GET_GET_USERNAME} from './../../../constants/urls';
 
@@ -27,6 +27,7 @@ function Navbar() {
   //Estado para saber el allowed del thiis.
   const [allowed, setAllow] = useState({});
 
+
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
@@ -44,7 +45,6 @@ function Navbar() {
       console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
       setUser(rr.user);
-      console.log('Yo también.')
     } catch (err) {
         console.log(err);
     }
@@ -75,7 +75,6 @@ function Navbar() {
 
     pedirLogg();
     pedirDatos();
-
 
     /*
     peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'))
@@ -113,10 +112,11 @@ function Navbar() {
   const menu = (
     <Menu>
       <Menu.Item>
-        <Link to="/formclv">Actualizar Contraseña</Link>
+        <Link to="/formclv" replace={false}>Actualizar Contraseña</Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Link>
+        <Link to="/" replace={false} onClick={cerrarSesionActual}>Cerrar Sesión</Link>
+        {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
     </Menu>
   );
@@ -179,24 +179,14 @@ function Navbar() {
                   Actualizar Perfil
                 </Link>
               </li>
-
-              <li>
-                <Dropdown
-                  className="nav-links-mobile btn-opciones"
-                  overlay={menu}
-                  placement="bottomLeft"
-                >
-                  <Buttonand>Opciones</Buttonand>
-                </Dropdown>
-              </li>
             </ul>
           )}
 
-          {button && !isSigned  && (
+          {button && isSigned == false  && (
             <Button buttonStyle="btn--outline">Login</Button>
           )}
 
-          {button && isSigned && (
+          {button && isSigned == true && (
             <Dropdown
               classNamee="btn--outline"
               overlay={menu}

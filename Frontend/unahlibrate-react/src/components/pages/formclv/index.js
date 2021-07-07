@@ -1,18 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import "../../../styles/FormLog.css";
 import "../../../styles/util.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import "./estilos.css";
 import Swal from "sweetalert2";
-import SessionStorageService from "../../../services/Storage";
 import { loginUser } from '../../../services/Login';
-import {Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
+
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const Formclv = ({ history }) => {
   //Creando el state para leer los inputs:
@@ -44,12 +46,39 @@ const Formclv = ({ history }) => {
   //Extrayendo los valores con destructuring:
   const { ContraseñaActual, ContraseñaNueva ,ConfirmacionContraseña} = information;
 
+  //State que recibe el allow de peticionUsuarioLoggeado:
+  const [allowed, setAllow] = useState({});
 
+  //State que confirma una sesión iniciada:
+  const [isSigned, setIsSigned] = useState(null);
 
+  const pedirLogg = async () => {
+    
+    try {
+
+      console.log(1);
+      var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
+      setAllow(response);
+      setIsSigned(response.status);
+      console.log("Me ejecuté.")
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    pedirLogg();
+  }, [isSigned]);
   //Funcion para el boton de login:
   
   
  
+  if (isSigned == false){
+    return (
+      <Redirect to='/login' />
+    );
+  } else if (isSigned == true) {
   return (
     <React.Fragment>
       <Navbar />
@@ -137,6 +166,13 @@ const Formclv = ({ history }) => {
     </div>
     </React.Fragment>
   );
+  } else {
+    return (
+    <React.Fragment>
+    <Navbar />
+    </React.Fragment>
+    );
+  }
 };
 
 export default Formclv;

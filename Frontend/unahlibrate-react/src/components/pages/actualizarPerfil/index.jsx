@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Row, Col } from "antd";
+import React, { useEffect, useState } from "react";
+import {Redirect} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ProfileUser } from "../../atoms";
 import "antd/dist/antd.css";
@@ -10,12 +10,20 @@ import "../../../styles/util.css";
 import "./estilos.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
+import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import {actualizarUsuario} from '../../../services/User';
+import Swal from "sweetalert2";
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
 
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 const ActualizarPerfil = () => {
   const [infoUser, handleUserInfo] = useState({
+    id: null,
     Usuario: "",
     Nombre: "",
     Apellido: "",
@@ -24,14 +32,71 @@ const ActualizarPerfil = () => {
     Ubicacion: "",
   });
   const [enableButton, setEnableButton] = useState(true);
+  
+  //State que recibe el allow de peticionUsuarioLoggeado:
+  const [allowed, setAllow] = useState({});
+
+  //State que confirma una sesión iniciada:
+  const [isSigned, setIsSigned] = useState(null);
+
   //State para el error:
   const [error, handleError] = useState(false);
 
   //State para validacion del correo:
   const [errorEmail, handleErrorEmail] = useState(false);
 
-  const { Usuario, Nombre, Apellido, Correo, NumeroTelefono, Ubicacion } =
+  //Actualizado ya. Hook.
+  const [updated, setUpdated] = useState(false);
+
+  var { id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, Ubicacion } =
     infoUser;
+
+  const pedirDatos = async () => {
+
+    try {
+      console.log(2);
+      var rr = await peticionDatoUsuario(cookies.get('user'));
+      
+      //Asignación de datos del usuario
+      handleUserInfo({
+        id: rr.user._id,
+        Usuario: rr.user.user,
+        Nombre: rr.user.name,
+        Apellido: rr.user.lastname,
+        Correo: rr.user.email,
+        NumeroTelefono: rr.user.phone,
+        Ubicacion: rr.user.ubication,
+      });
+      
+      console.log('- Yo también.');
+      console.log('- METIDO.');
+    } catch (err) {
+        console.log(err);
+    }
+  }
+
+  const pedirLogg = async () => {
+    
+    try {
+
+      console.log(1);
+      var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
+      setAllow(response);
+      setIsSigned(response.status);
+      console.log("Me ejecuté.")
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    pedirDatos();
+    pedirLogg();
+
+    console.log('use Effect');
+    console.log(infoUser);
+  }, [isSigned]);
 
   const handleChangeInfo = (e) => {
     handleUserInfo({
@@ -40,8 +105,42 @@ const ActualizarPerfil = () => {
     });
   };
 
-  const submitUser = () => {};
+  const submitUser = (e) => {
+    e.preventDefault();
+    
+    //Aquí se va a hacer la actualización.
+    actualizarUsuario(id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, Ubicacion)
+      .then(resp => {
+          Swal.fire(
+            "Actualizado",
+            "Se ha actualizado el usuario exitosamente.",
+            "success"
+          ).then (res => {
+              console.log(resp);
+              //Actualizar el estado.
+              setUpdated(true);
+          })
+          .catch(er => {console.log(er)})
+          })
+      .catch(error => {
+        Swal.fire({
+          icon: "error",
+          title: error.title,
+          text: error.text
+        });
+      })
+  };
 
+  if (updated == true) {
+    return (
+      <Redirect to='/perfil'></Redirect>
+    );
+  }
+  if (isSigned == false){
+    return (
+      <Redirect to='/login' />
+    );
+  } else if (isSigned == true) {
   return (
     <React.Fragment>
     <Navbar />
@@ -213,6 +312,13 @@ const ActualizarPerfil = () => {
     </div>
     </React.Fragment>
   );
+  } else {
+    return (
+    <React.Fragment>
+    <Navbar />
+    </React.Fragment>
+    );
+  }
 };
 
 export default ActualizarPerfil;
