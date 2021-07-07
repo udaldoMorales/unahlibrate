@@ -1,5 +1,5 @@
 import axios from "../modules/axios";
-import { URL_POST_SAVE_USER, URL_PUT_USER_UPDATE, URL_PUT_USER_CHANGE_PASSWORD} from "../constants/urls";
+import { URL_POST_SAVE_USER, URL_PUT_USER_UPDATE, URL_PUT_USER_CHANGE_PASSWORD,URL_POST_USER_CHANGE_IMAGE_PROFILE} from "../constants/urls";
 
 export const updateUser = async (
     id,
@@ -45,6 +45,17 @@ export const updateUser = async (
         //throw errorObj;
         return errorObj;
     }
+}
+
+
+export const updateImageProfile = async (idUser,imageProfile) =>{
+    
+    axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + idUser,imageProfile)
+    .then(res=>{
+        if(res.data.user){
+            
+        }
+    });
 }
 
 export const changePassword = async (id, pass, newPass) => {
