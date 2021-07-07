@@ -1,7 +1,7 @@
 import axios from "../modules/axios";
-import { URL_POST_SAVE_USER, URL_PUT_USER_UPDATE} from "../constants/urls";
+import { URL_POST_SAVE_USER, URL_PUT_USER_UPDATE, URL_PUT_USER_CHANGE_PASSWORD} from "../constants/urls";
 
-export const actualizarUsuario = async (
+export const updateUser = async (
     id,
     user,
     name,
@@ -10,7 +10,7 @@ export const actualizarUsuario = async (
     phone,
     ubication
 ) => {
-    var data = {
+    const data = {
         user: user,
         name: name,
         lastname: lastname,
@@ -21,12 +21,14 @@ export const actualizarUsuario = async (
     try {
 
         console.log('Mando');
-        var update = await axios.put(`${URL_PUT_USER_UPDATE}${id}`, data, {headers: {'Content-Type': 'application/json'}});
+        const update = await axios.put(`${URL_PUT_USER_UPDATE}${id}`, data);
+        console.log('¿Ejecuté?');
         if (update.status === 200){
             return update.data;
         } else {
             console.log(update);
-            throw new Error(update);
+            //throw new Error(update);
+            return update.data;
         }
 
     } catch (err) {
@@ -38,7 +40,36 @@ export const actualizarUsuario = async (
             text: response.data.message
           }
         console.log(response);
-        throw errorObj;
+        //throw errorObj;
+        return errorObj;
+    }
+}
 
+export const changePassword = async (id, pass, newPass) => {
+
+    var data = {
+        oldPass: pass,
+        newPass: newPass
+    };
+    try {
+        const changedPass = await axios.put(`${URL_PUT_USER_CHANGE_PASSWORD}${id}`, data);
+
+        if (changedPass.status === 200){
+            return changedPass.data;
+        } else {
+            console.log(changedPass);
+            return changedPass.data;
+            //throw new Error(update);
+        }
+    } catch (error) {
+        let errorObj;
+        const {response} = error;
+        errorObj = {
+            title: 'Contraseña no cambiada',
+            text: response.data.message
+          }
+        console.log(response);
+        //throw errorObj;
+        return errorObj;
     }
 }

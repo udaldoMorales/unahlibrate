@@ -11,9 +11,9 @@ export const URL_GET_USER_ACCESS = `${urlApi}/api/user-panel`;
 export const URL_POST_USER_REFRESH = `${urlApi}/api/refreshtoken`;
 export const URL_GET_GET_USERNAME = `${urlApi}/api/user-by-name/`;
 
-export const URL_PUT_USER_UPDATE = `${urlApi}/update-user/`;
+export const URL_PUT_USER_UPDATE = `${urlApi}/api/update-user/`;
 
-export const URL_PUT_USER_CHANGE_PASSWORD = `${urlApi}/change-password/`;
+export const URL_PUT_USER_CHANGE_PASSWORD = `${urlApi}/api/change-password/`;
 
 
 

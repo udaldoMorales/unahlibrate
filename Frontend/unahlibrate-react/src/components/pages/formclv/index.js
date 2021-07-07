@@ -9,6 +9,7 @@ import { loginUser } from '../../../services/Login';
 import {Link, Redirect} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import {changePassword} from '../../../services/User';
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -43,6 +44,8 @@ const Formclv = ({ history }) => {
   //State para validacion del correo:
   //const [errorUser, handleErrorUser] = useState(false);
 
+  const [user, setUser] = useState({});
+
   //Extrayendo los valores con destructuring:
   const { ContraseñaActual, ContraseñaNueva ,ConfirmacionContraseña} = information;
 
@@ -51,6 +54,22 @@ const Formclv = ({ history }) => {
 
   //State que confirma una sesión iniciada:
   const [isSigned, setIsSigned] = useState(null);
+
+  //State que confirma la contraseña cambiada:
+  const [changed, cambiarContrasenia] = useState(false);
+
+  const pedirDatos = async () => {
+
+    try {
+      console.log(2);
+      var rr = await peticionDatoUsuario(cookies.get('user'));
+      setUser(rr.user);
+      console.log('- Yo también.');
+      console.log('- METIDO.');
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const pedirLogg = async () => {
     
@@ -67,13 +86,87 @@ const Formclv = ({ history }) => {
     }
   }
 
+
+  const cambiarContra = async (e) => {
+      //Comprobación de que las contraseñas sean distintas:
+      e.preventDefault();
+      
+      if(ContraseñaActual === ''){
+        Swal.fire({
+          icon: "error",
+          title: "¡Error!",
+          text: "Necesitas la contraseña actual."
+        });
+      }
+      
+      if (ContraseñaActual === ContraseñaNueva){
+        Swal.fire({
+          icon: "error",
+          title: "¡Error!",
+          text: "Las contraseñas son iguales."
+        })
+      } else if (ContraseñaNueva !== ConfirmacionContraseña){
+        Swal.fire({
+          icon: "error",
+          title: "¡Error!",
+          text: "Las contraseñas nuevas no coinciden."
+        })
+      } else if (ContraseñaActual === '' || ContraseñaNueva === '' || ConfirmacionContraseña === ''){
+        Swal.fire({
+          icon: "error",
+          title: "¡Error!",
+          text: "Necesitan todos los campos estar llenos."
+        })
+      } else if (ContraseñaNueva === ConfirmacionContraseña){
+        //Aquí debería todo estar correcto.
+        console.log('Macanudo, ya te hago peticion');
+        //Peticion
+
+        try {
+          var changePass = await changePassword(user._id, ContraseñaActual, ContraseñaNueva);
+          if (changePass.status == 'success'){
+            Swal.fire(
+              "Actualizada",
+              "Se ha actualizado tu contraseña exitosamente.",
+              "success"
+            ).then(res => {
+              console.log(changePass);
+              //Actualizar el estado.
+              cambiarContrasenia(true);
+            })
+              .catch(er => { console.log(er) });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: changePass.title,
+              text: changePass.text
+            })
+          }
+    
+        } catch (err) {
+          console.log(err);
+          Swal.fire({
+            icon: "error",
+            title: err.title,
+            text: err.text
+          });
+        }
+
+      }
+  }
+  
   useEffect(() => {
+    pedirDatos();
     pedirLogg();
   }, [isSigned]);
   //Funcion para el boton de login:
   
   
- 
+  if (changed == true) {
+    return (
+      <Redirect to='/perfil'></Redirect>
+    );
+  }
   if (isSigned == false){
     return (
       <Redirect to='/login' />
@@ -85,7 +178,7 @@ const Formclv = ({ history }) => {
     <div className="limiter">
       <div className="container-login100 imagenFondo">
         <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-30">
-          <form className="login-form validate-form" >
+          <form className="login-form validate-form" onSubmit={cambiarContra}>
             <span className="login100-form-title p-b-21">Cambiar Contraseña</span>
             <div
               className="wrap-input100 validate-input m-b-16"
