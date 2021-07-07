@@ -118,6 +118,14 @@ function Navbar() {
         <Link to="/" replace={false} onClick={cerrarSesionActual}>Cerrar Sesión</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
+      <Menu.Item>
+        <Link to="/perfil" replace={false} >Mi perfil</Link>
+        {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/actualizarPerfil" replace={false}>Actulizar perfil</Link>
+        {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
+      </Menu.Item>
     </Menu>
   );
 
@@ -132,7 +140,7 @@ function Navbar() {
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
           </div>
 
-          {!isSigned ? (
+          {!isSigned && (
             <ul className={click ? "nav-menu active" : "nav-menu"}>
               <li className="nav-item">
                 <Link to="/" className="nav-links" onClick={closeMobileMenu}>
@@ -165,18 +173,6 @@ function Navbar() {
                   onClick={closeMobileMenu}
                 >
                   Login
-                </Link>
-              </li>
-            </ul>
-          ) : (
-            <ul className={click ? "nav-menu active" : "nav-menu"}>
-              <li className="nav-item">
-                <Link
-                  to="/actualizarPerfil"
-                  className="nav-links"
-                  onClick={closeMobileMenu}
-                >
-                  Actualizar Perfil
                 </Link>
               </li>
             </ul>

@@ -17,3 +17,8 @@
     transition: opacity 0.3s, height 0.3s;
     margin-bottom: 20px;
 }
+
+.inputImagenPerfil{
+    margin-bottom: 16px;
+    margin-top: 40px;
+}

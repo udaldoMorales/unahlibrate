@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Row, Col } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ProfileUser } from "../../atoms";
@@ -11,7 +11,7 @@ import "../../../styles/util.css";
 import "./style.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
-import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
 import Cookies from 'universal-cookie';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -20,238 +20,252 @@ const cookies = new Cookies();
 
 
 const Perfil = () => {
-    
 
-    const [goEdit, setGoEdit] = useState(false);
 
-    const [sent, setSent] = useState(false);
+  const [goEdit, setGoEdit] = useState(false);
 
-    //State que guarda los datos de la BD
-    const [data, setData] = useState({
-        usuario: "",
-    
-        nombre: "",
+  const [sent, setSent] = useState(false);
 
-        apellido: "",
+  //State que guarda los datos de la BD
+  const [data, setData] = useState({
+    usuario: "",
+
+    nombre: "",
+
+    apellido: "",
+
+    email: "",
+
+    telefono: "",
     
-        email: "",
-    
-        telefono: "",
-    
-        ubicacion: ""
+    imagenPerfil:"",
+
+    ubicacion: ""
+  });
+
+
+  //State que recibe el allow de peticionUsuarioLoggeado:
+  const [allowed, setAllow] = useState({});
+
+  //State que confirma una sesión iniciada:
+  const [isSigned, setIsSigned] = useState(null);
+
+  const pedirDatos = async () => {
+
+    try {
+      console.log(2);
+      var rr = await peticionDatoUsuario(cookies.get('user'));
+      setData({
+        usuario: rr.user.user,
+        nombre: rr.user.name,
+        apellido: rr.user.lastname,
+        email: rr.user.email,
+        telefono: rr.user.phone,
+        imagenPerfil: rr.user.imageProfile,
+        ubicacion: rr.user.ubication
       });
+      console.log('Yo también.')
+    } catch (err) {
+      console.log(err);
+    }
 
-        
-      //State que recibe el allow de peticionUsuarioLoggeado:
-      const [allowed, setAllow] = useState({});
+  }
 
-      //State que confirma una sesión iniciada:
-      const [isSigned, setIsSigned] = useState(null);
+  const pedirLogg = async () => {
 
-      const pedirDatos = async () => {
+    try {
 
-        try {
-          console.log(2);
-          var rr = await peticionDatoUsuario(cookies.get('user'));
-          setData({
-            usuario: rr.user.user,
-            nombre: rr.user.name,
-            apellido: rr.user.lastname,
-            email: rr.user.email,
-            telefono: rr.user.phone,
-            ubicacion: rr.user.ubication
-          });
-          console.log('Yo también.')
-        } catch (err) {
-            console.log(err);
-        }
-    
-      }
+      console.log(1);
+      var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
+      setAllow(response);
+      setIsSigned(response.status);
+      console.log("Me ejecuté.")
 
-      const pedirLogg = async () => {
-    
-        try {
-    
-          console.log(1);
-          var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
-          setAllow(response);
-          setIsSigned(response.status);
-          console.log("Me ejecuté.")
-    
-        } catch (err) {
-          console.log(err);
-        }
-      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-      const actualizar = (event) => {
-        event.preventDefault();
-        setSent(true);
-      }
+  const actualizar = (event) => {
+    event.preventDefault();
+    setSent(true);
+  }
 
-    useEffect(() => {
-        /*"Funcion que recibe la info"()
-          .then((res) => {
-            setData(res);
-    
-          })
-    
-          .catch((err) => console.log(err));*/
+  useEffect(() => {
+    /*"Funcion que recibe la info"()
+      .then((res) => {
+        setData(res);
+ 
+      })
+ 
+      .catch((err) => console.log(err));*/
 
-          pedirDatos();
-          pedirLogg();
+    pedirDatos();
+    pedirLogg();
 
-      }, [isSigned]);
+  }, [isSigned]);
 
-      const goToEdit = () => {
-        setGoEdit(true);
-      };
-    
-    if (sent == true){
+  const goToEdit = () => {
+    setGoEdit(true);
+  };
+
+  if (sent == true) {
+    return (
+      <Redirect to='/actualizarPerfil' />
+    )
+  } else {
+    if (isSigned == false) {
       return (
-        <Redirect to='/actualizarPerfil' />
-      )
-    } else {
-      if (isSigned == false){
-        return (
-          <Redirect to='/login' />
-        );
-      } else if (isSigned == true) {
-     return(
-       <React.Fragment>
-         <Navbar />
-        <div className="limiter">
+        <Redirect to='/login' />
+      );
+    } else if (isSigned == true) {
+      return (
+        <React.Fragment>
+          <Navbar />
+          <div className="limiter">
             <div className=" justify-content-center imagenFondo">
-                <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
+              <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
                 <form
                   onSubmit={actualizar}
                   className="login100-form validate-form btn"
                 >
-            <span className="login100-form-title p-b-34">
-              Perfil de Usuario
-            </span>
-            <div>
-              {/*<ProfileUser />*/}
-            </div>
-            <br />
+                  <span className="login100-form-title p-b-34">
+                    Perfil de Usuario
+                  </span>
+                  <div>
+                  
+                    
+                    {
 
-            <div
-              className="wrap-input100  m-b-16"
-            >
-              <input
-                className="input100"
-                type="text"
-                name="Usuario"
-                placeholder="Usuario"
-                value={`Usuario: ${data.usuario}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-user"></span>
-              </span>
-            </div>
+                    ( data.imagenPerfil !== "")? (
+                      <img src={"http://localhost:3900/api/" + 'get-image/' + data.imagenPerfil} alt={""} className="imageProfile"/>
+                    ) : (
+                      <ProfileUser /> 
+                    )
+                    
+                    }
+                    {/**/}
+                  </div>
+                  <br />
 
-            <div
-              className="wrap-input100  m-b-16"
-            >
-              <input
-                className="input100"
-                type="text"
-                name="Nombre"
-                placeholder="Nombre"
-                value={`Nombre: ${data.nombre}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-user"></span>
-              </span>
-            </div>
+                  <div
+                    className="wrap-input100  m-b-16"
+                  >
+                    <input
+                      className="input100"
+                      type="text"
+                      name="Usuario"
+                      placeholder="Usuario"
+                      value={`Usuario: ${data.usuario}`}
+                    />
+                    <span className="focus-input100"></span>
+                    <span className="symbol-input100">
+                      <span className="lnr lnr-user"></span>
+                    </span>
+                  </div>
 
-            <div
-              className="wrap-input100  m-b-16"
-            >
-              <input
-                className="input100"
-                type="text"
-                name="Apellido"
-                placeholder="Apellido"
-                value={`Apellido: ${data.apellido}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-user"></span>
-              </span>
-            </div>
+                  <div
+                    className="wrap-input100  m-b-16"
+                  >
+                    <input
+                      className="input100"
+                      type="text"
+                      name="Nombre"
+                      placeholder="Nombre"
+                      value={`Nombre: ${data.nombre}`}
+                    />
+                    <span className="focus-input100"></span>
+                    <span className="symbol-input100">
+                      <span className="lnr lnr-user"></span>
+                    </span>
+                  </div>
 
-            <div
-              className="wrap-input100 m-b-16"
-    
-            >
-              <input
-                id="emailInput"
-                className="input100"
-                type="text"
-                name="Correo"
-                placeholder="Correo"
-                value={`Correo: ${data.email}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-envelope"></span>
-              </span>
-            </div>
+                  <div
+                    className="wrap-input100  m-b-16"
+                  >
+                    <input
+                      className="input100"
+                      type="text"
+                      name="Apellido"
+                      placeholder="Apellido"
+                      value={`Apellido: ${data.apellido}`}
+                    />
+                    <span className="focus-input100"></span>
+                    <span className="symbol-input100">
+                      <span className="lnr lnr-user"></span>
+                    </span>
+                  </div>
 
-            <div
-              className="wrap-input100 m-b-16"
-            >
-              <input
-                id="emailInput"
-                className="input100"
-                type="text"
-                name="NumeroTelefono"
-                placeholder="Numero de Telefono"
-                value={`Telefono: ${data.telefono}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-phone-handset"></span>
-              </span>
+                  <div
+                    className="wrap-input100 m-b-16"
+
+                  >
+                    <input
+                      id="emailInput"
+                      className="input100"
+                      type="text"
+                      name="Correo"
+                      placeholder="Correo"
+                      value={`Correo: ${data.email}`}
+                    />
+                    <span className="focus-input100"></span>
+                    <span className="symbol-input100">
+                      <span className="lnr lnr-envelope"></span>
+                    </span>
+                  </div>
+
+                  <div
+                    className="wrap-input100 m-b-16"
+                  >
+                    <input
+                      id="emailInput"
+                      className="input100"
+                      type="text"
+                      name="NumeroTelefono"
+                      placeholder="Numero de Telefono"
+                      value={`Telefono: ${data.telefono}`}
+                    />
+                    <span className="focus-input100"></span>
+                    <span className="symbol-input100">
+                      <span className="lnr lnr-phone-handset"></span>
+                    </span>
+                  </div>
+
+                  <div
+                    className="wrap-input100 m-b-16"
+                  >
+                    <input
+                      id="emailInput"
+                      className="input100"
+                      type="text"
+                      name="Ubicacion"
+                      placeholder="Ubicacion"
+                      value={`Ubicación: ${data.ubicacion}`}
+                    />
+                    <span className="focus-input100"></span>
+                    <span className="symbol-input100">
+                      <span className="lnr lnr-map-marker"></span>
+                    </span>
+                  </div>
+
+                  <button type="submit" className="login100-form-btn">
+                    Editar information
+                  </button>
+
+                </form>
+              </div>
             </div>
-            
-            <div
-              className="wrap-input100 m-b-16"
-            >
-              <input
-                id="emailInput"
-                className="input100"
-                type="text"
-                name="Ubicacion"
-                placeholder="Ubicacion"
-                value={`Ubicación: ${data.ubicacion}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-map-marker"></span>
-              </span>
-            </div>
-            
-            <button type="submit" className="login100-form-btn">
-                  Editar information
-                </button>
-                
-            </form>
-            </div>
-       </div>
-    </div> 
-    </React.Fragment>
-     );
+          </div>
+        </React.Fragment>
+      );
     } else {
       return (
-      <React.Fragment>
-      <Navbar />
-      </React.Fragment>
+        <React.Fragment>
+          <Navbar />
+        </React.Fragment>
       );
     }
-    }
+  }
 
 }
 

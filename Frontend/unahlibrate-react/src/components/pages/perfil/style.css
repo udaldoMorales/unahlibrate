@@ -16,3 +16,8 @@
     transition: opacity 0.3s, height 0.3s;
     margin-bottom: 20px;
 }
+
+.imageProfile{
+    width: 250px;
+    height: 250px;
+}

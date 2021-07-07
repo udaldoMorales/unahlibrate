@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "../../../modules/axios";
 import { Redirect } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ProfileUser } from "../../atoms";
@@ -13,6 +14,8 @@ import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
 import { updateUser } from '../../../services/User';
 import Swal from "sweetalert2";
+
+import { URL_POST_USER_CHANGE_IMAGE_PROFILE} from "../../../constants/urls";
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -29,6 +32,7 @@ const ActualizarPerfil = () => {
     Apellido: "",
     Correo: "",
     NumeroTelefono: "",
+    imagenPerfil: "",
     Ubicacion: "",
   });
   const [enableButton, setEnableButton] = useState(true);
@@ -40,6 +44,10 @@ const ActualizarPerfil = () => {
   const [isSigned, setIsSigned] = useState(null);
 
   //State para el error:
+
+  //State para recoger la imagen de perfil
+  const [selectFile,setSelectFile]=useState(null);
+
   const [error, handleError] = useState(false);
 
   //State para validacion del correo:
@@ -48,7 +56,7 @@ const ActualizarPerfil = () => {
   //Actualizado ya. Hook.
   const [updated, setUpdated] = useState(false);
 
-  var { id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, Ubicacion } =
+  var { id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, imagenPerfil, Ubicacion } =
     infoUser;
 
   const pedirDatos = async () => {
@@ -65,6 +73,7 @@ const ActualizarPerfil = () => {
         Apellido: rr.user.lastname,
         Correo: rr.user.email,
         NumeroTelefono: rr.user.phone,
+        imagenPerfil: rr.user.imageProfile,
         Ubicacion: rr.user.ubication,
       });
 
@@ -105,25 +114,65 @@ const ActualizarPerfil = () => {
     });
   };
 
+  const cargarImagen = (e) =>{
+    setSelectFile(e.target.files[0]);
+    console.log("estoy capturando el archivo de imagen");
+    console.log(selectFile);
+  }
+
   const submitUser = async (e) => {
     e.preventDefault();
 
     try {
-      var update = await updateUser(id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, Ubicacion);
 
-      if (update.status === 'success'){
+      var update = await updateUser(id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, imagenPerfil, Ubicacion);
+      
+      if(selectFile!==null){
+        
+        const formData = new FormData();
+
+        formData.append(
+          'file0',
+          selectFile,
+          selectFile.name
+        );
+
+        console.log("en esta parte del if");
+        axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id,formData)
+        .then(res=>{
+            if(res.data.user){
+                console.log("Se guardo la imagen");
+            }else{
+              Swal.fire({
+                icon: "warning",
+                title: "Error con la imagen de perfil",
+                text: "Error al al guardar la imagen de perfil"
+              })
+            }
+        });
+
+        console.log("Lariza");
+        console.log(formData);
+      }
+
+      if (update.status === 'success') {
+
         Swal.fire(
           "Actualizado",
           "Se ha actualizado el usuario exitosamente.",
           "success"
-        ).then(res => {
+        )
+        
+        .then(res => {
           console.log(update);
           //Actualizar el estado.
-          cookies.set('user', update.user.user, {path: '/'});
+          cookies.set('user', update.user.user, { path: '/' });
           setUpdated(true);
         })
           .catch(er => { console.log(er) });
       } else {
+        console.log(update);
+        
         Swal.fire({
           icon: "error",
           title: update.title,
@@ -165,14 +214,30 @@ const ActualizarPerfil = () => {
                   Actualizar Perfil
                 </span>
                 <div>
-                  <ProfileUser />
+                  {
+
+                    (imagenPerfil !== "") ? (
+                      <img src={"http://localhost:3900/api/" + 'get-image/' + imagenPerfil} alt={""} className="imageProfile" />
+                    ) : (
+                      <ProfileUser />
+                    )
+
+                  }
                 </div>
 
                 <center>
-                  <Upload>
+                  {/*<Upload>
                     <Button icon={<UploadOutlined />}>Cambiar Foto</Button>
-                  </Upload>
+                  </Upload>*/}
+
+                  <input 
+                      className="input100 inputImagenPerfil"
+                      type="file" 
+                      name="file0" 
+                      placeholder="Hola"
+                      onChange={cargarImagen} />
                 </center>
+
                 <div
                   className="wrap-input100 validate-input m-b-16"
                   data-validate="Password is required"

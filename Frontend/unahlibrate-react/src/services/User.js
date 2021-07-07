@@ -8,6 +8,7 @@ export const updateUser = async (
     lastname, 
     email,
     phone,
+    imageProfile,
     ubication
 ) => {
     const data = {
@@ -16,6 +17,7 @@ export const updateUser = async (
         lastname: lastname,
         email: email,
         phone: phone,
+        imageProfile: imageProfile,
         ubication: ubication
     };
     try {

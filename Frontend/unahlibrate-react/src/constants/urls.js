@@ -15,6 +15,7 @@ export const URL_PUT_USER_UPDATE = `${urlApi}/api/update-user/`;
 
 export const URL_PUT_USER_CHANGE_PASSWORD = `${urlApi}/api/change-password/`;
 
+export const URL_POST_USER_CHANGE_IMAGE_PROFILE = `${urlApi}/api/upload-image/`;
 
 
 //URL dinamicas
