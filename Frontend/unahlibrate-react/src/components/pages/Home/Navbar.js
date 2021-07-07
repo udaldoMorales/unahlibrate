@@ -123,7 +123,7 @@ function Navbar() {
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
       <Menu.Item>
-        <Link to="/actualizarPerfil" replace={false}>Actulizar perfil</Link>
+        <Link to="/actualizarPerfil" replace={false}>Actualizar perfil</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
     </Menu>
@@ -133,7 +133,7 @@ function Navbar() {
     <>
       <nav className="navbar">
         <div className="navbar-container">
-          <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
+          <Link to="/" className="navbar-logo logo" onClick={closeMobileMenu}>
             UNAHLibrate
           </Link>
           <div className="menu-icon" onClick={handleClick}>

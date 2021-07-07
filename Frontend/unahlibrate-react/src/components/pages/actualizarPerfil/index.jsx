@@ -204,7 +204,7 @@ const ActualizarPerfil = () => {
       <React.Fragment>
         <Navbar />
         <div className="limiter">
-          <div className="container-login100 imagenFondo">
+          <div className="container-login100 imagenFondo1">
             <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
               <form
                 className="login100-form validate-form btn"

@@ -177,7 +177,7 @@ const Formclv = ({ history }) => {
       <Navbar />
     <div className="limiter">
       <div className="container-login100 imagenFondo">
-        <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-200">
+        <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-201">
           <form className="login-form validate-form" onSubmit={cambiarContra}>
             <span className="login100-form-title p-b-21">Cambiar Contraseña</span>
             <div
