@@ -123,8 +123,9 @@ const Perfil = () => {
         <React.Fragment>
           <Navbar />
           <div className="limiter">
-            <div className=" justify-content-center imagenFondo">
-              <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
+          <div className="container-login100 imagenFondo">
+              <div className="wrap-login500 p-l-50 p-r-50 p-t-50 p-b-100">
+                
                 <form
                   onSubmit={actualizar}
                   className="login100-form validate-form btn"
@@ -146,126 +147,122 @@ const Perfil = () => {
                     }
                     {/**/}
                   </div>
-                  <br />
 
-                  <div
-                    className="wrap-input100  m-b-16"
-                  >
-                    <input
-                      className="input100"
-                      type="text"
-                      name="Usuario"
-                      placeholder="Usuario"
-                      value={`Usuario: ${data.usuario}`}
-                    />
-                    <span className="focus-input100"></span>
-                    <span className="symbol-input100">
-                      <span className="lnr lnr-user"></span>
-                    </span>
-                  </div>
+            <br />
 
-                  <div
-                    className="wrap-input100  m-b-16"
-                  >
-                    <input
-                      className="input100"
-                      type="text"
-                      name="Nombre"
-                      placeholder="Nombre"
-                      value={`Nombre: ${data.nombre}`}
-                    />
-                    <span className="focus-input100"></span>
-                    <span className="symbol-input100">
-                      <span className="lnr lnr-user"></span>
-                    </span>
-                  </div>
-
-                  <div
-                    className="wrap-input100  m-b-16"
-                  >
-                    <input
-                      className="input100"
-                      type="text"
-                      name="Apellido"
-                      placeholder="Apellido"
-                      value={`Apellido: ${data.apellido}`}
-                    />
-                    <span className="focus-input100"></span>
-                    <span className="symbol-input100">
-                      <span className="lnr lnr-user"></span>
-                    </span>
-                  </div>
-
-                  <div
-                    className="wrap-input100 m-b-16"
-
-                  >
-                    <input
-                      id="emailInput"
-                      className="input100"
-                      type="text"
-                      name="Correo"
-                      placeholder="Correo"
-                      value={`Correo: ${data.email}`}
-                    />
-                    <span className="focus-input100"></span>
-                    <span className="symbol-input100">
-                      <span className="lnr lnr-envelope"></span>
-                    </span>
-                  </div>
-
-                  <div
-                    className="wrap-input100 m-b-16"
-                  >
-                    <input
-                      id="emailInput"
-                      className="input100"
-                      type="text"
-                      name="NumeroTelefono"
-                      placeholder="Numero de Telefono"
-                      value={`Telefono: ${data.telefono}`}
-                    />
-                    <span className="focus-input100"></span>
-                    <span className="symbol-input100">
-                      <span className="lnr lnr-phone-handset"></span>
-                    </span>
-                  </div>
-
-                  <div
-                    className="wrap-input100 m-b-16"
-                  >
-                    <input
-                      id="emailInput"
-                      className="input100"
-                      type="text"
-                      name="Ubicacion"
-                      placeholder="Ubicacion"
-                      value={`Ubicación: ${data.ubicacion}`}
-                    />
-                    <span className="focus-input100"></span>
-                    <span className="symbol-input100">
-                      <span className="lnr lnr-map-marker"></span>
-                    </span>
-                  </div>
-
-                  <button type="submit" className="login100-form-btn">
-                    Editar information
-                  </button>
-
-                </form>
-              </div>
+            <div
+              className="wrap-input100  m-b-16"
+            >
+              <input
+                className="row mt-4"
+                className="col-md-5 col-sm-6 p-r-0 p-l-0"
+                className="lnr lnr-user txt-info icon-info"
+                type="text"
+                name="Usuario"
+                placeholder="Usuario"
+                value={`Usuario: ${data.usuario}`}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <span className="lnr lnr-user"></span>
+              </span>
             </div>
-          </div>
-        </React.Fragment>
-      );
+
+            <div
+              className="wrap-input100  m-b-16"
+            >
+              <input
+                className="col-md-7 col-sm-6"
+                className="lnr lnr-user txt-info icon-info"
+                type="txt.info"
+                
+                value={`${data.nombre+ " " + data.apellido}`}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <span className="lnr lnr-user"></span>
+              </span>
+            </div>
+
+            <div
+              className="wrap-input100 m-b-16"
+    
+            >
+              <input
+                id="emailInput"
+                className="input100"
+                className="row mt-4"
+                className="col-md-5 col-sm-6 p-r-0 p-l-0"
+                className="lnr lnr-envelope txt-info icon-info"
+                type="text"
+                name="Correo"
+                placeholder="Correo"
+                value={`${data.email}`}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <span className="lnr lnr-envelope"></span>
+              </span>
+            </div>
+
+            <div
+              className="wrap-input100 m-b-16"
+            >
+              <input
+                id="emailInput"
+                className="input100"
+                className="row mt-4"
+                className="col-md-5 col-sm-6 p-r-0 p-l-0"
+                className="lnr lnr-envelope txt-info icon-info"
+                type="text"
+                name="NumeroTelefono"
+                placeholder="Numero de Telefono"
+                value={`${data.telefono}`}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <span className="lnr lnr-phone-handset"></span>
+              </span>
+            </div>
+            
+            <div
+              className="wrap-input100 m-b-16"
+            >
+              <input
+                id="emailInput"
+                className="input100"
+                className="row mt-4"
+                className="col-md-5 col-sm-6 p-r-0 p-l-0"
+                className="lnr lnr-envelope txt-info icon-info"
+                type="text"
+                name="Ubicacion"
+               
+                value={`${data.ubicacion}`}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <span className="lnr lnr-map-marker"></span>
+              </span>
+            </div>
+            
+            <button type="submit" className="login100-form-btn">
+                  Editar information
+                </button>
+                </form>
+            </div>
+            </div>
+       </div>
+  
+    </React.Fragment>
+     );
     } else {
       return (
-        <React.Fragment>
-          <Navbar />
-        </React.Fragment>
+      <React.Fragment>
+      <Navbar />
+      </React.Fragment>
       );
     }
-  }
+    }
 
 }
 
