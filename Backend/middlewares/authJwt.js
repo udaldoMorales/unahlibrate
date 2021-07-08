@@ -25,6 +25,8 @@ verifyToken = (req, res, next) => {
      				message: 'El token ha expirado.'
      			});
      		} else {
+                    var f = new Date();
+                    console.log('Error + ', f);
      			console.log(err);
 	     		return res.status(401).send({
 	     			status: 'error',

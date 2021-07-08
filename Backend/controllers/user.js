@@ -117,6 +117,13 @@ var controller = {
         var userName = request.params.nick;
         console.log(userName);
 
+        if (userName === 'undefined'){
+            return response.status(404).send({
+                status: 'failed',
+                message: 'No se ha enviado ningún nombre.'
+            });
+        }
+
         user.find({ user: userName }, (error, foundUser) => {
             if (error || !foundUser || foundUser == undefined) {
                 console.log(error);
@@ -325,6 +332,7 @@ var controller = {
             message: 'Acceso concedido al contenido.'
         });
         */
+        console.log('Se llegó al userPanel');
         return response.status(200).send({
             status: 'success',
             message: 'Tienes acceso, es permitido.',
