@@ -10,6 +10,24 @@
   z-index: 999;
 }
 
+#logounahlibrate{
+  margin-bottom: 15px;
+}
+
+#userButton {
+    margin-left: 60vw;
+    margin-top: -17px;
+    border: 1px solid var(--primary);
+    border-radius: 2px;
+}
+
+#userButton:hover {
+  transition: all 0.3s ease-out;
+  background: #fff;
+  color: #179;
+  transition: 250ms;
+}
+
 .navbar-container {
   display: flex;
   justify-content: center;

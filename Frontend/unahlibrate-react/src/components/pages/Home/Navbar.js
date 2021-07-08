@@ -59,6 +59,10 @@ function Navbar() {
 
       console.log(1);
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
+      console.log('Viene de peticionUsuarioLoggeado');
+      console.log(cookies.get('auth'));
+      console.log(cookies.get('refreshToken'));
+      console.log(response);
       setAllow(response);
       setIsSigned(response.status);
 
@@ -135,13 +139,14 @@ function Navbar() {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/" className="navbar-logo logo" onClick={closeMobileMenu}>
-            UNAHLibrate
+            {/*UNAHLibrate*/}
+            <img id='logounahlibrate' src='/images/Logo.png' height={35}/>
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
           </div>
 
-          {!isSigned && (
+          {(isSigned == false || user == undefined) && (
             <ul className={click ? "nav-menu active" : "nav-menu"}>
               <li className="nav-item">
                 <Link to="/" className="nav-links" onClick={closeMobileMenu}>
@@ -167,6 +172,7 @@ function Navbar() {
                 </Link>
               </li>
 
+              {/*
               <li>
                 <Link
                   to="/login"
@@ -176,6 +182,7 @@ function Navbar() {
                   Login
                 </Link>
               </li>
+              */}
             </ul>
           )}
 
@@ -183,13 +190,13 @@ function Navbar() {
             <Button onClick={'/login'} buttonStyle="btn--outline">Login</Button>
           )}
 
-          {button && isSigned == true && (
+          {button && isSigned == true && user != undefined && (
             <Dropdown
-              classNamee="btn--outline"
+              className="btn--outline"
               overlay={menu}
               placement="bottomLeft"
             >
-              <Buttonand className="btn-options-full">{user.user}</Buttonand>
+              <button id='userButton'>{user.user}</button>
             </Dropdown>
           )}
         </div>
@@ -197,5 +204,8 @@ function Navbar() {
     </>
   );
 }
+
+{/*<button id='userButton'>{user.user}</button>*/}
+{/*<Buttonand className="btn-options-full">{user.user}</Buttonand>*/}
 
 export default Navbar;

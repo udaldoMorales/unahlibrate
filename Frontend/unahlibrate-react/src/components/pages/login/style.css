@@ -2,7 +2,8 @@
     margin: 0;
     padding: 0;
   }
-  
+
+/*  
   body {
     height: 100vh;
     display: flex;
@@ -10,7 +11,7 @@
     align-items: center;
     background-color: #9ad1ed;
   }
-  
+*/  
   #normal_login {
     margin-top: 150px;
     background-color: cadetblue;
@@ -64,5 +65,11 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 25px;
+  }
+
+  #logounahlibrate-azul{
+    padding-left: 58px;
+    align-items: center;
+    margin-bottom: 20px;
   }
   

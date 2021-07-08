@@ -19,7 +19,8 @@ function Footer() {
         <div className='social-media-wrap'>
           <div className='footer-logo'>
             <Link to='/' className='social-logo'>
-              UNAHLibrate
+              {/*UNAHLibrate*/}
+              <img id='logounahlibrate-footer' src='/images/Logo.png' height={35}/>
               <i className='fab fa-typo4' />
             </Link>
           </div>

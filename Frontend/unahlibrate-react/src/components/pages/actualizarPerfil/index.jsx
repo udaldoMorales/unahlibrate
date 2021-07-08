@@ -231,10 +231,9 @@ const ActualizarPerfil = () => {
                   </Upload>*/}
 
                   <input 
-                      className="input100 inputImagenPerfil"
+                      className="inputImagenPerfil"
                       type="file" 
-                      name="file0" 
-                      placeholder="Hola"
+                      name="file0"
                       onChange={cargarImagen} />
                 </center>
 

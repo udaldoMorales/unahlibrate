@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/FormLog.css";
 import "../../../styles/util.css";
+import './style.css'
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import { registerNormalUser } from "../../../services/Register";
@@ -148,9 +149,9 @@ const FormUser = ({ history }) => {
       <div className="container-login100 imgFormRegUs">
         <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
           <form className="login100-form validate-form" onSubmit={submitUser}>
-            <span className="login100-form-title p-b-35">Registro</span>
-            <p className='text-center w-full'>No te quedes con las ganas, únete.</p>
-            <p className='text-center w-full p-b-25'>Solo requerimos estos pequeños datos tuyos:</p>
+            <img id='logounahlibrate-azul-registro' className='center' src='/images/Logo-175ca8.png' height={35}/>
+            <span className="login100-form-title p-b-10">Registro</span>
+            <p className='text-center w-full p-b-20'>No te quedes con las ganas, únete. Solo requerimos estos pequeños datos tuyos:</p>
 
             <div
               className="wrap-input100 validate-input m-b-16"

@@ -124,7 +124,7 @@ const Perfil = () => {
           <Navbar />
           <div className="limiter">
           <div className="container-login100 imagenFondo">
-              <div className="wrap-login500 p-l-50 p-r-50 p-t-50 p-b-100">
+              <div className="wrap-login500 p-l-50 p-r-50 p-t-50 p-b-50">
                 
                 <form
                   onSubmit={actualizar}

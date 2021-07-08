@@ -10,10 +10,11 @@ export const esUsuario = async (cookie, refreshCookie) => {
 
 	try {
 
-		console.log(cookie);
-		console.log(refreshCookie);
+		console.log(`Cookie: ${cookie}`);
+		console.log(`RefreshCookie: ${refreshCookie}`);
 		var peticionToken = await axios.get(URL_GET_USER_ACCESS, { headers: {'Authorization': `Bearer ${cookie}`} })
 		
+    console.log(peticionToken.status);
 		responseTo = peticionToken.data;
 		console.log('Aquí hay resultado positivo, el token es correcto:');
 		console.log(responseTo);
@@ -79,6 +80,11 @@ export const peticionDatoUsuario = async (userName) => {
     } catch (err) {
         let {response} = err;
         console.log(response);
+        if (response.status === 404 && response.data.status === 'failed'){
+          return ({
+            user: undefined
+          })
+        }
     }
 }
 

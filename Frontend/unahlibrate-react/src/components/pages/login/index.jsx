@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import './style.css'
 import "../../../styles/FormLog.css";
 import "../../../styles/util.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
@@ -130,7 +131,7 @@ const FormLog = ({ history }) => {
       <div className="container-login100 bkgImgLogIn">
         <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-30">
           <form className="login-form validate-form" onSubmit={submitUser}>
-            <span className="login100-form-title p-b-20">UNAHLibrate</span>
+            <img id='logounahlibrate-azul' className='center' src='/images/Logo-175ca8.png' height={35}/>
             <p className='text-center w-full p-b-25'>Bienvenido a esta comunidad en crecimiento.</p>
 
             <div
