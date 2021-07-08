@@ -1,0 +1,29 @@
+#logounahlibrate-azul-about{
+    padding-left: 135px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#lista{
+    padding-left: 0px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.idLista.letra{
+    float: left;
+    margin-left: 6px;
+}
+.idLista{
+    float: left;
+}
+
+.clearfix{
+    clear: both;
+}
+
+.centerList{
+    width: 9rem;
+    margin: 0px auto;
+}

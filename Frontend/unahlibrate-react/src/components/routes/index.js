@@ -18,6 +18,7 @@ const Routes = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/registro" component={Registro} />
         <Route exact path="/" component={Home} />
+        <Route exact path="/aboutus"  render={() => {<React.Fragment><p>Esta es una prueba.</p></React.Fragment>}} />
       </Switch>
     </Router>
   );

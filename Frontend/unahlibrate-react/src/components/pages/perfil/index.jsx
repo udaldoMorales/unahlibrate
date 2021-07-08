@@ -8,7 +8,7 @@ import { Upload, message, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import "../../../styles/FormLog.css";
 import "../../../styles/util.css";
-import "./style.css";
+import "./Perfil.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
@@ -124,12 +124,8 @@ const Perfil = () => {
           <Navbar />
           <div className="limiter">
           <div className="container-login100 imagenFondo">
-              <div className="wrap-login500 p-l-50 p-r-50 p-t-50 p-b-50">
+              <div className="wrap-login500perf p-l-30 p-r-30 p-t-50">
                 
-                <form
-                  onSubmit={actualizar}
-                  className="login100-form validate-form btn"
-                >
                   <span className="login100-form-title p-b-34">
                     Perfil de Usuario
                   </span>
@@ -139,7 +135,9 @@ const Perfil = () => {
                     {
 
                     ( data.imagenPerfil !== "")? (
+                      <div className='centerImage'>
                       <img src={"http://localhost:3900/api/" + 'get-image/' + data.imagenPerfil} alt={""} className="imageProfile"/>
+                      </div>
                     ) : (
                       <ProfileUser /> 
                     )
@@ -150,108 +148,103 @@ const Perfil = () => {
 
             <br />
 
-            <div
-              className="wrap-input100  m-b-16"
-            >
-              <input
-                className="row mt-4"
-                className="col-md-5 col-sm-6 p-r-0 p-l-0"
-                className="lnr lnr-user txt-info icon-info"
-                type="text"
-                name="Usuario"
-                placeholder="Usuario"
-                value={`Usuario: ${data.usuario}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-user"></span>
-              </span>
-            </div>
+            <ul id='lista' className='p-b-30'>
+                    <div className='centerListPerf'>
+                    <li>
 
-            <div
-              className="wrap-input100  m-b-16"
-            >
-              <input
-                className="col-md-7 col-sm-6"
-                className="lnr lnr-user txt-info icon-info"
-                type="txt.info"
-                
-                value={`${data.nombre+ " " + data.apellido}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-user"></span>
-              </span>
-            </div>
+                      <h4 className='idLista'>
+                        <i className="lnr lnr-user"></i>
+                      </h4>
+                      <p className='idLista letra'>
+                        <b>{data.usuario}</b>
+                      </p>
+                      
+                      <div className='clearFix'></div>
+                      
+                      <br/>
+                      <br/>
 
-            <div
-              className="wrap-input100 m-b-16"
-    
-            >
-              <input
-                id="emailInput"
-                className="input100"
-                className="row mt-4"
-                className="col-md-5 col-sm-6 p-r-0 p-l-0"
-                className="lnr lnr-envelope txt-info icon-info"
-                type="text"
-                name="Correo"
-                placeholder="Correo"
-                value={`${data.email}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-envelope"></span>
-              </span>
-            </div>
+                    </li>
+                    <li>
 
-            <div
-              className="wrap-input100 m-b-16"
-            >
-              <input
-                id="emailInput"
-                className="input100"
-                className="row mt-4"
-                className="col-md-5 col-sm-6 p-r-0 p-l-0"
-                className="lnr lnr-envelope txt-info icon-info"
-                type="text"
-                name="NumeroTelefono"
-                placeholder="Numero de Telefono"
-                value={`${data.telefono}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-phone-handset"></span>
-              </span>
-            </div>
-            
-            <div
-              className="wrap-input100 m-b-16"
-            >
-              <input
-                id="emailInput"
-                className="input100"
-                className="row mt-4"
-                className="col-md-5 col-sm-6 p-r-0 p-l-0"
-                className="lnr lnr-envelope txt-info icon-info"
-                type="text"
-                name="Ubicacion"
-               
-                value={`${data.ubicacion}`}
-              />
-              <span className="focus-input100"></span>
-              <span className="symbol-input100">
-                <span className="lnr lnr-map-marker"></span>
-              </span>
-            </div>
-            
-            <button type="submit" className="login100-form-btn">
-                  Editar information
-                </button>
-                </form>
-            </div>
-            </div>
+                      <h4 className='idLista'>
+                        <i className="lnr lnr-user"></i>
+                      </h4>
+                      <p className='idLista letra'>
+                        {`${data.nombre} ${data.apellido}`}
+                      </p>
+
+                      <br/>
+                      <br/>
+
+                      <div className='clearFix'></div>
+
+                    </li>
+                    <li>
+
+                      <h4 className='idLista'>
+                        <i className="lnr lnr-envelope"></i>
+                      </h4>
+                      <p className='idLista letra'>
+                        {data.email}
+                      </p>
+
+                      <br/>
+                      <br/>
+                      <div className='clearFix'></div>
+
+                    </li>
+                    <li>
+
+                      <h4 className='idLista'>
+                        <i className="lnr lnr-phone-handset"></i>
+                      </h4>
+                      <p className='idLista letra'>
+                        {data.telefono != '' &&
+                          data.telefono
+                        }
+                        {data.telefono == '' &&
+                          `Sin teléfono`
+                        }
+                      </p>
+                      <br/>
+                      <br/>
+                      <div className='clearFix'></div>
+
+                    </li>
+                    <li>
+
+                      <h4 className='idLista'>
+                        <i className="lnr lnr-map-marker"></i>
+                      </h4>
+                      <p className='idLista letra'>
+                        {data.ubicacion != '' &&
+                          data.ubicacion
+                        }
+                        {data.ubicacion == '' &&
+                          `Sin dirección`
+                        }
+                      </p>
+
+                      <br/>
+                      <br/>
+                      <div className='clearFix'></div>
+
+                    </li>
+                    </div>
+                  </ul>
        </div>
+       <div className="wrap-login200perf p-l-30 p-r-30 p-t-30 p-b-30">
+            <h1 className="login100-form-title">
+              Tus libros publicados
+            </h1>
+            <span>
+            <h5 className='text-center'>Esta es tu lista de libros</h5>
+            </span>
+       </div>
+            </div>
+            </div>
+
   
     </React.Fragment>
      );

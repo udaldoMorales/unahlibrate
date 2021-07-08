@@ -122,71 +122,83 @@ const ActualizarPerfil = () => {
 
   const submitUser = async (e) => {
     e.preventDefault();
+    var logAntesdePedir = isSigned;
 
-    try {
+    pedirLogg();
 
-      var update = await updateUser(id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, imagenPerfil, Ubicacion);
-      
-      if(selectFile!==null){
+    var logDespuesdePedir = isSigned;
+
+    if (logAntesdePedir == logDespuesdePedir){
+        try {
+
+        var update = await updateUser(id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, imagenPerfil, Ubicacion);
         
-        const formData = new FormData();
+        if(selectFile!==null){
+          
+          const formData = new FormData();
 
-        formData.append(
-          'file0',
-          selectFile,
-          selectFile.name
-        );
+          formData.append(
+            'file0',
+            selectFile,
+            selectFile.name
+          );
 
-        console.log("en esta parte del if");
-        axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id,formData)
-        .then(res=>{
-            if(res.data.user){
-                console.log("Se guardo la imagen");
-            }else{
-              Swal.fire({
-                icon: "warning",
-                title: "Error con la imagen de perfil",
-                text: "Error al al guardar la imagen de perfil"
-              })
-            }
-        });
+          console.log("en esta parte del if");
+          axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id,formData)
+          .then(res=>{
+              if(res.data.user){
+                  console.log("Se guardo la imagen");
+              }else{
+                Swal.fire({
+                  icon: "warning",
+                  title: "Error con la imagen de perfil",
+                  text: "Error al al guardar la imagen de perfil"
+                })
+              }
+          });
 
-        console.log("Lariza");
-        console.log(formData);
-      }
+          console.log("Lariza");
+          console.log(formData);
+        }
 
-      if (update.status === 'success') {
+        if (update.status === 'success') {
 
-        Swal.fire(
-          "Actualizado",
-          "Se ha actualizado el usuario exitosamente.",
-          "success"
-        )
-        
-        .then(res => {
+          Swal.fire(
+            "Actualizado",
+            "Se ha actualizado el usuario exitosamente.",
+            "success"
+          )
+          
+          .then(res => {
+            console.log(update);
+            //Actualizar el estado.
+            cookies.set('user', update.user.user, { path: '/' });
+            setUpdated(true);
+          })
+            .catch(er => { console.log(er) });
+        } else {
           console.log(update);
-          //Actualizar el estado.
-          cookies.set('user', update.user.user, { path: '/' });
-          setUpdated(true);
-        })
-          .catch(er => { console.log(er) });
-      } else {
-        console.log(update);
-        
+          
+          Swal.fire({
+            icon: "error",
+            title: update.title,
+            text: update.text
+          })
+        }
+      }
+       catch (err) {
         Swal.fire({
           icon: "error",
-          title: update.title,
-          text: update.text
-        })
+          title: err.title,
+          text: err.text
+        });
       }
-
-
-    } catch (err) {
+    } else {
+      console.log(isSigned);
       Swal.fire({
-        icon: "error",
-        title: err.title,
-        text: err.text
-      });
+          icon: "error",
+          title: 'Sesión acabada'
+        });
     }
   };
 
