@@ -139,7 +139,9 @@ const Perfil = () => {
                       <img src={"http://localhost:3900/api/" + 'get-image/' + data.imagenPerfil} alt={""} className="imageProfile"/>
                       </div>
                     ) : (
-                      <ProfileUser /> 
+                      <div className='centerImage'>
+                      <ProfileUser />
+                      </div>
                     )
                     
                     }
