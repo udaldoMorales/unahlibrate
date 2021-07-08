@@ -44,6 +44,8 @@ function Navbar() {
     try {
       console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
+      console.log('Response');
+      console.log(rr);
       setUser(rr.user);
     } catch (err) {
         console.log(err);
@@ -59,7 +61,6 @@ function Navbar() {
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
       setAllow(response);
       setIsSigned(response.status);
-      console.log("Me ejecuté.")
 
     } catch (err) {
       console.log(err);
@@ -101,9 +102,6 @@ function Navbar() {
       });
     */
 
-    console.log('isSigned en el useEffect');
-    console.log(isSigned);
-
     showButton();
   }, [isSigned]);
 
@@ -112,13 +110,6 @@ function Navbar() {
   const menu = (
     <Menu>
       <Menu.Item>
-        <Link to="/formclv" replace={false}>Actualizar Contraseña</Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/" replace={false} onClick={cerrarSesionActual}>Cerrar Sesión</Link>
-        {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
-      </Menu.Item>
-      <Menu.Item>
         <Link to="/perfil" replace={false} >Mi perfil</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
@@ -126,9 +117,19 @@ function Navbar() {
         <Link to="/actualizarPerfil" replace={false}>Actualizar perfil</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
+      <Menu.Item>
+        <Link to="/formclv" replace={false}>Actualizar Contraseña</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/" replace={false} onClick={cerrarSesionActual}>Cerrar Sesión</Link>
+        {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
+      </Menu.Item>
     </Menu>
   );
-
+  console.log('user:');
+  console.log(user);
+  console.log('isSigned');
+  console.log(isSigned);
   return (
     <>
       <nav className="navbar">
@@ -178,8 +179,8 @@ function Navbar() {
             </ul>
           )}
 
-          {button && isSigned == false  && (
-            <Button buttonStyle="btn--outline">Login</Button>
+          {button && (isSigned == false || user == undefined) && (
+            <Button onClick={'/login'} buttonStyle="btn--outline">Login</Button>
           )}
 
           {button && isSigned == true && (

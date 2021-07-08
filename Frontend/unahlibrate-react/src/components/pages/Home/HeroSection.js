@@ -14,6 +14,7 @@ function HeroSection() {
           className='btns'
           buttonStyle='btn--outline'
           buttonSize='btn--large'
+          onClick={'/registro'}
         >
           REGISTRATE
         </Button>
@@ -21,9 +22,9 @@ function HeroSection() {
           className='btns'
           buttonStyle='btn--primary'
           buttonSize='btn--large'
-          onClick={console.log('hey')}
+          onClick={'/videos/Trailer.mp4'}
         >
-          WATCH TRAILER <i className='far fa-play-circle' />
+          MIRA EL TRAILER <i className='far fa-play-circle' />
         </Button>
       </div>
     </div>

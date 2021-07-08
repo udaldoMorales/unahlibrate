@@ -31,8 +31,11 @@ export const Button = ({
 
   const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0];
 
+  var abrirNuevaPestana
+  onClick.includes('/videos') ? abrirNuevaPestana = "_blank" : abrirNuevaPestana = '';
+
   return (
-    <Link to='/login' className='btn-mobile'>
+    <Link to={onClick} target={abrirNuevaPestana} className='btn-mobile'>
       <button
         className={`btn ${checkButtonStyle} ${checkButtonSize}`}
         onClick={onClick}
@@ -41,5 +44,6 @@ export const Button = ({
         {children}
       </button>
     </Link>
-  );
+  );  
+
 };
