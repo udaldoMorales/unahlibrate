@@ -176,7 +176,7 @@ function Navbar() {
               <li>
                 <Link
                   to="/login"
-                  className="nav-links-mobile"
+                  className="nav-links"
                   onClick={closeMobileMenu}
                 >
                   Login
@@ -189,6 +189,28 @@ function Navbar() {
           {button && (isSigned == false || user == undefined) && (
             <Button onClick={'/login'} buttonStyle="btn--outline">Login</Button>
           )}
+
+          {(isSigned == true && user != undefined) && (
+
+            <ul className={click ? "nav-menu active" : "nav-menu"}>
+              <li className="nav-item">
+                <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                  Home
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/about"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+                >
+                  Acerca de Nosotros
+                </Link>
+              </li>
+             </ul>            
+
+            )
+          }
 
           {button && isSigned == true && user != undefined && (
             <Dropdown

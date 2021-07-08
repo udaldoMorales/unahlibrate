@@ -15,8 +15,8 @@
 }
 
 #userButton {
-    margin-left: 60vw;
     margin-top: -17px;
+    font-size: 18px;
     border: 1px solid var(--primary);
     border-radius: 2px;
 }
