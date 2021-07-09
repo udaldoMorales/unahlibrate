@@ -51,6 +51,10 @@
     text-align: center;
 
     margin: 0px auto;
+    border: 5px solid #179;
+    width: 260px;
+    height: 260px;
+    border-radius: 5px;
 }
 
 .wrap-login500perf {

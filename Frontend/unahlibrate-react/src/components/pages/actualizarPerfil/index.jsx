@@ -225,7 +225,7 @@ const ActualizarPerfil = () => {
                 <span className="login100-form-title p-b-34">
                   Actualizar Perfil
                 </span>
-                <div>
+                <div className="centerImage">
                   {
 
                     (imagenPerfil !== "") ? (

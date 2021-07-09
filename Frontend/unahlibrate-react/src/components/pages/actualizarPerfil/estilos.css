@@ -13,6 +13,17 @@
     margin-top: 10px;
 }
 
+
+.centerImage{
+    text-align: center;
+
+    margin: 0px auto;
+    border: 5px solid #179;
+    width: 260px;
+    height: 260px;
+    border-radius: 5px;
+}
+
 .ant-upload-list-text-container, .ant-upload-list-picture-container {
     transition: opacity 0.3s, height 0.3s;
     margin-bottom: 20px;
