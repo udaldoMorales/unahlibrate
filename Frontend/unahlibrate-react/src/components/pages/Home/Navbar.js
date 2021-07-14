@@ -128,6 +128,9 @@ function Navbar() {
         <Link to="/" replace={false} onClick={cerrarSesionActual}>Cerrar Sesión</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
+      <Menu.Item>
+      <Link to="/agregarLibro" replace={false}>Agregar Libros</Link>
+    </Menu.Item>
     </Menu>
   );
   console.log('user:');

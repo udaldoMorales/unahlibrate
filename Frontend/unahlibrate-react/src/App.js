@@ -3,7 +3,7 @@ import "./App.css";
 import Routes from "./components/routes";
 import Navbar from "./components/pages/Home/Navbar";
 import { Login } from "./components/pages";
-import { Registro, ActualizarPerfil, Formclv } from "./components/pages";
+import { Registro, ActualizarPerfil, Formclv, Agregarlibro} from "./components/pages";
 import Home from "./components/pages/Home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Perfil } from "./components/pages";
@@ -20,6 +20,7 @@ function App() {
         <Route path="/actualizarPerfil" component={ActualizarPerfil} />
         <Route path="/Formclv" component={Formclv} />
         <Route path="/perfil" component={Perfil}/>
+        <Route path="/agregarLibro" component={Agregarlibro}/>
         <Route path="/about"  component={AboutUs} />
       </Switch>
     </Router>
