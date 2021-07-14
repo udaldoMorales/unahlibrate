@@ -94,7 +94,7 @@ const AgregarLibro = () => {
            <div className="row mb-3">
            <div className="col-md-6">
              <div className="form-group">
-               <label className="form-weight-bold mb-2">Edicion</label>
+               <label className="form-weight-bold mb-2">Edición</label>
                <input
                  type="text"
                  className="form-control"
@@ -106,7 +106,7 @@ const AgregarLibro = () => {
            </div>
            <div className="col-md-6">
                <div className="form-group">
-                 <label className="form-weight-bold  mb-2">Genero</label>
+                 <label className="form-weight-bold  mb-2">Género</label>
                  <input
                    type="text"
                    className="form-control"
@@ -117,7 +117,7 @@ const AgregarLibro = () => {
                </div>
              </div> 
          </div>
-         <label className=" mb-2" for="">Estados</label>
+         <label className=" mb-2" for="">Estado</label>
        
          <div className="row mb-3">
          <div className="col-md-6">
@@ -139,7 +139,7 @@ const AgregarLibro = () => {
          </div>
          <div className="form-group mb-5">
          <div className="mb-3">
-           <label className="form-weight-bold mb-2">Descripcion</label>
+           <label className="form-weight-bold mb-2">Descripción</label>
            <textarea className="form-control" value={Descripcion} onChange ={handleInputChange} id="exampleFormControlTextarea1"   name="Descripcion" rows="3" 
            ></textarea>
          </div>
