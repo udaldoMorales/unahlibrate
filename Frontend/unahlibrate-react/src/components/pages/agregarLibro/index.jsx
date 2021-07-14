@@ -1,5 +1,6 @@
+import React,{useState} from 'react';
+import { Redirect } from 'react-router-dom';
 import { Divider } from "antd";
-import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,7 +10,29 @@ import "./style.css";
 import libro from '../../../img/library.svg'
 
 
-const agregarLibro = () => {
+const AgregarLibro = () => {
+
+  const[datos, setDatos] = useState({
+
+    Nombre:"",
+    Autor:"",
+    Edicion:"",
+    Genero:"",
+    Descripcion:"",
+  })
+  const{Nombre,Autor,Edicion,Genero,Descripcion} =datos;
+
+  const handleInputChange = (e) =>{
+    setDatos({
+      ...datos,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  
+  
+ 
+
     return (
         <React.Fragment>
         <Navbar />
@@ -45,7 +68,9 @@ const agregarLibro = () => {
            <input
              type="text"
              className="form-control"
-            
+             name="Nombre"
+             onChange ={handleInputChange}
+             value={Nombre}
            />
          </div>
            
@@ -56,7 +81,9 @@ const agregarLibro = () => {
              <input
                type="text"
                className="form-control"
-         
+               name="Autor"
+               onChange ={handleInputChange}
+               value={Autor}
              />
            </div>
          </div>
@@ -71,7 +98,9 @@ const agregarLibro = () => {
                <input
                  type="text"
                  className="form-control"
-             
+                 name="Edicion"
+                 onChange ={handleInputChange}
+                 value={Edicion}
                />
              </div>
            </div>
@@ -81,7 +110,9 @@ const agregarLibro = () => {
                  <input
                    type="text"
                    className="form-control"
-              
+                   name="Genero"
+                   onChange ={handleInputChange}
+                   value={Genero}
                  />
                </div>
              </div> 
@@ -92,15 +123,15 @@ const agregarLibro = () => {
          <div className="col-md-6">
          <div className="form-group">
            <div className="form-check form-check-inline">
-             <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-             <label className="form-check-label" for="inlineRadio1">Usando</label>
+             <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"  onChange ={handleInputChange} />
+             <label className="form-check-label" for="inlineRadio1">Usado</label>
            </div>
          </div>
        </div>
        <div className="col-md-6">
        <div className="form-group">
          <div className="form-check form-check-inline">
-           <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"/>
+           <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"  onChange ={handleInputChange}/>
            <label className="form-check-label" for="inlineRadio2">Nuevo</label>
          </div>
        </div>
@@ -109,7 +140,8 @@ const agregarLibro = () => {
          <div className="form-group mb-5">
          <div className="mb-3">
            <label className="form-weight-bold mb-2">Descripcion</label>
-           <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+           <textarea className="form-control" value={Descripcion} onChange ={handleInputChange} id="exampleFormControlTextarea1"   name="Descripcion" rows="3" 
+           ></textarea>
          </div>
        </div>
        <center>
@@ -127,4 +159,4 @@ const agregarLibro = () => {
     )
 };
 
-export default agregarLibro;
+export default AgregarLibro;
