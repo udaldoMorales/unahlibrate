@@ -4,33 +4,33 @@ const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var BookSchema = Schema({
-    
+
     title: String,
-    autor:[],//String,
-    date:{type:Date,default:Date.now},
+    autor: [],//String,
+    date: { type: Date, default: Date.now },
     edition: String,
-    condition:{
-        type:String
+    condition: {
+        type: String
     },
     description: String,
-    genre: String,
+    genre: [],
     user: { //Esta campo hace referencia al usuario al que pertenece el libro, es decir, que publico el libro
-        type:Schema.ObjectId,
+        type: Schema.ObjectId,
         ref: "User"
     },
-    image:{
+    image: {
         type: String,
-        default:''
+        default: ''
     },
     sold: {
         type: Boolean,
-        default:false
-    } 
-    
+        default: false
+    },
+    deleted: {
+        type: Boolean,
+        default: false
+    },
+    labels:[] //Este campo sirve para buscar, es como un #hashtag
 });
-
-
-
-
 
 module.exports = mongoose.model('Book', BookSchema);

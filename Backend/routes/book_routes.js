@@ -17,7 +17,8 @@ router.get('/books-user/:id',BookController.getBooksUser);
 router.post('/upload-book-image/:id',md_upload,BookController.uploadImageBook);
 router.get('/get-book-image/:image',BookController.getImageBook);
 router.get('/search-books/:search',BookController.searchBooks);
-
+router.post('/delete-book/:id',BookController.deleteBook);
+router.put('/update-book/:id', BookController.updateBook);
 
 
 

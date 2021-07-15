@@ -38,10 +38,10 @@ var controller = {
         });
     },
 
-    //2. Obtener todos lo libros de la base
+    //2. Obtener todos los libros de la base
     getBooks: (request, response) => {
 
-        book.find({}).sort('-date').exec((err, books) => {
+        book.find({ deleted: 'false' }).sort('-date').exec((err, books) => {
             if (err) {
                 return response.status(400).send({
                     status: 'error',
@@ -78,12 +78,12 @@ var controller = {
             }
         });
     },
-    //4. Obtener libros de un determinado usuario
+    //4. Obtener libros disponibles de un determinado usuario
     getBooksUser: (request, response) => {
 
         var userID = request.params.id;
 
-        book.find({ user: userID }).sort('-date').exec((err, books) => {
+        book.find({ user: userID, deleted: 'false' }).sort('-date').exec((err, books) => {
             if (err) {
                 return response.status(400).send({
                     status: 'error',
@@ -187,17 +187,17 @@ var controller = {
                     "description": { "$regex": valueToSearch, "$options": "i" }
                 }
             ]
-        }).sort([['date','descending']]).exec((err,books)=>{
-            if(err){
+        }).sort([['date', 'descending']]).exec((err, books) => {
+            if (err) {
                 return response.status(500).send({
                     status: 'error',
-                    message:'error en la peticion'
+                    message: 'error en la peticion'
                 });
             }
-            if(!books || books.length<=0){
+            if (!books || books.length <= 0) {
                 return response.status(404).send({
                     status: 'error',
-                    message:'no hay libros para mostrar con esa busqueda'
+                    message: 'no hay libros para mostrar con esa busqueda'
                 });
             }
             return response.status(200).send({
@@ -205,7 +205,58 @@ var controller = {
                 books
             });
         });
+    },
+    //8. Eliminar un libro de manera logica por el ID
+    deleteBook: (request, response) => {
+        var bookID = request.params.id;
+
+        book.findOneAndUpdate({ _id: bookID }, { deleted: true }, { new: true }, (err, deletedBook) => {
+            if (err || !deletedBook) {
+                return response.status(404).send({
+                    status: 'error',
+                    message: "El libro no ha podido eliminar."
+                });
+            } else {
+                return response.status(200).send({
+                    status: 'success',
+                    book: deletedBook
+                })
+            }
+        });
+    },
+
+    //9. Actualizar un libro por su ID
+    updateBook:(request,response)=>{
+        var bookID= request.params.id;
+
+        var params = request.body;
+
+        console.log(params);
+        //Validar los datos
+
+        book.findOneAndUpdate({_id:bookID},params,{new:true},(err,updatedBook)=>{
+            if (err) {
+                return response.status(500).send({
+                    status: 'error',
+                    message: "error al actualizar"
+                });
+            }
+            if (!updatedBook) {
+                return response.status(404).send({
+                    status: 'error',
+                    message: "no existe el articulo"
+                });
+            }
+
+            return response.status(200).send({
+                status: 'success',
+                article: updatedBook
+            });
+        });
+
     }
+
+
 
 };
 
