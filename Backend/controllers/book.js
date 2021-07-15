@@ -155,6 +155,7 @@ var controller = {
         }
     },
 
+    //6. Obtener imagen de un libro con el nombre
     getImageBook: (req, res) => {
         var file = req.params.image;
         var pathFile = './uploads/books/' + file;
@@ -172,6 +173,7 @@ var controller = {
         });
     },
 
+    //7. Buscar libros de acuerdo al titulo, autor y descripcion
     searchBooks: (request, response) => {
         var valueToSearch = request.params.search;
         book.find({
