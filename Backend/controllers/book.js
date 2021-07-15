@@ -5,6 +5,8 @@ const book = require('../models/book');
 var fs = require('fs');
 var path = require('path');
 const { request, response } = require('express');
+const { param } = require('../routes/book_routes');
+const { validate } = require('../models/book');
 
 
 var controller = {
@@ -14,28 +16,50 @@ var controller = {
 
         var params = request.body;
 
-        var bookToSave = new book();
 
-        bookToSave.title = params.title;
-        bookToSave.autor = params.autor;
-        bookToSave.edition = params.edition;
-        bookToSave.condition = params.condition;
-        bookToSave.description = params.description;
-        bookToSave.user = params.user;
 
-        bookToSave.save((err, bookSaved) => {
-            if (err || !bookSaved) {
-                return response.status(400).send({
-                    status: 'error',
-                    message: 'El libro no se ha podido guardar'
-                });
-            } else {
-                return response.status(200).send({
-                    status: 'success',
-                    book: bookSaved
-                })
-            }
-        });
+        try {
+            var validateTitle = !validator.isEmpty(params.title);
+            var validateCondition = !validator.isEmpty(params.condition);
+            //var validatePrice = !validator.isEmpty(params.price);
+        } catch (err) {
+            console.log(err);
+            return response.status(400).send({
+                status: 'error',
+                message: "Faltan datos por enviar"
+            });
+        }
+
+        if (validateTitle && validateCondition) {
+            var bookToSave = new book();
+            bookToSave.title = params.title;
+            bookToSave.autor = params.autor;
+            bookToSave.edition = params.edition;
+            bookToSave.condition = params.condition;
+            bookToSave.description = params.description;
+            bookToSave.user = params.user;
+            bookToSave.price = params.price;
+            bookToSave.tags = params.tags;
+
+            bookToSave.save((err, bookSaved) => {
+                if (err || !bookSaved) {
+                    return response.status(400).send({
+                        status: 'error',
+                        message: 'El libro no se ha podido guardar'
+                    });
+                } else {
+                    return response.status(200).send({
+                        status: 'success',
+                        book: bookSaved
+                    })
+                }
+            });
+        } else {
+            return response.status(401).send({
+                status: 'error',
+                message: "Los datos no son validos"
+            });
+        }
     },
 
     //2. Obtener todos los libros de la base
@@ -155,7 +179,7 @@ var controller = {
         }
     },
 
-    //6. Obtener imagen de un libro con el nombre
+    //6. Obtener imagen de un libro por el nombre de la misma
     getImageBook: (req, res) => {
         var file = req.params.image;
         var pathFile = './uploads/books/' + file;
@@ -185,6 +209,9 @@ var controller = {
                 },
                 {
                     "description": { "$regex": valueToSearch, "$options": "i" }
+                },
+                {
+                    "tags": { "$regex": valueToSearch, "$options": "i" }
                 }
             ]
         }).sort([['date', 'descending']]).exec((err, books) => {
@@ -226,15 +253,15 @@ var controller = {
     },
 
     //9. Actualizar un libro por su ID
-    updateBook:(request,response)=>{
-        var bookID= request.params.id;
+    updateBook: (request, response) => {
+        var bookID = request.params.id;
 
         var params = request.body;
 
         console.log(params);
         //Validar los datos
 
-        book.findOneAndUpdate({_id:bookID},params,{new:true},(err,updatedBook)=>{
+        book.findOneAndUpdate({ _id: bookID }, params, { new: true }, (err, updatedBook) => {
             if (err) {
                 return response.status(500).send({
                     status: 'error',

@@ -30,7 +30,11 @@ var BookSchema = Schema({
         type: Boolean,
         default: false
     },
-    labels:[] //Este campo sirve para buscar, es como un #hashtag
+    price:{
+        type:Number,
+        default:0
+    },
+    tags:[] //Este campo sirve para buscar, es como un #hashtag
 });
 
 module.exports = mongoose.model('Book', BookSchema);
