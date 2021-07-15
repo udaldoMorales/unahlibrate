@@ -10,6 +10,7 @@ const app = express();
 //Cargar ficheros rutas.
 
 var user_routes = require('./routes/user_routes');
+var book_routes = require('./routes/book_routes');
 
 //Cargar Middlewares.
 //app.use(bodyParser.urlencoded({extended:false}));
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 
 //Añadir prefijos a las rutas y Cargar las rutas.
 app.use("/api", user_routes)
+app.use("/api", book_routes)
 
 //Ruta o método de prueba para el API:
 

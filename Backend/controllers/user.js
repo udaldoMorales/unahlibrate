@@ -111,7 +111,6 @@ var controller = {
                 })
             }
         })
-
     },
     getUserByUsername: (request, response) => {
         var userName = request.params.nick;
