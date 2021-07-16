@@ -18,9 +18,10 @@ const AgregarLibro = () => {
     Autor:"",
     Edicion:"",
     Genero:"",
+    Precio:"",
     Descripcion:"",
   })
-  const{Nombre,Autor,Edicion,Genero,Descripcion} =datos;
+  const{Nombre,Autor,Edicion,Genero,Precio,Descripcion} =datos;
 
   const handleInputChange = (e) =>{
     setDatos({
@@ -92,9 +93,9 @@ const AgregarLibro = () => {
            </div>
 
            <div className="row mb-3">
-           <div className="col-md-6">
+           <div className="col-md-4">
              <div className="form-group">
-               <label className="form-weight-bold mb-2">Edición</label>
+               <label className="form-weight-bold mb-2 ">Edición</label>
                <input
                  type="text"
                  className="form-control"
@@ -104,18 +105,30 @@ const AgregarLibro = () => {
                />
              </div>
            </div>
-           <div className="col-md-6">
+           <div className="col-md-4">
                <div className="form-group">
                  <label className="form-weight-bold  mb-2">Género</label>
-                 <input
-                   type="text"
-                   className="form-control"
-                   name="Genero"
-                   onChange ={handleInputChange}
-                   value={Genero}
-                 />
+                 <select className="form-select select-genero" aria-label="Default select example">
+                 <option selected>Elegir Género</option>
+                 <option value="1">Género Narrativo</option>
+                 <option value="2">Género Lírico</option>
+                 <option value="3">Género Dramático</option>
+                 <option value="3">Género Didáctico</option>
+               </select>
                </div>
              </div> 
+             <div className="col-md-4">
+             <div className="form-group">
+               <label className="form-weight-bold mb-2">Precio</label>
+               <input
+                 type="text"
+                 className="form-control"
+                 name="Precio"
+                 onChange ={handleInputChange}
+                 value={Precio}
+               />
+             </div>
+           </div>
          </div>
          <label className=" mb-2" for="">Estado</label>
        
