@@ -85,9 +85,21 @@ const AgregarLibro = () => {
 
   //
   const cargarImagen = (e) => {
+
+    let fileReader = new FileReader();
     setSelectFile(e.target.files[0]);
-    console.log("estoy capturando el archivo de imagen");
-    console.log(selectFile);
+    fileReader.readAsDataURL(e.target.files[0]);
+
+    fileReader.onload = () => {
+      let div = document.getElementById("imagenLibro");
+
+      let image = document.createElement('img');
+      image.src = fileReader.result;
+      image.alt = "Imagen del libro";
+      image.style ="width: 235px; height: 238px;"
+      div.innerHTML = '';
+      div.append(image);
+    }
   }
 
   //Pedir datos de sesion iniciado
@@ -160,7 +172,7 @@ const AgregarLibro = () => {
 
           axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData)
             .then(res => {
-              
+
               if (res.data.book) {
                 console.log("Se guardo la imagen");
               } else {
@@ -223,7 +235,7 @@ const AgregarLibro = () => {
                 <form onSubmit={submitBook}>
 
                   <center>
-                    <div className="centerMargen mt-3 mb-4 ">
+                    <div className="centerMargen mt-3 mb-4 " id="imagenLibro">
 
                     </div>
                     <input
