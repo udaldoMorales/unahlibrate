@@ -15,7 +15,7 @@ import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../.
 import { updateUser } from '../../../services/User';
 import Swal from "sweetalert2";
 
-import { URL_POST_USER_CHANGE_IMAGE_PROFILE} from "../../../constants/urls";
+import { URL_POST_USER_CHANGE_IMAGE_PROFILE } from "../../../constants/urls";
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -46,7 +46,7 @@ const ActualizarPerfil = () => {
   //State para el error:
 
   //State para recoger la imagen de perfil
-  const [selectFile,setSelectFile]=useState(null);
+  const [selectFile, setSelectFile] = useState(null);
 
   const [error, handleError] = useState(false);
 
@@ -114,7 +114,7 @@ const ActualizarPerfil = () => {
     });
   };
 
-  const cargarImagen = (e) =>{
+  const cargarImagen = (e) => {
     setSelectFile(e.target.files[0]);
     console.log("estoy capturando el archivo de imagen");
     console.log(selectFile);
@@ -128,13 +128,13 @@ const ActualizarPerfil = () => {
 
     var logDespuesdePedir = isSigned;
 
-    if (logAntesdePedir == logDespuesdePedir){
-        try {
+    if (logAntesdePedir == logDespuesdePedir) {
+      try {
 
         var update = await updateUser(id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, imagenPerfil, Ubicacion);
-        
-        if(selectFile!==null){
-          
+
+        if (selectFile !== null) {
+
           const formData = new FormData();
 
           formData.append(
@@ -144,18 +144,18 @@ const ActualizarPerfil = () => {
           );
 
           console.log("en esta parte del if");
-          axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id,formData)
-          .then(res=>{
-              if(res.data.user){
-                  console.log("Se guardo la imagen");
-              }else{
+          axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id, formData)
+            .then(res => {
+              if (res.data.user) {
+                console.log("Se guardo la imagen");
+              } else {
                 Swal.fire({
                   icon: "warning",
                   title: "Error con la imagen de perfil",
                   text: "Error al al guardar la imagen de perfil"
                 })
               }
-          });
+            });
 
           console.log("Lariza");
           console.log(formData);
@@ -168,17 +168,17 @@ const ActualizarPerfil = () => {
             "Se ha actualizado el usuario exitosamente.",
             "success"
           )
-          
-          .then(res => {
-            console.log(update);
-            //Actualizar el estado.
-            cookies.set('user', update.user.user, { path: '/' });
-            setUpdated(true);
-          })
+
+            .then(res => {
+              console.log(update);
+              //Actualizar el estado.
+              cookies.set('user', update.user.user, { path: '/' });
+              setUpdated(true);
+            })
             .catch(er => { console.log(er) });
         } else {
           console.log(update);
-          
+
           Swal.fire({
             icon: "error",
             title: update.title,
@@ -186,7 +186,7 @@ const ActualizarPerfil = () => {
           })
         }
       }
-       catch (err) {
+      catch (err) {
         Swal.fire({
           icon: "error",
           title: err.title,
@@ -196,9 +196,9 @@ const ActualizarPerfil = () => {
     } else {
       console.log(isSigned);
       Swal.fire({
-          icon: "error",
-          title: 'Sesión acabada'
-        });
+        icon: "error",
+        title: 'Sesión acabada'
+      });
     }
   };
 
@@ -242,11 +242,11 @@ const ActualizarPerfil = () => {
                     <Button icon={<UploadOutlined />}>Cambiar Foto</Button>
                   </Upload>*/}
 
-                  <input 
-                      className="inputImagenPerfil"
-                      type="file" 
-                      name="file0"
-                      onChange={cargarImagen} />
+                  <input
+                    className="inputImagenPerfil"
+                    type="file"
+                    name="file0"
+                    onChange={cargarImagen} />
                 </center>
 
                 <div
