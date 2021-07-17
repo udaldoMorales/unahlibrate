@@ -8,7 +8,7 @@ export const addBook = async (
     edition,
     genre,
     condition,
-    descripcion,
+    description,
     price, 
     user
 
@@ -19,7 +19,7 @@ export const addBook = async (
         edition,
         genre,
         condition,
-        descripcion,
+        description,
         price,
         user
         //image

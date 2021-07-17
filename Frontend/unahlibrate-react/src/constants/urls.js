@@ -20,7 +20,7 @@ export const URL_POST_USER_CHANGE_IMAGE_PROFILE = `${urlApi}/api/upload-image/`;
 //URL para libros
 
 export const URL_POST_ADD_BOOK = `${urlApi}/api/save-book`;
-export const URL_POST_SAVE_IMAGE_BOOOK = `${urlApi}api/upload-book-image/`;
+export const URL_POST_SAVE_IMAGE_BOOOK = `${urlApi}/api/upload-book-image/`;
 
 
 

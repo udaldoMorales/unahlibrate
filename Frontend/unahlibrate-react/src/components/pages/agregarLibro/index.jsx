@@ -8,12 +8,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
 import "./style.css";
+import axios from "../../../modules/axios";
 import libro from '../../../img/library.svg'
 import Swal from "sweetalert2";
 import { addBook } from "../../../services/AddBook";
+import { URL_POST_SAVE_IMAGE_BOOOK } from "../../../constants/urls"
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
 
 import Cookies from 'universal-cookie';
+
 
 const cookies = new Cookies();
 
@@ -34,7 +37,7 @@ const AgregarLibro = () => {
   })
   const { Nombre, Autor, Edicion, Genero, Precio, Condicion, Descripcion, Imagen } = datos;
 
-  //const [selectFile,setSelectFile]=useState(null);
+  const [selectFile, setSelectFile] = useState(null);
 
   //State que recibe el allow de peticionUsuarioLoggeado:
   const [allowed, setAllow] = useState({});
@@ -79,6 +82,13 @@ const AgregarLibro = () => {
     imagenPerfil: "",
     Ubicacion: "",
   });
+
+  //
+  const cargarImagen = (e) => {
+    setSelectFile(e.target.files[0]);
+    console.log("estoy capturando el archivo de imagen");
+    console.log(selectFile);
+  }
 
   //Pedir datos de sesion iniciado
   const pedirDatos = async () => {
@@ -133,9 +143,38 @@ const AgregarLibro = () => {
       infoUser.id
     )
       .then(res => {
-
+        var bookID = res.book._id;
         //Si se guardo el libro que se guarde la imagen del mismo
+        console.log("Estoy aqui quiero ver res **********");
+        console.log(res);
+        console.log(res.book._id);
 
+        if (selectFile !== null) {
+          const formData = new FormData();
+
+          formData.append(
+            'file0',
+            selectFile,
+            selectFile.name
+          );
+
+          axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData)
+            .then(res => {
+              
+              if (res.data.book) {
+                console.log("Se guardo la imagen");
+              } else {
+                Swal.fire({
+                  icon: "warning",
+                  title: "Error con la imagen de perfil",
+                  text: "Error al al guardar la imagen de perfil"
+                })
+              }
+            });
+
+          console.log("Lariza");
+          console.log(formData);
+        }
 
 
         Swal.fire(
@@ -191,6 +230,7 @@ const AgregarLibro = () => {
                       className="inputImagenLibro mb-4"
                       type="file"
                       name="file0"
+                      onChange={cargarImagen}
                     />
                   </center>
                   <div className="row mb-4">
