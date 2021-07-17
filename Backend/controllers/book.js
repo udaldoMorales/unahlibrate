@@ -4,9 +4,6 @@ const user = require('../models/user');
 const book = require('../models/book');
 var fs = require('fs');
 var path = require('path');
-const { request, response } = require('express');
-const { param } = require('../routes/book_routes');
-const { validate } = require('../models/book');
 
 
 var controller = {
@@ -15,7 +12,6 @@ var controller = {
     saveBook: (request, response) => {
 
         var params = request.body;
-
 
 
         try {
@@ -35,11 +31,12 @@ var controller = {
             bookToSave.title = params.title;
             bookToSave.autor = params.autor;
             bookToSave.edition = params.edition;
+            bookToSave.genre = params.genre;
             bookToSave.condition = params.condition;
             bookToSave.description = params.description;
             bookToSave.user = params.user;
             bookToSave.price = params.price;
-            bookToSave.tags = params.tags;
+            //bookToSave.tags = params.tags;
 
             bookToSave.save((err, bookSaved) => {
                 if (err || !bookSaved) {
@@ -210,9 +207,7 @@ var controller = {
                 {
                     "description": { "$regex": valueToSearch, "$options": "i" }
                 },
-                {
-                    "tags": { "$regex": valueToSearch, "$options": "i" }
-                }
+               
             ]
         }).sort([['date', 'descending']]).exec((err, books) => {
             if (err) {
@@ -280,11 +275,7 @@ var controller = {
                 article: updatedBook
             });
         });
-
     }
-
-
-
 };
 
 
