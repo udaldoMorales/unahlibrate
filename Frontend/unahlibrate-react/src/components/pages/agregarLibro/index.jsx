@@ -1,9 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Divider } from "antd";
+//import { Divider } from "antd";
 import { Link } from 'react-router-dom';
-import { Row, Col } from 'antd';
+//import { Row, Col } from 'antd';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -46,6 +46,12 @@ const AgregarLibro = () => {
   const [isSigned, setIsSigned] = useState(null);
 
   const [addedBook, setAddedBook] = useState(false);
+
+  const [validator, setValidator] = useState({
+    nombre: false,
+    precio: false,
+    condicion: false
+  });
 
   const pedirLogg = async () => {
 
@@ -96,7 +102,7 @@ const AgregarLibro = () => {
       let image = document.createElement('img');
       image.src = fileReader.result;
       image.alt = "Imagen del libro";
-      image.style ="width: 235px; height: 238px;"
+      image.style = "width: 235px; height: 238px;"
       div.innerHTML = '';
       div.append(image);
     }
@@ -141,69 +147,76 @@ const AgregarLibro = () => {
     e.preventDefault();
 
     //Hacer validaciones respectivas FALTA ESO
-    console.log("estoy aca");
-    console.log(datos);
 
-    addBook(
-      Nombre,
-      Autor,
-      Edicion,
-      Genero,
-      Condicion,
-      Descripcion,
-      Precio,
-      infoUser.id
-    )
-      .then(res => {
-        var bookID = res.book._id;
-        //Si se guardo el libro que se guarde la imagen del mismo
-        console.log("Estoy aqui quiero ver res **********");
-        console.log(res);
-        console.log(res.book._id);
+    if (Nombre != "" && Precio != "" && !isNaN(Number(Precio)) && Condicion != "") {
 
-        if (selectFile !== null) {
-          const formData = new FormData();
+      addBook(
+        Nombre,
+        Autor,
+        Edicion,
+        Genero,
+        Condicion,
+        Descripcion,
+        Precio,
+        infoUser.id
+      )
+        .then(res => {
+          var bookID = res.book._id;
+          //Si se guardo el libro que se guarde la imagen del mismo
 
-          formData.append(
-            'file0',
-            selectFile,
-            selectFile.name
-          );
+          if (selectFile !== null) {
+            const formData = new FormData();
 
-          axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData)
-            .then(res => {
+            formData.append(
+              'file0',
+              selectFile,
+              selectFile.name
+            );
 
-              if (res.data.book) {
-                console.log("Se guardo la imagen");
-              } else {
-                Swal.fire({
-                  icon: "warning",
-                  title: "Error con la imagen de perfil",
-                  text: "Error al al guardar la imagen de perfil"
-                })
-              }
-            });
+            axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData)
+              .then(res => {
 
-          console.log("Lariza");
-          console.log(formData);
-        }
+                if (res.data.book) {
+                  console.log("Se guardo la imagen");
+                } else {
+                  Swal.fire({
+                    icon: "warning",
+                    title: "Error con la imagen de perfil",
+                    text: "Error al al guardar la imagen de perfil"
+                  })
+                }
+              });
 
-
-        Swal.fire(
-          "Libro agregado con exito",
-          "El libro se agrego al catalago de libros en venta",
-          "success"
-        ).then(res => {
-          setAddedBook(true);
+          }
+          Swal.fire(
+            "Libro agregado con exito",
+            "El libro se agrego al catalago de libros en venta",
+            "success"
+          ).then(res => {
+            setAddedBook(true);
+          });
+        })
+        .catch(error => {
+          Swal.fire({
+            icon: "error",
+            title: error.title,
+            text: error.text
+          });
         });
-      })
-      .catch(error => {
-        Swal.fire({
-          icon: "error",
-          title: error.title,
-          text: error.text
-        });
-      });
+    } else if (Nombre == "" || Precio == "" || Condicion == "") {
+      if (Nombre == "") {
+        setValidator({ nombre: true });
+        console.log("entre aqui vacio");
+      }else
+      if (Precio == "") {
+        setValidator({ precio: true });
+        console.log("aqui tambien vacio");
+      }else
+      if (Condicion == "") {
+        setValidator({ condicion: true });
+        console.log("mass");
+      }
+    }
   }
 
   if (addedBook == true) {
@@ -238,16 +251,18 @@ const AgregarLibro = () => {
                     <div className="centerMargen mt-3 mb-4 " id="imagenLibro">
 
                     </div>
+                    <p>Cargar imagen</p>
                     <input
-                      className="inputImagenLibro mb-4"
+                      className="inputImagenLibro mb-4 hidden"
                       type="file"
                       name="file0"
                       onChange={cargarImagen}
+                      accept="image/*"
                     />
                   </center>
                   <div className="row mb-4">
                     <div className="col-md-6">
-                      <div className="form-group">
+                      <div className="form-group" id="Nombre">
                         <label className="form-weight-bold  mb-2">Titulo</label>
                         <input
                           type="text"
@@ -255,9 +270,14 @@ const AgregarLibro = () => {
                           name="Nombre"
                           onChange={handleInputChange}
                           value={Nombre}
+                          placeholder="Titulo del libro"
                         />
+                        {validator.nombre ? (
+                          <p className="alert alert-danger error-p text-white">
+                            El libro debe tener un nombre
+                          </p>
+                        ) : null}
                       </div>
-
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
@@ -268,6 +288,7 @@ const AgregarLibro = () => {
                           name="Autor"
                           onChange={handleInputChange}
                           value={Autor}
+                          placeholder="Autor o Autores del libro"
                         />
                       </div>
                     </div>
@@ -285,6 +306,7 @@ const AgregarLibro = () => {
                           name="Edicion"
                           onChange={handleInputChange}
                           value={Edicion}
+                          placeholder="Numero de edicion"
                         />
                       </div>
                     </div>
@@ -301,7 +323,7 @@ const AgregarLibro = () => {
                       </div>
                     </div>
                     <div className="col-md-4">
-                      <div className="form-group">
+                      <div className="form-group" id="Precio">
                         <label className="form-weight-bold mb-2">Precio</label>
                         <input
                           type="text"
@@ -309,7 +331,14 @@ const AgregarLibro = () => {
                           name="Precio"
                           onChange={handleInputChange}
                           value={Precio}
+                          placeholder="Valor en Lempiras"
+                          pattern="[0-9]{1,3}"  maxlength="4"
                         />
+                        {validator.precio ? (
+                          <p className="alert alert-danger error-p text-white">
+                            Se debe especificar el precio
+                          </p>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -317,7 +346,7 @@ const AgregarLibro = () => {
 
                   <div className="row mb-3">
                     <div className="col-md-6">
-                      <div className="form-group">
+                      <div className="form-group" id="Condicion">
                         <div className="form-check form-check-inline">
                           <label className="form-check-label" for="inlineRadio1">
                             <input className="form-check-input" type="radio" name="Condicion"
@@ -335,19 +364,27 @@ const AgregarLibro = () => {
                               id="inlineRadio2" value="Nuevo" onChange={handleInputChange} checked={datos.Condicion === "Nuevo"} />
                             Nuevo</label>
                         </div>
+                        
                       </div>
+                      {validator.condicion ? (
+                          <p className="alert alert-danger error-p text-white">
+                            Se debe especificar el estado del libro
+                          </p>
+                        ) : null}
                     </div>
                   </div>
                   <div className="form-group mb-5">
                     <div className="mb-3">
                       <label className="form-weight-bold mb-2">Descripción</label>
                       <textarea className="form-control" value={Descripcion} onChange={handleInputChange} id="exampleFormControlTextarea1" name="Descripcion" rows="3"
-                      ></textarea>
+                      placeholder="Escriba una pequena descripcion acerca del libro" maxLength="250"></textarea>
                     </div>
                   </div>
                   <center>
                     <button type="submit" class="btn btn-success width-100 btn-agregar mb-3 ">Agregar</button>
-                    <button type="button" class="btn btn-primary width-100 btn-cancelar  mb-3">Cancelar</button>
+                    <Link to="/" >
+                      <button type="button" class="btn btn-primary width-100 btn-cancelar  mb-3">Cancelar</button>
+                    </Link>
                   </center>
                 </form>
 
