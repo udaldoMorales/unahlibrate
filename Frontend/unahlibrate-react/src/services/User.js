@@ -1,5 +1,5 @@
-import axios from "../modules/axios";
-import { URL_POST_SAVE_USER, URL_PUT_USER_UPDATE, URL_PUT_USER_CHANGE_PASSWORD,URL_POST_USER_CHANGE_IMAGE_PROFILE} from "../constants/urls";
+import axios from "axios";
+import { URL_POST_SAVE_USER, URL_PUT_USER_UPDATE, URL_PUT_USER_CHANGE_PASSWORD,URL_POST_USER_CHANGE_IMAGE_PROFILE, URL_PUT_USER_FORGOT_PASSWORD, URL_PUT_USER_RESTORE_PASSWORD} from "../constants/urls";
 
 export const updateUser = async (
     id,
@@ -85,4 +85,70 @@ export const changePassword = async (id, pass, newPass) => {
         //throw errorObj;
         return errorObj;
     }
+}
+
+export const forgotPassword = async (user) => {
+    var data = {
+        user
+    };
+
+    try {
+
+        const forgottenPass = await axios.put(URL_PUT_USER_FORGOT_PASSWORD);
+
+        if (forgottenPass.status === 200){
+            return forgottenPass.data;
+        } else {
+            console.log(forgottenPass);
+            return forgottenPass.data;
+            //throw new Error(update);
+        }
+
+    } catch (error) {
+        
+        let errorObj;
+        const {response} = error;
+        errorObj = {
+            title: 'Correo no enviado',
+            text: response.data.message
+          }
+        console.log(response);
+        //throw errorObj;
+        return errorObj;
+    
+    }
+
+}
+
+export const restorePassword = async(token, newPass) => {
+
+    var data = {
+        newPass: newPass
+    }
+
+    try {
+
+        const restoredPass = await axios.put(URL_PUT_USER_RESTORE_PASSWORD, { headers: {'reset': token} });
+        if (restoredPass.status === 200){
+            return restoredPass.data;
+        } else {
+            console.log(restoredPass);
+            return restoredPass.data;
+            //throw new Error(update);
+        }
+
+    } catch (error) {
+        
+        let errorObj;
+        const {response} = error;
+        errorObj = {
+            title: 'Contraseña no cambiada',
+            text: response.data.message
+          }
+        console.log(response);
+        //throw errorObj;
+        return errorObj;
+    
+    }
+
 }

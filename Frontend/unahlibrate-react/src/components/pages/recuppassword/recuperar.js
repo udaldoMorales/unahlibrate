@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { loginUser } from '../../../services/Login';
-import {Link, Redirect} from 'react-router-dom';
+import {Link, Redirect, useParams} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import {peticionDatoUsuario} from '../../../services/Auth';
-import {changePassword} from '../../../services/User';
+import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
+import {restorePassword} from '../../../services/User';
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -28,6 +28,7 @@ const Formrecupclv = ({ history }) => {
     });
   };
 
+  const {token} = useParams();
 
   //State para el error:
   const [error, handleError] = useState(false);
@@ -35,6 +36,11 @@ const Formrecupclv = ({ history }) => {
   //State para la respuesta:
   const [respuesta, setRespuesta] = useState({});
 
+  //State que recibe el allow de peticionUsuarioLoggeado:
+  const [allowed, setAllow] = useState({});
+
+  //State que confirma una sesión iniciada:
+  const [isSigned, setIsSigned] = useState(null);
   
   const [user, setUser] = useState({});
 
@@ -57,6 +63,20 @@ const Formrecupclv = ({ history }) => {
     }
   }
 
+  const pedirLogg = async () => {
+
+    try {
+
+      console.log(1);
+      var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
+      setAllow(response);
+      setIsSigned(response.status);
+      console.log("Me ejecuté.")
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
   
   const cambiarContra = async (e) => {
       //Comprobación de que las contraseñas sean distintas:
@@ -78,17 +98,18 @@ const Formrecupclv = ({ history }) => {
       } else if (ContraseñaNueva === ConfirmacionContraseña){
         //Aquí debería todo estar correcto.
         console.log(' Perfecto ');
+        console.log(token);
         //Peticion
 
         try {
-          var changePass = await changePassword(user._id, ContraseñaNueva);
-          if (changePass.status == 'success'){
+          var restorePass = await restorePassword(token, ContraseñaNueva);
+          if (restorePass.status == 'success'){
             Swal.fire(
               "Actualizada",
               "Se ha actualizado tu contraseña exitosamente.",
               "success"
             ).then(res => {
-              console.log(changePass);
+              console.log(restorePass);
               //Actualizar el estado.
               cambiarContrasenia(true);
             })
@@ -96,12 +117,13 @@ const Formrecupclv = ({ history }) => {
           } else {
             Swal.fire({
               icon: "error",
-              title: changePass.title,
-              text: changePass.text
+              title: restorePass.title,
+              text: restorePass.text
             })
           }
     
         } catch (err) {
+          console.log('Algo pasó acá.')
           console.log(err);
           Swal.fire({
             icon: "error",
@@ -120,16 +142,16 @@ const Formrecupclv = ({ history }) => {
   //Funcion para el boton de login:
   
   
-  if (changed == true) {
+  if (changed == true ) {
     return (
       <Redirect to='/perfil'></Redirect>
     );
   }
-  if (isSigned == false){
+  if (isSigned == true){
     return (
-      <Redirect to='/login' />
+      <Redirect to='/perfil' />
     );
-  } else if (isSigned == true) {
+  } else if (isSigned == false) {
   return (
     <React.Fragment>
       <Navbar />
