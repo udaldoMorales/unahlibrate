@@ -115,9 +115,21 @@ const ActualizarPerfil = () => {
   };
 
   const cargarImagen = (e) => {
+    
+    let fileReader = new FileReader();
     setSelectFile(e.target.files[0]);
-    console.log("estoy capturando el archivo de imagen");
-    console.log(selectFile);
+    fileReader.readAsDataURL(e.target.files[0]);
+
+    fileReader.onload = () => {
+      let div = document.getElementById("imagenLibro");
+
+      let image = document.createElement('img');
+      image.src = fileReader.result;
+      image.alt = "Imagen del libro";
+      image.style = "width: 243px; height: 247px;"
+      div.innerHTML = '';
+      div.append(image);
+    }
   }
 
   const submitUser = async (e) => {
@@ -225,7 +237,7 @@ const ActualizarPerfil = () => {
                 <span className="login100-form-title p-b-34">
                   Actualizar Perfil
                 </span>
-                <div className="centerImage">
+                <div className="centerImage" id="imagenLibro">
                   {
 
                     (imagenPerfil !== "") ? (
@@ -241,11 +253,12 @@ const ActualizarPerfil = () => {
                   {/*<Upload>
                     <Button icon={<UploadOutlined />}>Cambiar Foto</Button>
                   </Upload>*/}
-
+                  
                   <input
-                    className="inputImagenPerfil"
+                    className="inputImagenPerfil hidden"
                     type="file"
                     name="file0"
+                    accept="image/*"
                     onChange={cargarImagen} />
                 </center>
 
