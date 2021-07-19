@@ -9,6 +9,7 @@ import {
 import { Login, Registro, ActualizarPerfil, Perfil, Formclv } from "./../pages";
 
 import Home from "./../pages/Home/Home";
+import Catalogo from "./../pages/catalogo/catalogo";
 const Routes = () => {
   return (
     <Router>
@@ -19,6 +20,7 @@ const Routes = () => {
         <Route exact path="/registro" component={Registro} />
         <Route exact path="/" component={Home} />
         <Route exact path="/aboutus"  render={() => {<React.Fragment><p>Esta es una prueba.</p></React.Fragment>}} />
+        <Route exact path="/catalogo" component={Catalogo} />
       </Switch>
     </Router>
   );

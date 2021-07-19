@@ -9,6 +9,7 @@ import Home from "./components/pages/Home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Perfil } from "./components/pages";
 import AboutUs from './components/pages/aboutUs/AboutUs';
+import Catalogo from './components/pages/catalogo/catalogo';
 import FormValiduser from './components/pages/recuppassword/validuser';
 import Formrecupclv from './components/pages/recuppassword/recuperar';
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/perfil" component={Perfil}/>
         <Route path="/agregarLibro" component={Agregarlibro}/>
         <Route path="/about"  component={AboutUs} />
+        <Route path="/catalogo" exact component={Catalogo} />
         
       </Switch>
     </Router>
