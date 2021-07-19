@@ -1,0 +1,13 @@
+.imagenFondo{
+    background: url("../../../img/imagen1.jpg") no-repeat center center fixed;
+     /*este height es opcional solo es para que la imagen de fondo sea un poco mas alta*/
+  height: 700px !important;
+   
+}
+   
+
+
+
+.p-b-201{
+    padding-bottom: 100px;
+}
