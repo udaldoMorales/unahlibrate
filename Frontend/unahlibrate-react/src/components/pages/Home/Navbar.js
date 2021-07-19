@@ -114,7 +114,7 @@ function Navbar() {
   const menu = (
     <Menu>
       <Menu.Item>
-        <Link to="/perfil" replace={false} >Mi perfil</Link>
+        <Link to="/perfilusuario" replace={false} >Mi perfil</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
       <Menu.Item>
