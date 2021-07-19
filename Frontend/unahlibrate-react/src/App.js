@@ -8,6 +8,7 @@ import Home from "./components/pages/Home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Perfil } from "./components/pages";
 import AboutUs from './components/pages/aboutUs/AboutUs';
+import Catalogo from './components/pages/catalogo/catalogo';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route path="/Formclv" component={Formclv} />
         <Route path="/perfil" component={Perfil}/>
         <Route path="/about"  component={AboutUs} />
+        <Route path="/catalogo" exact component={Catalogo} />
+        
       </Switch>
     </Router>
   );
