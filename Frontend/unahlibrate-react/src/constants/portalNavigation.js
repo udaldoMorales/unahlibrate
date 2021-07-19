@@ -3,7 +3,7 @@ import {
   MdHome,
   MdShoppingBasket,
   MdExitToApp,
-  MdAddShoppingCart,
+  MdAddShoppingCart, 
 } from "react-icons/md";
 import { GoPackage } from "react-icons/go";
 import { FaExchangeAlt, FaShoppingBag } from "react-icons/fa";

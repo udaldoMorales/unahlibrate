@@ -1,4 +1,4 @@
-import axios from "../modules/axios";
+import axios from "axios";
 import { URL_POST_LOGIN } from "../constants/urls";
 
 export const loginUser = async (user, password) => {

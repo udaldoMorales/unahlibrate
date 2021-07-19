@@ -1,4 +1,4 @@
-import axios from "../modules/axios";
+import axios from "axios";
 import { URL_POST_SAVE_USER , URL_POST_SEND_MAIL} from "../constants/urls";
 
 export const registerNormalUser = async (

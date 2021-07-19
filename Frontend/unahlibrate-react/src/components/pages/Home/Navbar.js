@@ -128,6 +128,7 @@ function Navbar() {
         <Link to="/" replace={false} onClick={cerrarSesionActual}>Cerrar Sesión</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
+     
     </Menu>
   );
   console.log('user:');
@@ -212,6 +213,15 @@ function Navbar() {
                   Acerca de Nosotros
                 </Link>
               </li>
+              <li className="nav-item">
+              <Link
+                to="/agregarLibro"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Agregar Libros
+              </Link>
+            </li>
              </ul>            
 
             )
