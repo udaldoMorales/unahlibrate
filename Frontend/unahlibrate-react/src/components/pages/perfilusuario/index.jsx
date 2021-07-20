@@ -7,11 +7,12 @@ import perfil from '../../../img/perfil.jpg'
 import "bootstrap/dist/css/bootstrap.min.css";
 //Importaciones para conectar con el backend
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
+import { userBooks } from '../../../services/UserBooks';
 import React, { useState, useEffect } from "react";
 import { Redirect } from 'react-router-dom';
 import { ProfileUser } from "../../atoms";
 import Cookies from 'universal-cookie';
-
+import {URL_GET_USER_BOOKS} from '../../../constants/urls';
 const cookies = new Cookies();
 
 
@@ -36,6 +37,8 @@ const PerfilUsers = () => {
     ubicacion: ""
   });
 
+  //State que obtiene los libros del usuario
+  const [books, setBooks]=useState(null);
 
   //State que recibe el allow de peticionUsuarioLoggeado:
   const [allowed, setAllow] = useState({});
@@ -64,6 +67,7 @@ const PerfilUsers = () => {
 
   }
 
+
   const pedirLogg = async () => {
 
     try {
@@ -78,7 +82,14 @@ const PerfilUsers = () => {
       console.log(err);
     }
   }
-
+/*
+  const pedirLibros = async ()=>{
+    try{
+      var libros = await userBooks(usuario);
+      setBooks(libros)
+    }
+  }
+*/
   useEffect(() => {
     /*"Funcion que recibe la info"()
       .then((res) => {
@@ -209,10 +220,7 @@ const PerfilUsers = () => {
                         value={data.ubicacion}
                       />
                     </div>
-
                   </div>
-
-
                 </div>
               </div>
             </div>
