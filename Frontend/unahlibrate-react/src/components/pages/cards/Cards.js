@@ -87,6 +87,7 @@ function Cards(props) {
         if (props.libros[contador]) {
           //console.log(props.libros[contador]);
           grupos[i].push(props.libros[contador]);
+        
           //console.log(grupos[i]);
           contador++;
         }
