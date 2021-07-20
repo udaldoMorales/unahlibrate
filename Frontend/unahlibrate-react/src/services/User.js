@@ -128,7 +128,7 @@ export const restorePassword = async(token, newPass) => {
 
     try {
 
-        const restoredPass = await axios.put(URL_PUT_USER_RESTORE_PASSWORD, { headers: {'reset': token} });
+        const restoredPass = await axios.put(URL_PUT_USER_RESTORE_PASSWORD, data, {headers: {'reset':token}});
         if (restoredPass.status === 200){
             return restoredPass.data;
         } else {
@@ -141,6 +141,7 @@ export const restorePassword = async(token, newPass) => {
         
         let errorObj;
         const {response} = error;
+        console.log(error);
         errorObj = {
             title: 'Contraseña no cambiada',
             text: response.data.message

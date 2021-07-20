@@ -102,6 +102,8 @@ const Formrecupclv = ({ history }) => {
         //Peticion
 
         try {
+          console.log(token);
+          console.log(ContraseñaNueva);
           var restorePass = await restorePassword(token, ContraseñaNueva);
           if (restorePass.status == 'success'){
             Swal.fire(
