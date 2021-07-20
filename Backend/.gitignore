@@ -1,3 +1,7 @@
 node_modules/
 uploads/users/*jpg
+uploads/users/*jpeg
 uploads/books/*jpg
+uploads/books/*jpeg
+uploads/users/*png
+uploads/books/*png
