@@ -27,6 +27,8 @@ export const URL_POST_SAVE_IMAGE_BOOOK = `${urlApi}/api/upload-book-image/`;
 export const URL_GET_USER_BOOKS = `${urlApi}/api/books-user/`;
 export const URL_GET_IMAGE_BOOK=`${urlApi}/api/get-book-image/`;
 
+export const URL_GET_BOOKS = `${urlApi}/api/books`;
+
 
 
 

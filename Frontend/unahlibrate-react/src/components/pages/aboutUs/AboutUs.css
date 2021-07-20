@@ -12,11 +12,10 @@
 }
 
 .idLista.letra{
-    float: left;
-    margin-left: 6px;
+    font-size: 14px;
+    margin-left: 0px;
 }
 .idLista{
-    float: left;
 }
 
 .clearfix{
@@ -24,6 +23,6 @@
 }
 
 .centerList{
-    width: 9rem;
+    width: 11rem;
     margin: 0px auto;
 }

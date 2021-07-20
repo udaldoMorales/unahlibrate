@@ -31,6 +31,21 @@ class AboutUs extends Component {
 												<i className="lnr lnr-user"></i>
 											</h4>
 											<p className='idLista letra'>
+												<b>Jordan Martínez</b>
+											</p>
+											
+											<div className='clearFix'></div>
+											
+											<br/>
+											<br/>
+
+										</li>
+										<li>
+
+											<h4 className='idLista'>
+												<i className="lnr lnr-user"></i>
+											</h4>
+											<p className='idLista letra'>
 												<b>Katherine Santos</b>
 											</p>
 											
