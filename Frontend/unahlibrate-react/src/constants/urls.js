@@ -17,8 +17,8 @@ export const URL_PUT_USER_CHANGE_PASSWORD = `${urlApi}/api/change-password/`;
 
 export const URL_POST_USER_CHANGE_IMAGE_PROFILE = `${urlApi}/api/upload-image/`;
  
-export const URL_PUT_USER_FORGOT_PASSWORD = `${urlApi}/api/forgot-password/`;
-export const URL_PUT_USER_RESTORE_PASSWORD = `${urlApi}/api/restore-password/`;
+export const URL_PUT_USER_FORGOT_PASSWORD = `${urlApi}/api/forgot-password`;
+export const URL_PUT_USER_RESTORE_PASSWORD = `${urlApi}/api/restore-password`;
 
 //URL para libros
 
