@@ -199,7 +199,7 @@ const PerfilUsers = () => {
 
                 <div className="row">
                   <div className="col-12">
-                    <div className="form-group inputubucacion ">
+                    <div className="form-group ">
                       <label className="form-weight-bold lnr lnr-map-marker">Ubicacion</label>
                       <input
                         type="email"

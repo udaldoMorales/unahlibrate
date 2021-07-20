@@ -94,7 +94,7 @@ export const forgotPassword = async (user) => {
 
     try {
 
-        const forgottenPass = await axios.put(URL_PUT_USER_FORGOT_PASSWORD);
+        const forgottenPass = await axios.put(URL_PUT_USER_FORGOT_PASSWORD, data);
 
         if (forgottenPass.status === 200){
             return forgottenPass.data;

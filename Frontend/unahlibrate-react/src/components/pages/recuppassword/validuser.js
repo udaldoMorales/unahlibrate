@@ -7,7 +7,7 @@ import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import Swal from "sweetalert2";
 import SessionStorageService from "../../../services/Storage";
-import { loginUser } from '../../../services/Login';
+import { forgotPassword } from '../../../services/User';
 import {Redirect} from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -52,34 +52,31 @@ const FormValiduser = ({ history }) => {
 
     handleError(false);
     
-    var resp = loginUser(Usuario)
-      .then(res => {
-        console.log(res);
-        if (res.code === 404 && res.status === 'error'){
-          //Usuario inexistente.
-          setRespuesta({
-            status: 'incorrect user'
+    forgotPassword(Usuario)
+      .then( (resp) => {
+        if (resp.status === 'success'){
+          Swal.fire(
+            'Correo enviado',
+            'Verifica tu correo, se ha enviado uno para que recuperes tu contraseña.',
+            "success"
+            ).then((resps) => {
+              console.log(resp);
+            })
+          .catch((err) => {
+            console.log(err);
           });
-          console.log(respuesta);
-        } else if (res.code === 404 && res.status === 'failed'){
-          //Error en el token.
-          setRespuesta({
-            status: 'server error'
-          });
-          console.log(respuesta);
-          } else {
-            cookies.set('auth', res.response.token, {path: "/"});
-            cookies.set('refreshToken', res.response.refreshToken, {path: "/"});
-            cookies.set('user', res.response.user.user, {path: "/"});
-            setRespuesta({
-              status: 'logged'
-            });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: resp.title,
+            text: resp.text
+          })
         }
-        console.log(respuesta);
-      })
-      .catch(err => {
-        console.log('From error');
-      })
+      }
+
+        )
+      .catch(
+        );
   }
   
   if (respuesta.status === 'logged'){
