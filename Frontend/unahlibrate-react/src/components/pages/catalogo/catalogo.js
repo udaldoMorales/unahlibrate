@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../catalogo/catalogo.css';
 import CardItem from '../catalogo/card-item';
 import Cards from '../cards/Cards';
+import Cards_catalogo from './cards-catalogo';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
 import {Link, Redirect} from 'react-router-dom';
@@ -93,6 +94,14 @@ const pedirLibros = (id) => {
       }
   
   
+  //Funcion para el boton de login:
+
+    return (
+    <React.Fragment>
+    <Navbar />
+    <Cards_catalogo />
+    </React.Fragment>
+    );
   }
   
   export default Catalogo;
