@@ -24,8 +24,8 @@ export const URL_PUT_USER_RESTORE_PASSWORD = `${urlApi}/api/restore-password/`;
 
 export const URL_POST_ADD_BOOK = `${urlApi}/api/save-book`;
 export const URL_POST_SAVE_IMAGE_BOOOK = `${urlApi}/api/upload-book-image/`;
-export const URL_GET_USER_BOOKS = `${urlApi}/api/books-user/`
-
+export const URL_GET_USER_BOOKS = `${urlApi}/api/books-user/`;
+export const URL_GET_IMAGE_BOOK=`${urlApi}/api/get-book-image/`;
 
 
 

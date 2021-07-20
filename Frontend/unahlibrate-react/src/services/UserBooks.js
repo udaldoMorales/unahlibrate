@@ -5,8 +5,8 @@ export const userBooks = async (
     id_user
 ) => {
     try{
-     const response = axios.get(URL_GET_USER_BOOKS + id_user)
-        if(response.status===20){
+     const response = await axios.get(URL_GET_USER_BOOKS + id_user)
+        if(response.status===200){
             return response.data;
         }else{
             throw new Error(response);

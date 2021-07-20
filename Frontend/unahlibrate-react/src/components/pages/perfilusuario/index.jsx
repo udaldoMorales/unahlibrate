@@ -12,7 +12,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from 'react-router-dom';
 import { ProfileUser } from "../../atoms";
 import Cookies from 'universal-cookie';
-import {URL_GET_USER_BOOKS} from '../../../constants/urls';
+import { URL_GET_USER_BOOKS } from '../../../constants/urls';
 const cookies = new Cookies();
 
 
@@ -21,7 +21,9 @@ const PerfilUsers = () => {
   const [sent, setSent] = useState(false);
 
   //State que guarda los datos de la BD
-  const [data, setData] = useState({
+  /*const [data, setData] = useState({
+    userID: "",
+
     usuario: "",
 
     nombre: "",
@@ -35,10 +37,10 @@ const PerfilUsers = () => {
     imagenPerfil: "",
 
     ubicacion: ""
-  });
-
+  });*/
+  const [data, setData] = useState({});
   //State que obtiene los libros del usuario
-  const [books, setBooks]=useState(null);
+  const [books, setBooks] = useState(null);
 
   //State que recibe el allow de peticionUsuarioLoggeado:
   const [allowed, setAllow] = useState({});
@@ -47,11 +49,12 @@ const PerfilUsers = () => {
   const [isSigned, setIsSigned] = useState(null);
 
   const pedirDatos = async () => {
-
+    console.log("Que hagoooooooo");
     try {
       console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
       setData({
+        userID: rr.user._id,
         usuario: rr.user.user,
         nombre: rr.user.name,
         apellido: rr.user.lastname,
@@ -60,7 +63,11 @@ const PerfilUsers = () => {
         imagenPerfil: rr.user.imageProfile,
         ubicacion: rr.user.ubication
       });
-      console.log('Yo también.')
+      console.log("Que pedos con vos funcion rara");
+      console.log(rr);
+      pedirLibros(rr.user._id);
+      console.log("Que pedos con vos funcion rara");
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -81,23 +88,17 @@ const PerfilUsers = () => {
     } catch (err) {
       console.log(err);
     }
-  }
-/*
-  const pedirLibros = async ()=>{
-    try{
-      var libros = await userBooks(usuario);
-      setBooks(libros)
-    }
-  }
-*/
+  };
+
+  const pedirLibros = (id) => {
+    userBooks(id).then(res=>{
+      setBooks(res.books);
+    });
+    console.log("Me ejecute");
+    console.log(books);
+  };
+
   useEffect(() => {
-    /*"Funcion que recibe la info"()
-      .then((res) => {
-        setData(res);
- 
-      })
- 
-      .catch((err) => console.log(err));*/
 
     pedirDatos();
     pedirLogg();
@@ -115,8 +116,6 @@ const PerfilUsers = () => {
         <Redirect to='/login' />
       );
     } else if (isSigned == true) {
-
-
       ///////////////////
       return (
         <React.Fragment>
@@ -156,7 +155,7 @@ const PerfilUsers = () => {
                         className="form-control inputnombre"
                         name="Nombre"
                         disabled
-                        value = {data.usuario}
+                        value={data.usuario}
                       />
                     </div>
 
@@ -232,13 +231,16 @@ const PerfilUsers = () => {
             <div class="alert alert-primary" role="alert">
               <center><h2>Libros Publicados</h2></center>
             </div>
-            <Cards />
+            
+            {books!=null &&
+              <Cards libros={books}/>
+            }
 
           </div>
 
         </React.Fragment>
       )
-    } else {
+    } else if(isSigned==null || books==null){
       return (
         <React.Fragment>
           <Navbar />
@@ -247,4 +249,4 @@ const PerfilUsers = () => {
     }
   }
 }
-  export default PerfilUsers;
+export default PerfilUsers;
