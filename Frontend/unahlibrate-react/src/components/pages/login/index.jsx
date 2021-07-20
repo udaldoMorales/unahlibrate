@@ -120,7 +120,7 @@ const FormLog = ({ history }) => {
   if (respuesta.status === 'logged'){
     console.log(respuesta);
     return (
-      <Redirect to={{pathname:'/perfil', state: {user: Usuario}}}/>
+      <Redirect to={{pathname:'/perfilusuario', state: {user: Usuario}}}/>
       )
   }
   return (
