@@ -38,8 +38,8 @@
 
 .seccion-perfil-usuario .perfil-usuario-avatar{
     display: flex;
-    width: 180px;
-    height: 180px;
+    width: 220px;
+    height: 220px;
     align-items: center;
     justify-content: center;
     border: 7px solid #ffffff;
@@ -123,9 +123,9 @@
 
 }
 
-.form-control{
-    /*padding: 0 30px 0 50px !important*/
-}
+/*.form-control{
+    /*padding: 0 30px 0 50px !important
+}*/
 
 .inputubucacion{
     margin-left: 150px;

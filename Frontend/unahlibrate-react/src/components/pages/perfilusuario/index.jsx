@@ -1,5 +1,5 @@
 //import React from 'react';
-import Cards from '../cards/Cards';
+import Cards_catalogo from '../catalogo/cards-catalogo';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
 import "./style.css";
@@ -230,9 +230,9 @@ const PerfilUsers = () => {
           <div className="container ">
 
             <div class="alert alert-primary" role="alert">
-              <center><h2>Libros Publicados</h2></center>
+              <center><h2>Tu lista de libros publicados</h2></center>
             </div>
-            <Cards />
+            <Cards_catalogo />
 
           </div>
 
