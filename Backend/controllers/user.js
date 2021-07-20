@@ -638,7 +638,7 @@ var controller = {
             var foundUser = await user.findOne({user: userName}).exec();
             console.log(foundUser);
             //Si se encuentra, generar el token.
-            var restoreToken = jwt.sign({user: foundUser.user, email: foundUser.email}, 'secretsecret', {expiresIn: '1m'});
+            var restoreToken = jwt.sign({user: foundUser.user, email: foundUser.email}, 'secretsecret', {expiresIn: '5m'});
             //Generar también un enlace para enviar en el correo al que se va a recuperar la contraseña.
             var linkForEmail = `http://localhost:3000/restore-password/${restoreToken}`;
 
@@ -675,7 +675,7 @@ var controller = {
                 if (error) {
                     console.log("hubo error enviando correo");
                     console.log(error)
-                    return response.status(500).send(error.message);
+                    return response.status(500).send({status: 'emailFailed', message: error.message});
                 } else {
                     console.log("Email de recuperación enviado");
                     return response.status(200).send({
