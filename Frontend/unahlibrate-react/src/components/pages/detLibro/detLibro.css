@@ -1,0 +1,183 @@
+.seccion-perfil-usuario .perfil-usuario-body, 
+.seccion-perfil-usuario{
+    display: flex ;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+  
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+.seccion-perfil-usuario .perfil-usuario-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient( #118ec9, transparent);
+    margin-bottom: 20px;
+  
+}
+
+.seccion-perfil-usuario .perfil-usuario-portada{
+    display: block;
+    position: relative;
+    width:90%;
+    height: 17rem;
+    /*background-image: url("../../../img/fondolibros.jpg");*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 0 0 20px 20px !important;
+}
+
+.seccion-perfil-usuario .perfil-usuario-portada{
+    display: block;
+    position: relative;
+    width: 80%;
+    height: 17rem;
+    background-color: linear-gradient(45deg, #BC3CFF, #317FFF);
+    border-radius: 0 0 20px 20px;
+}
+
+.seccion-perfil-usuario .perfil-usuario-avatar{
+    display: flex;
+    width: 180px;
+    height: 180px;
+    align-items: center;
+    justify-content: center;
+    border: 7px solid #ffffff;
+    background-color: #DFE5F2;
+    border-radius: 50%;
+   box-shadow: 0 0 12px rgba(0,0,0, .2);
+   position: absolute;
+   bottom: -40px;
+   left: calc(50% - 90px);
+   z-index: 1;
+   overflow: hidden;
+
+}
+.seccion-perfil-usuario .perfil-usuario-avatar img{
+    width: 100%;
+    height: 100%;
+   
+   
+}
+
+
+ .perfil-usuario-body{
+    width: 75%;
+    position: relative;
+    max-width: 750px;
+
+}
+
+.seccion-perfil-usuario .perfil-usuario-body  .titulo{
+    display: block;
+    width: 100%;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.seccion-perfil-usuario .perfil-usuario-body  .texto{
+    color: #848484;
+    font-size: 0.95rem;
+}
+
+
+.perfil-usuario-footer{
+    /**/
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2.5rem 6rem;
+    box-shadow: 0 0 12px rgba(0,0,0, .2);
+    background-color: #fff;
+    border-radius: 15px;
+    width: 100%;
+    margin-bottom: 1.25rem;
+    text-align: center;
+    
+}
+
+
+
+
+
+.seccion-perfil-usuario .lista-datos li > .icono{
+    margin-right: 1rem;
+    font-size: 2rem;
+    vertical-align: middle;
+}
+
+.inputnombre{
+    border: none;
+    border-bottom: 1px solid black;
+    background: transparent;
+  
+
+}
+
+.inputUbicacion{
+    border: none;
+    border-bottom: 1px solid black;
+    background: transparent;
+    
+
+
+}
+
+.form-control{
+    padding: 0 30px 0 50px !important;
+}
+
+.inputubucacion{
+    margin-left: 150px;
+
+}
+
+.lnr-user:before {
+    content: "\e82a";
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.lnr-envelope:before {
+    content: "\e818";
+    font-size: 20px;
+    margin-right: 15px;
+}
+.lnr-phone-handset:before {
+    content: "\e830";
+    font-size: 20px;
+    margin-right: 10px;
+}
+.lnr-map-marker:before {
+    content: "\e833";
+    font-size: 20px;
+    margin-right: 10px;
+}
+/**/
+
+@media(max-width:750px){
+
+.seccion-perfil-usuario .perfil-usuario-portada,
+.seccion-perfil-usuario .perfil-usuario-body{
+    width: 95%;
+}
+.inputubucacion{
+    margin-left: 0px;
+}
+.form-control{
+    padding: 0 0px 0 0px !important;
+}
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .inputubucacion{
+        margin-left: 150px;
+    }
+
+}
