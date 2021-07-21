@@ -10,7 +10,7 @@ import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../
 import { allBooks } from '../../../services/UserBooks';
 import Cookies from 'universal-cookie';
 import Search from '../searchBar/searchbar';
-import '../searchBar/search.css';
+import '../searchBar/search.css'
 
 const cookies = new Cookies();
 
@@ -81,7 +81,7 @@ const pedirLibros = (id) => {
         return (
             <React.Fragment>
             <Navbar />
-            <Search/>
+            <Search />
               {books!=null &&
                 <Cards libros={books}/>
               }
