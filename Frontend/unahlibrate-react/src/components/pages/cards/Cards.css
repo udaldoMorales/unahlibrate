@@ -31,8 +31,17 @@ h1 {
   margin: 0 1rem;
   border-radius: 20px;
   background-color: #252e48;
+  /*width: fit-content*/;
+  width: 250px;
+  height: 460px;
+}
+
+.cards__item_empty {
+  display: flex;
+  flex: 1;
+  margin: 0 1rem;
+  border-radius: 20px;
   width: fit-content;
-  
 }
 
 .cards__item__link {

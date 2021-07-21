@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './style.css'
 import "../../../styles/FormLog.css";
@@ -11,6 +11,7 @@ import { forgotPassword } from '../../../services/User';
 import {Redirect} from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import "bootstrap/dist/css/bootstrap.min.css";
+import {peticionUsuarioLoggeado} from '../../../services/Auth';
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -40,8 +41,31 @@ const FormValiduser = ({ history }) => {
   //Extrayendo los valores con destructuring:
   const { Usuario } = information;
 
+  //State que recibe el allow de peticionUsuarioLoggeado:
+  const [allowed, setAllow] = useState({});
+
+  //State que confirma una sesión iniciada:
+  const [isSigned, setIsSigned] = useState(null);
+
+  //Preguntando si hay una sesión iniciada.
+  const pedirLogg = async () => {
+
+    try {
+
+      console.log(1);
+      var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
+      setAllow(response);
+      setIsSigned(response.status);
+      console.log("Me ejecuté.")
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
   //Funcion para el boton de login:
-  const submitUser = (e) => {
+  const submitUser = async (e) => {
     e.preventDefault();
 
     //Validacion:
@@ -52,9 +76,16 @@ const FormValiduser = ({ history }) => {
 
     handleError(false);
     
-    forgotPassword(Usuario)
-      .then( (resp) => {
-        if (resp.status === 'success'){
+    try {
+      var resp = await forgotPassword(Usuario);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Cargando...',
+        text: 'Realizando la búsqueda'
+      });
+
+      if (resp.status === 'success'){
           Swal.fire(
             'Correo enviado',
             'Verifica tu correo, se ha enviado uno para que recuperes tu contraseña.',
@@ -72,19 +103,24 @@ const FormValiduser = ({ history }) => {
             text: resp.text
           })
         }
-      }
 
-        )
-      .catch(
-        );
+    }
+    catch (err) {
+      console.log(err);
+    }
+ 
   }
+
+  useEffect(() => {
+    pedirLogg();
+  }, [isSigned]);  
   
-  if (respuesta.status === 'logged'){
-    console.log(respuesta);
+
+  if (isSigned === true){
     return (
-      <Redirect to={{pathname:'/perfil', state: {user: Usuario}}}/>
-      )
-  }
+      <Redirect to='/perfilusuario' />
+    );
+  } else if (isSigned === false) {
   return (
     <React.Fragment>
       <Navbar />
@@ -132,6 +168,14 @@ const FormValiduser = ({ history }) => {
     </div>
     </React.Fragment>
   );
+  } else {
+      return (
+      <React.Fragment>
+      <Navbar />
+      </React.Fragment>
+      );
+  }
+
 };
 
 export default FormValiduser;

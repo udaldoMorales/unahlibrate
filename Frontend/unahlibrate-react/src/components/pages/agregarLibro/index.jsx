@@ -221,7 +221,7 @@ const AgregarLibro = () => {
 
   if (addedBook == true) {
     return (
-      <Redirect to='/perfil'></Redirect>
+      <Redirect to='/perfilusuario'></Redirect>
     );
   }
   if (isSigned == false) {

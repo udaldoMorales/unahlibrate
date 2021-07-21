@@ -1,17 +1,20 @@
 import React, { useRef, useState, useEffect } from 'react';
 import '../catalogo/catalogo.css';
 import CardItem from '../catalogo/card-item';
+import Cards from '../cards/Cards';
 import Cards_catalogo from './cards-catalogo';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
+import Swal from "sweetalert2";
 import {Link, Redirect} from 'react-router-dom';
 import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import { allBooks } from '../../../services/UserBooks';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
 
-function Cards() {
+function Catalogo() {
 
 //State que recibe el allow de peticionUsuarioLoggeado:
 const [allowed, setAllow] = useState({});
@@ -20,6 +23,9 @@ const [allowed, setAllow] = useState({});
 const [isSigned, setIsSigned] = useState(null);
 
 const [user, setUser] = useState({});
+
+//State que obtiene los libros del usuario
+const [books, setBooks] = useState(null);
 
 //Pregunta por el token y si hay una sesión iniciada
 const pedirLogg = async () => {
@@ -51,9 +57,18 @@ const pedirDatos = async () => {
     }
   }
 
+const pedirLibros = (id) => {
+  allBooks().then(res=>{
+    if (res.status==='success') setBooks(res.books);
+  });
+  console.log("Me ejecute");
+  console.log(books);
+};
+
   useEffect(() => {
     pedirDatos();
     pedirLogg();
+    pedirLibros();
   }, [isSigned]);
 
   if(isSigned==false){
@@ -65,73 +80,25 @@ const pedirDatos = async () => {
         return (
             <React.Fragment>
             <Navbar />
-              <div className='cards'>
-                <div className='cards__container'>
-                  <div className='cards__wrapper'>
-                    <ul className='cards__items'>
-                    <CardItem
-                        src='images/8.jpg'
-                        text='Nombre del libro'
-                        label='Matematicas'
-                        path='/registro'
-                      />
-                     <CardItem
-                        src='images/3.jpg'
-                        text='Nombre del libro'
-                        label='Literatura'
-                        path='/registro'
-                      />
-                      <CardItem
-                        src='images/1.jpg'
-                        text='Nombre del libro'
-                        label='Cultural'
-                        path='/registro'
-                      />
-                      <CardItem
-                        src='images/2.jpg'
-                        text='Nombre del libro'
-                        label='Cultural'
-                        path='/registro'
-                      />
-                    </ul>
-                    <ul className='cards__items'>
-                      <CardItem
-                        src='images/9.jpg'
-                        text='Nombre del libro'
-                        label='Matematicas'
-                        path='/registro'
-                      />
-                      <CardItem
-                        src='images/4.jpg'
-                        text='Nombre del libro'
-                        label='Historia'
-                        path='/registro'
-                      />
-                      <CardItem
-                        src='images/6.jpg'
-                        text='Nombre del libro'
-                        label='Ambiental'
-                        path='/registro'
-                      />
-                      <CardItem
-                        src='images/7.jpg'
-                        text='Nombre del libro'
-                        label='Cultural'
-                        path='/registro'
-                      />
-                      
-                    </ul>
-                  </div>
+              {books==null &&
+                <div className='cards'>
+                <h1>Aún no se han publicado libros.</h1>
                 </div>
-              </div>
+              }
+              {books!=null &&
+                <Cards_catalogo libros={books}/>
+              }
             </React.Fragment>
             ); 
       }
-      else {
+      else if (isSigned === null || books === null) {
+        return (
         <React.Fragment>
         <Navbar />
         </React.Fragment>
+        );
       }
+  
   
   //Funcion para el boton de login:
 
@@ -143,5 +110,5 @@ const pedirDatos = async () => {
     );
   }
   
-  export default Cards;
+  export default Catalogo;
   

@@ -144,14 +144,14 @@ const Formrecupclv = ({ history }) => {
   //Funcion para el boton de login:
   
   
-  if (changed == true ) {
+  if (changed == true) {
     return (
-      <Redirect to='/perfil'></Redirect>
+      <Redirect to='/perfilusuario'></Redirect>
     );
   }
   if (isSigned == true){
     return (
-      <Redirect to='/perfil' />
+      <Redirect to='/perfilusuario' />
     );
   } else if (isSigned == false) {
   return (
