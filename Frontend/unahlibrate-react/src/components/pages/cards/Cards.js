@@ -130,7 +130,7 @@ function Cards(props) {
 														src={`${URL_GET_IMAGE_BOOK}${libro.image}`}
 														text={libro.description}
 														label={libro.title}
-														path='/perfilusuario'
+														path={`/detLibro/${libro._id}`}
 													/> :
 													<li className='cards__item_empty'></li>
 													}

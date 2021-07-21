@@ -34,6 +34,11 @@ hr {
     border-radius: 0 0 20px 20px !important;
 }
 
+.imagenLibro{
+    width: 250px;
+    height: 250px;
+}
+
 .seccion-perfil-usuario .perfil-usuario-portada{
     display: block;
     position: relative;
