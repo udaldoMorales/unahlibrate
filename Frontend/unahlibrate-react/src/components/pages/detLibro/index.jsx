@@ -153,97 +153,93 @@ const DetLibro = () =>{
                 </div>
                 
                 </div>
-            
+            </div>
+
             <div className="col-md-6">
+            <div className="col-md-12">
             <div className="row mb-3">
             <div className="form-group">
-            <span>Titulo:</span>
-            <br />
+            <span className="etiqueta">Titulo: </span>
+            
             {/*<b>Aqui val el titulo</b>*/}
-            <b>{data.tituloLibro}</b>
+            <b className="etiqueta">{data.tituloLibro}</b>
             </div>
             </div>
           
             <div className="row mb-3">
             <div className="form-group">
-            <span>Autor:</span> 
-            <br />
+            <span className="etiqueta">Autor: </span> 
+            
             {/*<b>Aqui va el nombre del autor</b>*/}
-            <b>{data.autor}</b>
+            <b className="etiqueta">{data.autor}</b>
             </div>
             </div>
             
-            <div className="row-mb-3">
+            <div className="row mb-3">
             <div className="form-group">
-                <span>Precio:</span>
-                 <br />
+                <span className="etiqueta">Precio: </span>
+                 
                  {/*<b>Aqui va el precio</b>*/}
-            <b>{data.precio}</b>
+            <b className="etiqueta">{data.precio + " Lps."}</b>
             </div>
             </div>
 
-            <div className="row-mb-3">
+            <div className="row mb-3">
             <div className="form-group">
-            <span>Genero:</span> 
-            <br />
+            <span className="etiqueta">Genero: </span> 
+            
             {/*<b>Aqui va el genero del libro </b>*/}
-            <b>{data.genero}</b>
+            <b className="etiqueta">{data.genero}</b>
             </div>
             </div>
 
-            <div className="row-mb-3">
+            <div className="row mb-3">
             <div className="form-group">
-            <span>Estado:</span> 
-            <br />
+            <span className="etiqueta">Estado: </span> 
+            
             {/*<b>Aqui va el estado del libro </b>*/}
-            <b>{data.estado}</b>
+            <b className="etiqueta">{data.estado}</b>
             </div>
             </div>
 
             </div>
         </div>
       
-
-             <div className="row">
-             <div className="col-12">
-             <div className="form-group inputubucacion ">
-          
-                 <b>Descripcion:</b>
-                 <br />
-                 {/*<b>Aqui va una descripcion</b>*/}
+            <div class="container padre">
+               <b>Descripcion:</b>
+               <br />
+               {/*<b>Aqui va una descripcion</b>*/}
              <p>{data.descripcion}</p>
+            </div>
             
-           </div>
-             
-            </div>
-            </div>
-            <div className="container-login100-form-btn p-t-25">
+            <div className="col md-3">
               <button
-                type="submit"
-                className= "login100-form-btn">
+                type="button"
+                className= "btn btn-success btn-lg">
                 Comprar
               </button>
 
             </div>
             {(data.usuario === user._id) &&
-              <div className="container-login100-form-btn p-t-25">
+              <div className="col md-3" >
                 <button
-                  type="submit"
-                  className= "login100-form-btn">
+                  type="button"
+                  class="btn btn-primary btn-lg">
                   Editar
                 </button>
             </div>}
-            <div className="container-login100-form-btn p-t-25">
+            <div className="col md-3" >
               <button
-                type="submit"
+                type="button"
                 onClick={volverAtras}
-                className= "login100-form-btn btn btn-warning">
+                className= "btn btn-secondary btn-lg">
                 Volver
               </button>
 
             </div>
 
             </div>
+
 
         </div>
 
