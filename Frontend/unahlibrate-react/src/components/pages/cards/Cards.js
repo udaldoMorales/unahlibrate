@@ -112,8 +112,8 @@ function Cards(props) {
 
                     <CardItem
                       src={`${URL_GET_IMAGE_BOOK}${libro.image}`}
-                      text={libro.description}
-                      label={libro.title}
+                      text={libro.title}
+                      label={libro.price}
                       path='/perfilusuario'
                     />
 
