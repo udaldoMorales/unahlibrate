@@ -130,9 +130,9 @@ const PerfilUsers = () => {
                   {
 
                     (data.imagenPerfil !== "") ? (
-                      <div className='centerImage'>
+                      
                         <img src={"http://localhost:3900/api/" + 'get-image/' + data.imagenPerfil} alt={""} className="iconolbr" />
-                      </div>
+                     
                     ) : (
                       <div className='centerImage'>
                         <ProfileUser />

@@ -31,9 +31,8 @@ h1 {
   margin: 0 1rem;
   border-radius: 20px;
   background-color: #252e48;
-  /*width: fit-content*/;
-  width: 248px;
-  height: 462px;
+  width: fit-content;
+  
 }
 
 .cards__item_empty {

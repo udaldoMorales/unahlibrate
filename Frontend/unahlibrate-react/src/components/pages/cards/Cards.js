@@ -128,8 +128,8 @@ function Cards(props) {
 													{(libro !== 'Empty') ?
 													<CardItem
 														src={`${URL_GET_IMAGE_BOOK}${libro.image}`}
-														text={libro.description}
-														label={libro.title}
+														text={libro.title}
+														label={`${libro.price} Lps`}
 														path={`/detLibro/${libro._id}`}
 													/> :
 													<li className='cards__item_empty'></li>
