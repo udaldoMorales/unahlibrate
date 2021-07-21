@@ -10,10 +10,10 @@
 
 .input-search {
     height: 40px;
-    width: 650px;
-    margin: 4px;
-    padding: 4px;
-    font-size: 24px;
+    width: 550px;
+    margin: 3px;
+    padding: 1px;
+    font-size: 16px;
     text-align:center;
      
 }
@@ -23,6 +23,7 @@
     padding: 4px;
     font-size: 24px;
 }
+
 
 
 .padre {

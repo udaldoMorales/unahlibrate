@@ -7,15 +7,15 @@ const SearchBar = () => (
         <label htmlFor="header-search">
             <span className="visually-hidden">Busca un Libro</span>
         </label>
+       
        <input class="input-search"
             type="text"
             id="header-search"
-            placeholder="Busca un Libro"
+            placeholder="Buscar libros (título o autor)"
             name="s" 
         />
-        <div>
-            <button type="submit" class="btn btn-info boton-search">Buscar</button>
-        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        
         
     </form>
 
