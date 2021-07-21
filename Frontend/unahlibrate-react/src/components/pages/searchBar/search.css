@@ -1,0 +1,37 @@
+.visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 3px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.input-search {
+    height: 40px;
+    width: 650px;
+    margin: 4px;
+    padding: 4px;
+    font-size: 24px;
+    text-align:center;
+     
+}
+.Boton-search {
+    height: 40px;
+    margin: 4px;
+    padding: 4px;
+    font-size: 24px;
+}
+
+
+.padre {
+    background-color: #c7f5f7;
+    margin: 1rem;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    /* IMPORTANTE */
+    text-align: center;
+  }
+
+ 

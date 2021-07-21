@@ -10,6 +10,8 @@ import {Link, Redirect} from 'react-router-dom';
 import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
 import { allBooks } from '../../../services/UserBooks';
 import Cookies from 'universal-cookie';
+import Search from '../searchBar/searchbar';
+import '../searchBar/search.css'
 
 const cookies = new Cookies();
 
@@ -80,6 +82,7 @@ const pedirLibros = (id) => {
         return (
             <React.Fragment>
             <Navbar />
+            <Search/>
               {books==null &&
                 <div className='cards'>
                 <h1>Aún no se han publicado libros.</h1>
