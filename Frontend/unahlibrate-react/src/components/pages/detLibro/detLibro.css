@@ -140,7 +140,7 @@
 }
 
 .form-control{
-    padding: 0 30px 0 50px !important;
+    padding: 0 30px 0 50px;
 }
 
 .inputubucacion{
@@ -190,4 +190,8 @@
         margin-left: 150px;
     }
 
+}
+
+.info{
+    margin-left: 20px;
 }

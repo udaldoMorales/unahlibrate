@@ -50,7 +50,8 @@ const AgregarLibro = () => {
   const [validator, setValidator] = useState({
     nombre: false,
     precio: false,
-    condicion: false
+    condicion: false,
+    image: false,
   });
 
   const pedirLogg = async () => {
@@ -148,7 +149,7 @@ const AgregarLibro = () => {
 
     //Hacer validaciones respectivas FALTA ESO
 
-    if (Nombre != "" && Precio != "" && !isNaN(Number(Precio)) && Condicion != "") {
+    if (Nombre != "" && Precio != "" && !isNaN(Number(Precio)) && Condicion != "" && selectFile != null) {
 
       addBook(
         Nombre,
@@ -203,19 +204,23 @@ const AgregarLibro = () => {
             text: error.text
           });
         });
-    } else if (Nombre == "" || Precio == "" || Condicion == "") {
+    } else if (Nombre == "" || Precio == "" || Condicion == "" || selectFile==null) {
       if (Nombre == "") {
         setValidator({ nombre: true });
         console.log("entre aqui vacio");
-      }else
-      if (Precio == "") {
-        setValidator({ precio: true });
-        console.log("aqui tambien vacio");
-      }else
-      if (Condicion == "") {
-        setValidator({ condicion: true });
-        console.log("mass");
-      }
+      } else
+        if (Precio == "") {
+          setValidator({ precio: true });
+          console.log("aqui tambien vacio");
+        } else
+          if (Condicion == "") {
+            setValidator({ condicion: true });
+            console.log("mass");
+          } else
+            if (selectFile == null) {
+              setValidator({ image: true });
+              console.log("no hay imagen");
+            }
     }
   }
 
@@ -259,11 +264,16 @@ const AgregarLibro = () => {
                       onChange={cargarImagen}
                       accept="image/*"
                     />
+                    {validator.image ? (
+                      <p className="alert alert-danger error-p text-white">
+                        El libro debe tener una imagen
+                      </p>
+                    ) : null}
                   </center>
                   <div className="row mb-4">
                     <div className="col-md-6">
                       <div className="form-group" id="Nombre">
-                        <label className="form-weight-bold  mb-2">Titulo</label>
+                        <label className="form-weight-bold  mb-2">Título</label>
                         <input
                           type="text"
                           className="form-control"
@@ -306,19 +316,23 @@ const AgregarLibro = () => {
                           name="Edicion"
                           onChange={handleInputChange}
                           value={Edicion}
-                          placeholder="Numero de edicion"
+                          placeholder="Numero de edición"
                         />
                       </div>
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label className="form-weight-bold  mb-2">Género</label>
+                        <label className="form-weight-bold  mb-2">Tipo de libro</label>
                         <select className="form-select select-genero" aria-label="Default select example" onChange={handleInputChange} value={Genero} name="Genero">
-                          <option >Elegir Género</option>
-                          <option value="Narrativo">Género Narrativo</option>
-                          <option value="Lirico">Género Lírico</option>
-                          <option value="Dramatico">Género Dramático</option>
-                          <option value="Didactico">Género Didáctico</option>
+                          <option >Elegir Tipo</option>
+                          <option value="Novela">Novela</option>
+                          <option value="Lirico">Relato</option>
+                          <option value="Ensayo">Ensayo</option>
+                          <option value="Poesía">Poesía</option>
+                          <option value="Biografía">Biografía</option>
+                          <option value="Científico">Científico</option>
+                          <option value="Biografía">Biografía</option>
+
                         </select>
                       </div>
                     </div>
@@ -332,7 +346,7 @@ const AgregarLibro = () => {
                           onChange={handleInputChange}
                           value={Precio}
                           placeholder="Valor en Lempiras"
-                          pattern="[0-9]{1,3}"  maxlength="4"
+                          pattern="[0-9]{1,3}" maxlength="4"
                         />
                         {validator.precio ? (
                           <p className="alert alert-danger error-p text-white">
@@ -364,20 +378,20 @@ const AgregarLibro = () => {
                               id="inlineRadio2" value="Nuevo" onChange={handleInputChange} checked={datos.Condicion === "Nuevo"} />
                             Nuevo</label>
                         </div>
-                        
+
                       </div>
                       {validator.condicion ? (
-                          <p className="alert alert-danger error-p text-white">
-                            Se debe especificar el estado del libro
-                          </p>
-                        ) : null}
+                        <p className="alert alert-danger error-p text-white">
+                          Se debe especificar el estado del libro
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                   <div className="form-group mb-5">
                     <div className="mb-3">
                       <label className="form-weight-bold mb-2">Descripción</label>
                       <textarea className="form-control" value={Descripcion} onChange={handleInputChange} id="exampleFormControlTextarea1" name="Descripcion" rows="3"
-                      placeholder="Escriba una pequena descripcion acerca del libro" maxLength="250"></textarea>
+                        placeholder="Escriba una pequena descripcion acerca del libro" maxLength="250"></textarea>
                     </div>
                   </div>
                   <center>

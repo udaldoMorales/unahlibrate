@@ -140,7 +140,7 @@ const FormUser = ({ history }) => {
 
   
   if (registeredAndLogged) {
-    return (<Redirect to={{pathname:'/perfil', state: {user: Usuario, email: Correo}}}/>)
+    return (<Redirect to={{pathname:'/perfilusuario', state: {user: Usuario, email: Correo}}}/>)
   }
   return (
     <React.Fragment>

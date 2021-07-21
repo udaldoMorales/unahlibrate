@@ -131,11 +131,11 @@ const PerfilUsers = () => {
 
                     (data.imagenPerfil !== "") ? (
                       
-                        <img src={"http://localhost:3900/api/" + 'get-image/' + data.imagenPerfil} alt={""} className="iconolbr" />
+                        <img src={"http://localhost:3900/api/" + 'get-image/' + data.imagenPerfil} alt={"Imagen del perfil"} className="iconolbr" />
                      
                     ) : (
                       <div className='centerImage'>
-                        <ProfileUser />
+                        <img src="https://holatelcel.com/wp-content/uploads/2020/09/instagram-foto-de-perfil-4.jpg" alt="imagen de perfil por defecto" className="iconolbr"/>
                       </div>
                     )
 
