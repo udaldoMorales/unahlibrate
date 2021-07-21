@@ -86,7 +86,7 @@ const pedirLibros = (id) => {
                 </div>
               }
               {books!=null &&
-                <Cards libros={books}/>
+                <Cards_catalogo libros={books}/>
               }
             </React.Fragment>
             ); 
