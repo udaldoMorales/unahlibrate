@@ -29,6 +29,7 @@ function App() {
         <Route path="/agregarLibro" component={Agregarlibro}/>
         <Route path="/about"  component={AboutUs} />
         <Route path="/catalogo" exact component={Catalogo} />
+        <Route path="/catalogo/busqueda/:search?" exact component={Catalogo} />
         <Route path="/perfilusuario" exact component={PerfilUsers}/>
         <Route path="/detLibro/:bookId" exact component={DetLibro}/>
       </Switch>

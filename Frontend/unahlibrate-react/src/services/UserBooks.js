@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_GET_USER_BOOKS, URL_GET_BOOKS, URL_GET_BOOK_BY_ID } from '../constants/urls';
+import { URL_GET_USER_BOOKS, URL_GET_BOOKS, URL_GET_BOOK_BY_ID, URL_GET_SEARCH_BOOKS } from '../constants/urls';
 
 export const allBooks = async () => {
 
@@ -64,3 +64,27 @@ export const individualBook = async (bookId) => {
         return errorObj;
     }
 }
+
+export const searchBooks = async (searchString) => {
+    try{
+     const foundedBooks = await axios.get(`${URL_GET_SEARCH_BOOKS}${searchString}`);
+        if (foundedBooks.status !== 200) console.log(foundedBooks.data);
+        return foundedBooks.data;
+    }catch(error){
+        let errorObj;
+        const {response}= error;
+        if(response.status===404){
+            errorObj ={
+                title:"No se encontraron los libros",
+                text:"No hay libros con esa búsqueda, o no se encontraron."
+            }
+        }else{
+            errorObj={
+                title:"Error en servidor",
+                text:"Ocurrió un error en el servidor."
+            }
+        }
+
+        return errorObj;
+    }
+};

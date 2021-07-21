@@ -200,9 +200,9 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/catalogo" className="nav-links" onClick={closeMobileMenu}>
+                <a className="nav-links" onClick={() => {closeMobileMenu();  window.location.replace(`/catalogo`);}}>
                   Catálogo
-                </Link>
+                </a>
               </li>
               <li className="nav-item">
                 <Link

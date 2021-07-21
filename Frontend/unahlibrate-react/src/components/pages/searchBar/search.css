@@ -10,7 +10,7 @@
 
 .input-search {
     height: 40px;
-    width: 550px;
+    width: 40%;
     margin: 3px;
     padding: 1px;
     font-size: 16px;
@@ -32,7 +32,23 @@
     padding: 1rem;
     border: 2px solid #ccc;
     /* IMPORTANTE */
-    text-align: center;
+    /*text-align: center;*/
+    text-align: -webkit-center;
   }
 
- 
+.alerta{
+    width: 30% !important;
+    padding: 0 0 0 0 !important;
+}
+
+@media screen and (max-width: 852px){
+    .boton{
+        width: 40% !important;
+    }
+}
+
+@media screen and (max-width: 852px){
+    .alerta{
+        width: 80% !important;
+    }
+}

@@ -32,6 +32,8 @@ export const URL_GET_BOOKS = `${urlApi}/api/books`;
 //Obtener un libro individual por su ID:
 export const URL_GET_BOOK_BY_ID = `${urlApi}/api/book/`;
 
+//Buscar libros por una cadena (string) de búsqueda
+export const URL_GET_SEARCH_BOOKS = `${urlApi}/api/search-books/`;
 
 
 
