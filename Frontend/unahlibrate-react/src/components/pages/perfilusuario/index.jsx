@@ -5,6 +5,7 @@ import './../Home/Navbar.css';
 import "./style.css";
 import perfil from '../../../img/perfil.jpg'
 import "bootstrap/dist/css/bootstrap.min.css";
+import Swal from "sweetalert2";
 //Importaciones para conectar con el backend
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
 import { userBooks } from '../../../services/UserBooks';
@@ -92,7 +93,8 @@ const PerfilUsers = () => {
 
   const pedirLibros = (id) => {
     userBooks(id).then(res=>{
-      setBooks(res.books);
+      if(res.status === 'success') setBooks(res.books);
+
     });
     console.log("Me ejecute");
     console.log(books);
@@ -231,7 +233,10 @@ const PerfilUsers = () => {
             <div class="alert alert-primary" role="alert">
               <center><h2>Tu lista de libros publicados</h2></center>
             </div>
-            
+
+            {books==null &&
+              <h1 id='nobooks'>Aún no haz publicado libros.</h1>
+            }
             {books!=null &&
               <Cards libros={books}/>
             }

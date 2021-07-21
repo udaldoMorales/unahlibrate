@@ -30,7 +30,7 @@ function App() {
         <Route path="/about"  component={AboutUs} />
         <Route path="/catalogo" exact component={Catalogo} />
         <Route path="/perfilusuario" exact component={PerfilUsers}/>
-        <Route path="/detLibro" exact component={DetLibro}/>
+        <Route path="/detLibro/:bookId" exact component={DetLibro}/>
       </Switch>
     </Router>
   );

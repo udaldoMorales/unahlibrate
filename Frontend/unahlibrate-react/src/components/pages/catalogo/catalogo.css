@@ -6,6 +6,10 @@
   h1 {
     text-align: center;
   }
+
+  #nobooks{
+    padding-bottom: 2rem;
+  }
   
   .cards__container {
     display: flex;

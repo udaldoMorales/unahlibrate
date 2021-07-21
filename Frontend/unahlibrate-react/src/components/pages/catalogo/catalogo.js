@@ -5,6 +5,7 @@ import Cards from '../cards/Cards';
 import Cards_catalogo from './cards-catalogo';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
+import Swal from "sweetalert2";
 import {Link, Redirect} from 'react-router-dom';
 import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
 import { allBooks } from '../../../services/UserBooks';
@@ -58,7 +59,7 @@ const pedirDatos = async () => {
 
 const pedirLibros = (id) => {
   allBooks().then(res=>{
-    setBooks(res.books);
+    if (res.status==='success') setBooks(res.books);
   });
   console.log("Me ejecute");
   console.log(books);
@@ -75,10 +76,15 @@ const pedirLibros = (id) => {
         <Redirect to="/" />
       )
   } else if
-      (isSigned==true && books !== null){
+      (isSigned==true){
         return (
             <React.Fragment>
             <Navbar />
+              {books==null &&
+                <div className='cards'>
+                <h1>Aún no se han publicado libros.</h1>
+                </div>
+              }
               {books!=null &&
                 <Cards libros={books}/>
               }
