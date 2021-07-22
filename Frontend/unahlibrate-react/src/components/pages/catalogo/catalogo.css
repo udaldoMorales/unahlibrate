@@ -35,8 +35,19 @@
     margin: 0 1rem;
     border-radius: 20px;
     background-color: #252e48;
+    height: 360px;
     width: 240px;
-    
+   
+  }
+
+  .cards__item_empty {
+    display: flex;
+    flex: 1;
+    margin: 0 1rem;
+    border-radius: 20px;
+    height: 360px;
+    width: 240px;
+   
   }
   
   .cards__item__link {
@@ -106,7 +117,7 @@
     line-height: 16px;
   }
   
-  @media only screen and (min-width: 1200px) {
+  @media only screen and (min-width: 1024px) {
     .content__blog__container {
       width: 84%;
     }
@@ -124,3 +135,9 @@
     }
   }
   
+  @media only screen and (max-width: 800px){
+    .cards__item_empty{
+      width: 50px;
+      height: 15px;
+    }
+  }

@@ -135,7 +135,7 @@ const PerfilUsers = () => {
                      
                     ) : (
                       <div className='centerImage'>
-                        <img src="https://holatelcel.com/wp-content/uploads/2020/09/instagram-foto-de-perfil-4.jpg" alt="imagen de perfil por defecto" className="iconolbr"/>
+                        <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="imagen de perfil por defecto" className="iconolbr"/>
                       </div>
                     )
 

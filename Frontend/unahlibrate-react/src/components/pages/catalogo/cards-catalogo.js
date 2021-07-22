@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import '../cards/Cards.css';
-import CardItem from '../cards/CardItem';
+import '../catalogo/catalogo.css';
+import CardItem from '../catalogo/card-item';
 import { URL_GET_IMAGE_BOOK } from '../../../constants/urls';
 
 function Cards_catalogo(props) {
@@ -28,6 +28,7 @@ function Cards_catalogo(props) {
     }
     return grupos;
   }
+  
 
   if (!props.libros) {
     return (
@@ -92,10 +93,11 @@ function Cards_catalogo(props) {
           </div>
       );    
   } else {
+
     var gruposDeCuatro = formarGrupos(props.libros);
     //console.log("numero de libros",numLibros);
     //console.log("numero de grupos",numGrupos);
-    console.log(gruposDeCuatro);
+    console.log(gruposDeCuatro); 
 
     return (
       <div className='cards'>
@@ -117,7 +119,7 @@ function Cards_catalogo(props) {
                             label={`${libro.price} Lps`}
                             path={`/detLibro/${libro._id}`}
                           /> :
-                          <li className='cards__item_empty'></li>
+                          <div className='cards__item_empty'></div>
                           }
                           </React.Fragment> 
                         );
@@ -131,8 +133,9 @@ function Cards_catalogo(props) {
           </div>
         </div>
       </div>
-    )
-  }
+    ) 
+    
+  } 
   
 }
 

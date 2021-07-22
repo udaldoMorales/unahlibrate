@@ -25,13 +25,13 @@ h1 {
   margin-bottom: 24px;
 }
 
-.cards__item {
+.cards__item_css_cards {
   display: flex;
   flex: 1;
   margin: 0 1rem;
   border-radius: 20px;
   background-color: #252e48;
-  width: fit-content;
+  width: 240px;
   
 }
 
