@@ -11,6 +11,7 @@ function ProfileUser({ ancho = "100px", largo = "100px" }) {
       width={ancho}
       height={largo}
       viewBox="0 0 45.532 45.532"
+      
     >
       <g>
         <path
