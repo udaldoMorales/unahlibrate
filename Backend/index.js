@@ -1,6 +1,6 @@
 'use strict'
 
-const app = require('./app');
+const { app, httpServer } = require('./app');
 
 //Para enviar correo de confirmacion
 //const nodemailer = require('nodemailer');
@@ -23,6 +23,9 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology:true, useCreate
         app.listen(port,() => {
             console.log("Servidor corriendo en http://localhost:"+port + " conectado con la base correctamente");
         });
+        httpServer.listen(port+1, () => {
+            console.log(`Servidor http en http://localhost:${port+1} conectado`);
+        })
     }).catch(err => console.log(err));
 
 

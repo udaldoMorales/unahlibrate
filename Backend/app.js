@@ -7,6 +7,12 @@ const express = require('express');
 //Ejecutar express.
 const app = express();
 
+//Cargar el socket.io
+const http = require('http');
+const socketio = require('socket.io');
+var httpServer = http.createServer(app);
+var io = socketio(httpServer);
+
 //Cargar ficheros rutas.
 
 var user_routes = require('./routes/user_routes');
@@ -46,4 +52,8 @@ app.get("/", (request, response) => {
 })
 
 //Exportar el módulo (fichero actual).
-module.exports = app;
+module.exports = {
+    app, httpServer, io 
+};
+
+require('./sockets/socket');

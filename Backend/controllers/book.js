@@ -86,24 +86,26 @@ var controller = {
         var bookID = request.params.id;
 
         book.findById(bookID, (err, foundBook) => {
-            if (err || !foundBook || foundBook == undefined) {
-                return response.status(404).send({
-                    status: 'error',
-                    message: 'No se encuntra ese libro'
-                });
-            } else {
-                return response.status(200).send({
-                    status: 'success',
-                    book: foundBook
-                });
-            }
+            user.populate(foundBook, {path:'user'}, (errr, foundBook) => {
+                if (err || !foundBook || foundBook == undefined) {
+                    return response.status(404).send({
+                        status: 'error',
+                        message: 'No se encuntra ese libro'
+                    });
+                } else {
+                    return response.status(200).send({
+                        status: 'success',
+                        book: foundBook
+                    });
+                }
+            });
         });
     },
     //4. Obtener libros disponibles de un determinado usuario
     getBooksUser: (request, response) => {
 
         var userID = request.params.id;
-
+        /*
         book.find({ user: userID, deleted: 'false' }).sort('-date').exec((err, books) => {
             if (err) {
                 return response.status(400).send({
@@ -122,6 +124,27 @@ var controller = {
                 })
             }
         });
+        */
+        book.find({ user: userID, deleted: 'false' }, (err, books)=>{
+            user.populate(books, { path: "user" }, (err, booksN)=>{
+            if (err) {
+                return response.status(400).send({
+                    status: 'error',
+                    message: 'Error al devolver los libros'
+                });
+            } else if (!booksN || booksN.length == 0) {
+                return response.status(404).send({
+                    status: 'error',
+                    message: 'No hay libros que devolver para ese usuario'
+                });
+            } else { 
+                return response.status(200).send({
+                    status: 'success',
+                    books:booksN
+                });
+            }
+        });
+    });
     },
     //5. Cargar imagen del libro
     uploadImageBook: (req, res) => {
