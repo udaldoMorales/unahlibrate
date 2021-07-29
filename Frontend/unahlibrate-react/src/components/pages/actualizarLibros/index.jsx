@@ -155,7 +155,7 @@ const ActualizarLibro = () => {
          </div>
        </div>
        <center>
-       <button type="button" class="btn btn-success width-100 btn-agregar mb-3 ">Agregar</button>
+       <button type="button" class="btn btn-success width-100 btn-agregar mb-3 ">Actualizar</button>
        <button type="button" class="btn btn-primary width-100 btn-cancelar  mb-3">Cancelar</button>
      </center>
            </form>

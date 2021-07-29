@@ -4,7 +4,7 @@ import "./App.css";
 import Routes from "./components/routes";
 import Navbar from "./components/pages/Home/Navbar";
 import { Login } from "./components/pages";
-import { Registro, ActualizarPerfil, Formclv, Agregarlibro,PerfilUsers, DetLibro,ActualizarLibro} from "./components/pages";
+import { Registro, ActualizarPerfil, Formclv, Agregarlibro,PerfilUsers, DetLibro,ActualizarLibro,PanelChat } from "./components/pages";
 import Home from "./components/pages/Home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Perfil } from "./components/pages";
@@ -36,6 +36,7 @@ function App() {
         <Route path="/perfilusuario" exact component={PerfilUsers}/>
         <Route path="/detLibro/:bookId" exact component={DetLibro}/>
         <Route path="/actualizarLibros" component={ActualizarLibro}/>
+        <Route path="/panelChat" component={PanelChat}/>
 
       {/*Para probar el chat*/}
       <Route path='/chat' exact component={Chat}/>

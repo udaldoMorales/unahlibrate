@@ -132,6 +132,10 @@ function Navbar() {
         <Link to="/actualizarLibros" replace={false}>Actualizar Libros</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
+      <Menu.Item>
+      <Link to="/panelChat" replace={false}>Panel Chat</Link>
+      {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
+    </Menu.Item>
     </Menu>
   );
   
