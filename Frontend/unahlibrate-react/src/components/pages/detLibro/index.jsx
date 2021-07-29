@@ -4,7 +4,7 @@ import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
 import "./detLibro.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, Link } from 'react-router-dom';
 
 //Importaciones para la conexión con el backend
 import { individualBook } from '../../../services/UserBooks';
@@ -30,11 +30,8 @@ const DetLibro = () => {
   const pedirDatos = async () => {
 
     try {
-      console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
       setUser(rr.user);
-      console.log('- Yo también.');
-      console.log('- METIDO.');
     } catch (err) {
       console.log(err);
     }
@@ -44,11 +41,9 @@ const DetLibro = () => {
 
     try {
 
-      console.log(1);
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
       setAllow(response);
       setIsSigned(response.status);
-      console.log("Me ejecuté.")
 
     } catch (err) {
       console.log(err);
@@ -116,9 +111,6 @@ const DetLibro = () => {
       <Redirect to='/login' />
     );
   } else if (isSigned === true && user !== {}) {
-    console.log(data.usuario);
-    console.log("---");
-    console.log(user._id);
     return (
       <React.Fragment>
         <Navbar />
@@ -202,6 +194,15 @@ const DetLibro = () => {
                     </div>
                   </div>
 
+                  <div className="row mb-3">
+                    <div className="form-group">
+                      <span className="etiqueta">Por: </span>
+
+                      {/*<b>Aqui va el estado del libro </b>*/}
+                      <b className="etiqueta">{data.usuario.user}</b>
+                    </div>
+                  </div>
+
                 </div>
               </div>
 
@@ -213,14 +214,15 @@ const DetLibro = () => {
               </div>
 
               <div className="col md-3">
+                <Link to={{pathname:'/chat', state: {user1: user._id, user2: data.usuario._id}}}>
                 <button
                   type="button"
                   className="btn btn-success btn-lg">
-                  Comprar
+                  Contactar al vendedor
                 </button>
-
+                </Link>
               </div>
-              {(data.usuario === user._id) &&
+              {(data.usuario._id === user._id) &&
                 <div className="col md-3" >
                   <button
                     type="button"

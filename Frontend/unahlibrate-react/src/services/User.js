@@ -22,9 +22,9 @@ export const updateUser = async (
     };
     try {
 
-        console.log('Mando');
+        //console.log('Mando');
         const update = await axios.put(`${URL_PUT_USER_UPDATE}${id}`, data);
-        console.log('¿Ejecuté?');
+        //console.log('¿Ejecuté?');
         if (update.status === 200){
             return update.data;
         } else {

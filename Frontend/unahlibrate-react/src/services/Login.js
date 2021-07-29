@@ -13,7 +13,7 @@ export const loginUser = async (user, password) => {
  	try {
 	var peiticion = await axios.post(URL_POST_LOGIN, data);
 		//console.log(peiticion);
-		console.log('Aquí llega la respuesta.');
+		//console.log('Aquí llega la respuesta.');
 		toSend = {
 			status: peiticion.data.status,
 			code: peiticion.status,
@@ -22,7 +22,7 @@ export const loginUser = async (user, password) => {
 		return toSend;
  	} catch (err) {
  		//console.log(err);
-		console.log('Aquí llega el error.');
+		//console.log('Aquí llega el error.');
  		let {response} = err;
  		toSend = {
 			status: response.data.status,

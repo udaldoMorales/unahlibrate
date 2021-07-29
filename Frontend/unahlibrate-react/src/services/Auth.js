@@ -10,53 +10,53 @@ export const esUsuario = async (cookie, refreshCookie) => {
 
 	try {
 
-		console.log(`Cookie: ${cookie}`);
-		console.log(`RefreshCookie: ${refreshCookie}`);
+		//console.log(`Cookie: ${cookie}`);
+		//console.log(`RefreshCookie: ${refreshCookie}`);
 		var peticionToken = await axios.get(URL_GET_USER_ACCESS, { headers: {'Authorization': `Bearer ${cookie}`} })
 		
-    console.log(peticionToken.status);
+    //console.log(peticionToken.status);
 		responseTo = peticionToken.data;
-		console.log('Aquí hay resultado positivo, el token es correcto:');
-		console.log(responseTo);
+		//console.log('Aquí hay resultado positivo, el token es correcto:');
+		//console.log(responseTo);
 		return responseTo;
 
 	} catch(error) {
 
-		console.log('El token no es el correcto');
+		//console.log('El token no es el correcto');
 		let {response} = error;
 
-		console.log('Response erro');
+		//console.log('Response erro');
 		if (response.data.status === 'error' && response.status === 403){
 		
 			responseTo = response.data;
-			console.log('No hay token');
+			//console.log('No hay token');
 			console.log(responseTo);
 			return responseTo;
 		
 		} else if (response.data.status === 'error' && response.status === 401) {
 
-			console.log('Token no sirve');
+			//console.log('Token no sirve');
 			responseTo = response.data;
-			console.log(responseTo);
+			//console.log(responseTo);
 			return responseTo;
 
 		} else if (response.data.status === 'expired' && response.status === 403){
 		
 			//Petición refresh.
-			console.log('El token expiró');
+			//console.log('El token expiró');
 			console.log(response.data);
 			try {
-				console.log('Llegaste? Digo, a pedir el nuevo token');
+				//console.log('Llegaste? Digo, a pedir el nuevo token');
 				var refresh = await axios.post(URL_POST_USER_REFRESH, {refreshToken: refreshCookie});
-				console.log(refresh.status);
-				console.log('Sí, se dio el nuevo token.')
+				//console.log(refresh.status);
+				//console.log('Sí, se dio el nuevo token.')
 				return refresh.data;
 			} catch(err) {
-				console.log('No se está dando el nuevo token');
+				//console.log('No se está dando el nuevo token');
 				var queDa = err.response;
-				console.log(queDa.status);
-				console.log('Quiero saber qué pasó.');
-				console.log(queDa);
+				//console.log(queDa.status);
+				//console.log('Quiero saber qué pasó.');
+				//console.log(queDa);
 				return queDa.data;
 
 			}
@@ -79,7 +79,7 @@ export const peticionDatoUsuario = async (userName) => {
 
     } catch (err) {
         let {response} = err;
-        console.log(response);
+        //console.log(response);
         if (response.status === 404 && response.data.status === 'failed'){
           return ({
             user: undefined
@@ -96,33 +96,33 @@ export const peticionUsuarioLoggeado = async (cookie, refreshCookie) => {
 
 		var response = await esUsuario(cookie, refreshCookie);
 		if (response) {
-			console.log('¿Qué hay acá?');
+			//console.log('¿Qué hay acá?');
 			console.log(response);
 		}
 
 
         if(response.status === 'error'){
           //No devolver nada.
-          console.log('Respuesta de Usuario: 1')
+          //console.log('Respuesta de Usuario: 1')
           allowed = {
               status: false,
               message: 'not'  
             };
-          console.log(allowed.message);
+          //console.log(allowed.message);
           return allowed;
 
         } else if (response.status === 'noToken'){
-          console.log('Respuesta de Usuario: 2')
+          //console.log('Respuesta de Usuario: 2')
           allowed = {
               status: false,
               message: 'sentOff'
             }
           	return allowed;	
-          console.log(allowed.message);
+          //console.log(allowed.message);
         }
         else if (response.status === 'newToken'){
           
-        	console.log('Respuesta de Usuario: 3')
+        	//console.log('Respuesta de Usuario: 3')
 
           cookies.set('auth', response.accessToken, {path: '/'});
           cookies.set('refreshToken', response.accessToken, {path: '/'});
@@ -132,10 +132,10 @@ export const peticionUsuarioLoggeado = async (cookie, refreshCookie) => {
               message: 'remain'
             }
           	return allowed;	
-          console.log(allowed.message);
+          //console.log(allowed.message);
 
         } else if (response.status === 'noTokenExp'){
-          console.log('Respuesta de Usuario: 4')
+          //console.log('Respuesta de Usuario: 4')
 
           allowed = {
               status: false,
@@ -143,7 +143,7 @@ export const peticionUsuarioLoggeado = async (cookie, refreshCookie) => {
             };
             return allowed;	
         } else if (response.status === 'success'){
-          console.log('Cambié todo.');
+          //console.log('Cambié todo.');
           //setUserLogged(response.loggedUser);
           
 		console.log('Respuesta de Usuario: 5')
@@ -151,9 +151,9 @@ export const peticionUsuarioLoggeado = async (cookie, refreshCookie) => {
               status: true,
               message: 'in'
             }
-          console.log('Se comprobó primero');
+          //console.log('Se comprobó primero');
           return allowed;
-          console.log(allowed.message);
+          //console.log(allowed.message);
         }
         return allowed;	
 

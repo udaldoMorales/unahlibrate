@@ -50,7 +50,6 @@ const PerfilUsers = () => {
   const [isSigned, setIsSigned] = useState(null);
 
   const pedirDatos = async () => {
-    console.log("Que hagoooooooo");
     try {
       console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
@@ -64,10 +63,8 @@ const PerfilUsers = () => {
         imagenPerfil: rr.user.imageProfile,
         ubicacion: rr.user.ubication
       });
-      console.log("Que pedos con vos funcion rara");
       console.log(rr);
       pedirLibros(rr.user._id);
-      console.log("Que pedos con vos funcion rara");
       console.log(data);
     } catch (err) {
       console.log(err);

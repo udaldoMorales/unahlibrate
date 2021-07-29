@@ -42,10 +42,10 @@ function Navbar() {
   const pedirDatos = async () => {
 
     try {
-      console.log(2);
+      //console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
-      console.log('Response');
-      console.log(rr);
+      //console.log('Response');
+      //console.log(rr);
       setUser(rr.user);
     } catch (err) {
         console.log(err);
@@ -57,12 +57,12 @@ function Navbar() {
     
     try {
 
-      console.log(1);
+      //console.log(1);
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
-      console.log('Viene de peticionUsuarioLoggeado');
-      console.log(cookies.get('auth'));
-      console.log(cookies.get('refreshToken'));
-      console.log(response);
+      //console.log('Viene de peticionUsuarioLoggeado');
+      //console.log(cookies.get('auth'));
+      //console.log(cookies.get('refreshToken'));
+      //console.log(response);
       setAllow(response);
       setIsSigned(response.status);
 
@@ -134,10 +134,7 @@ function Navbar() {
       </Menu.Item>
     </Menu>
   );
-  console.log('user:');
-  console.log(user);
-  console.log('isSigned');
-  console.log(isSigned);
+  
   return (
     <>
       <nav className="navbar">

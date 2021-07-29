@@ -53,11 +53,11 @@ const Formrecupclv = ({ history }) => {
   const pedirDatos = async () => {
 
     try {
-      console.log(2);
+      //console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
       setUser(rr.user);
-      console.log('- .');
-      console.log('- ');
+      //console.log('- .');
+      //console.log('- ');
     } catch (err) {
       console.log(err);
     }
@@ -67,11 +67,11 @@ const Formrecupclv = ({ history }) => {
 
     try {
 
-      console.log(1);
+      //console.log(1);
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
       setAllow(response);
       setIsSigned(response.status);
-      console.log("Me ejecuté.")
+      //console.log("Me ejecuté.")
 
     } catch (err) {
       console.log(err);
@@ -97,13 +97,13 @@ const Formrecupclv = ({ history }) => {
         })
       } else if (ContraseñaNueva === ConfirmacionContraseña){
         //Aquí debería todo estar correcto.
-        console.log(' Perfecto ');
-        console.log(token);
+        //console.log(' Perfecto ');
+        //console.log(token);
         //Peticion
 
         try {
-          console.log(token);
-          console.log(ContraseñaNueva);
+          //console.log(token);
+          //console.log(ContraseñaNueva);
           var restorePass = await restorePassword(token, ContraseñaNueva);
           if (restorePass.status == 'success'){
             Swal.fire(
@@ -125,7 +125,7 @@ const Formrecupclv = ({ history }) => {
           }
     
         } catch (err) {
-          console.log('Algo pasó acá.')
+          //console.log('Algo pasó acá.')
           console.log(err);
           Swal.fire({
             icon: "error",
