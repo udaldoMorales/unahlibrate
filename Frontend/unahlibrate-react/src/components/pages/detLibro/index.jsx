@@ -241,6 +241,14 @@ const DetLibro = () => {
                     </button>
                   </Link>
                 </div>}
+                {(data.usuario._id === user._id) &&
+                <div className="col md-3" >
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-lg">
+                    Eliminar
+                  </button>
+                </div>}
               <div className="col md-3" >
                 <button
                   type="button"
