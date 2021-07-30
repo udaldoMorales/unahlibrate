@@ -295,7 +295,7 @@ var controller = {
 
             return response.status(200).send({
                 status: 'success',
-                article: updatedBook
+                book: updatedBook
             });
         });
     }
