@@ -242,7 +242,7 @@ const AgregarLibro = () => {
             <div className="col-xl-5 col-lg-12 register-bg">
               <center>
                 <div class="titulo">
-                  <p >Agrega tus libros</p>
+                   <p >Agrega tus libros</p>
                   <img className="iconolbr" src={libro} alt="" />
                 </div>
               </center>

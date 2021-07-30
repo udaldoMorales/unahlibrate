@@ -214,21 +214,32 @@ const DetLibro = () => {
               </div>
 
               <div className="col md-3">
-                <Link to={{pathname:'/chat', state: {user1: user._id, user2: data.usuario._id}}}>
-                <button
-                  type="button"
-                  className="btn btn-success btn-lg">
-                  Contactar al vendedor
-                </button>
+                <Link to={{ pathname: '/chat', state: { user1: user._id, user2: data.usuario._id } }}>
+                   <button
+                    type="button"
+                    className="btn btn-success btn-lg">
+                    Contactar al vendedor
+                  </button>
                 </Link>
               </div>
               {(data.usuario._id === user._id) &&
                 <div className="col md-3" >
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-lg">
-                    Editar
-                  </button>
+                  <Link
+                    to={{
+                      pathname: "/actualizarLibros",
+                      state:{
+                        libro: data,
+                        libroID: bookId
+                      }
+                    }
+                    }
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-lg">
+                      Editar
+                    </button>
+                  </Link>
                 </div>}
               <div className="col md-3" >
                 <button
@@ -242,12 +253,7 @@ const DetLibro = () => {
 
             </div>
 
-
           </div>
-
-
-
-
         </section>
 
       </React.Fragment>

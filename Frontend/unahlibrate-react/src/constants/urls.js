@@ -26,6 +26,8 @@ export const URL_POST_ADD_BOOK = `${urlApi}/api/save-book`;
 export const URL_POST_SAVE_IMAGE_BOOOK = `${urlApi}/api/upload-book-image/`;
 export const URL_GET_USER_BOOKS = `${urlApi}/api/books-user/`;
 export const URL_GET_IMAGE_BOOK=`${urlApi}/api/get-book-image/`;
+export const URL_PUT_UPDATE_BOOK=`${urlApi}/api/update-book/`;
+export const URL_POST_DELETE_BOOK=`${urlApi}/api/delete-book/`;
 
 export const URL_GET_BOOKS = `${urlApi}/api/books`;
 
@@ -36,13 +38,3 @@ export const URL_GET_BOOK_BY_ID = `${urlApi}/api/book/`;
 export const URL_GET_SEARCH_BOOKS = `${urlApi}/api/search-books/`;
 
 
-
-
-
-//URL dinamicas
-export const URL_POST_RESET_PASSWORD = (token) =>
-  `/api/auth/resetpassword/${token}`;
-export const URL_GET_PRODUCT_BY_ID = (id) => `/api/data/products/${id}`;
-export const URL_GET_REQUEST_DETAILS = (id) => `/api/request/${id}/details`;
-export const URL_PRODUCT_ID = (id) => `/api/product/${id}`;
-export const URL_GET_BILL_INFO = (id) => `/api/data/bill/${id}`;
