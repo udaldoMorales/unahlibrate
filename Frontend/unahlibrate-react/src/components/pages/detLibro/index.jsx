@@ -217,7 +217,7 @@ const DetLibro = () => {
                 <Link to={{ pathname: '/chat', state: { user1: user._id, user2: data.usuario._id } }}>
                    <button
                     type="button"
-                    className="btn btn-success btn-lg">
+                    className="btn btn-success btn-lg btn-v">
                     Contactar al vendedor
                   </button>
                 </Link>
