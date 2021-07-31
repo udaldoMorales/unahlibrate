@@ -133,7 +133,7 @@ function Navbar() {
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
       <Menu.Item>
-      <Link to="/panelChat" replace={false}>Panel Chat</Link>
+      <Link to={{pathname: "/panelChat"}} replace={false}>Panel Chat</Link>
       {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
     </Menu.Item>
     </Menu>

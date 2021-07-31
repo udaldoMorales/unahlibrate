@@ -1,4 +1,4 @@
-import {URL_POST_USER_REFRESH, URL_GET_USER_ACCESS, URL_GET_GET_USERNAME} from '../constants/urls';
+import {URL_POST_USER_REFRESH, URL_GET_USER_ACCESS, URL_GET_GET_USERNAME, URL_GET_GET_USER_BY_ID} from '../constants/urls';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -75,6 +75,25 @@ export const peticionDatoUsuario = async (userName) => {
     	let rrr = await axios.get(`${URL_GET_GET_USERNAME}${userName}`);
         return ({
        		user: rrr.data.user[0]
+      	});
+
+    } catch (err) {
+        let {response} = err;
+        //console.log(response);
+        if (response.status === 404 && response.data.status === 'failed'){
+          return ({
+            user: undefined
+          })
+        }
+    }
+}
+
+export const peticionDatoUsuario_Id = async (userId) => {
+    //console.log('me ejecuté acá.')
+    try {
+    	let rrr = await axios.get(`${URL_GET_GET_USER_BY_ID}${userId}`);
+        return ({
+       		user: rrr.data.user
       	});
 
     } catch (err) {

@@ -213,15 +213,17 @@ const DetLibro = () => {
                 <p>{data.descripcion}</p>
               </div>
 
-              <div className="col md-3">
-                <Link to={{ pathname: '/chat', state: { user1: user._id, user2: data.usuario._id } }}>
-                   <button
-                    type="button"
-                    className="btn btn-success btn-lg btn-v">
-                    Contactar al vendedor
-                  </button>
-                </Link>
-              </div>
+              {data.usuario._id != user._id &&
+                <div className="col md-3">
+                  <Link to={{ pathname: '/panelChat', state: { user1: user._id, user2: data.usuario._id } }}>
+                    <button
+                      type="button"
+                      className="btn btn-success btn-lg btn-v">
+                      Contactar al vendedor
+                    </button>
+                  </Link>
+                </div>
+              }
               {(data.usuario._id === user._id) &&
                 <div className="col md-3" >
                   <Link

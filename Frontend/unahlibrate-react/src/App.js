@@ -36,11 +36,11 @@ function App() {
         <Route path="/perfilusuario" exact component={PerfilUsers}/>
         <Route path="/detLibro/:bookId" exact component={DetLibro}/>
         <Route path="/actualizarLibros" component={ActualizarLibro}/>
-        <Route path="/panelChat" component={PanelChat}/>
+        <Route path="/panelChat" exact component={PanelChat}/>
 
       {/*Para probar el chat*/}
-      <Route path='/chat' exact component={Chat}/>
-      <Route path='/chats' exact component={Chats}/>
+      {/*<Route path='/chat' exact component={Chat}/>
+      <Route path='/chats' exact component={Chats}/>*/}
       </Switch>
     </Router>
   );
