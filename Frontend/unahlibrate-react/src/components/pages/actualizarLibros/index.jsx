@@ -10,8 +10,6 @@ import "./style.css";
 import { Notebook } from "../../atoms";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { URL_GET_USER_BOOKS, URL_GET_BOOKS, URL_GET_BOOK_BY_ID, URL_GET_SEARCH_BOOKS, URL_POST_DELETE_BOOK, URL_PUT_UPDATE_BOOK } from '../../../constants/urls';
-
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
 
 import { updateBook } from '../../../services/UserBooks';
@@ -241,7 +239,6 @@ const ActualizarLibro = () => {
       <Redirect to='/login' />
     );
   } else if (isSigned == true) {
-
     return (
       <React.Fragment>
         <Navbar />
@@ -263,7 +260,9 @@ const ActualizarLibro = () => {
                   <center>
                     <div className="centerMargen mt-3 mb-4 " id="imagenLibro">
                       {libro.imagenLibro &&
-                        <img src={`${URL_GET_IMAGE_BOOK}${libro.imagenLibro}`} alt="imagen del libro" />
+                        <img src={`${URL_GET_IMAGE_BOOK}${libro.imagenLibro}`} alt="imagen del libro"
+                          style={{ width: "235px", height: "238px", "object-fit":"cover" }}
+                        />
                       }
                     </div>
                     <input
@@ -271,11 +270,17 @@ const ActualizarLibro = () => {
                       type="file"
                       name="file0"
                       onChange={cargarImagen}
+                      accept="image/*"
                     />
+                    {validator.image ? (
+                      <p className="alert alert-danger error-p text-white">
+                        El libro debe tener una imagen
+                      </p>
+                    ) : null}
                   </center>
                   <div className="row mb-4">
                     <div className="col-md-6">
-                      <div className="form-group">
+                      <div className="form-group" id="Nombre">
                         <label className="form-weight-bold  mb-2">Nombre</label>
                         <input
                           type="text"
@@ -283,7 +288,13 @@ const ActualizarLibro = () => {
                           name="Nombre"
                           onChange={handleInputChange}
                           value={Nombre}
+                          placeholder="Titulo del libro"
                         />
+                        {validator.nombre ? (
+                          <p className="alert alert-danger error-p text-white">
+                            El libro debe tener un nombre
+                          </p>
+                        ) : null}
                       </div>
 
                     </div>
@@ -296,6 +307,7 @@ const ActualizarLibro = () => {
                           name="Autor"
                           onChange={handleInputChange}
                           value={Autor}
+                          placeholder="Autor o Autores del libro"
                         />
                       </div>
                     </div>
@@ -313,23 +325,27 @@ const ActualizarLibro = () => {
                           name="Edicion"
                           onChange={handleInputChange}
                           value={Edicion}
+                          placeholder="Numero de edición"
                         />
                       </div>
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label className="form-weight-bold  mb-2">Género</label>
-                        <select className="form-select select-genero" aria-label="Default select example">
-                          <option selected>Elegir Género</option>
-                          <option value="1">Género Narrativo</option>
-                          <option value="2">Género Lírico</option>
-                          <option value="3">Género Dramático</option>
-                          <option value="3">Género Didáctico</option>
+                        <label className="form-weight-bold  mb-2">Tipo de libro</label>
+                        <select className="form-select select-genero" aria-label="Default select example" onChange={handleInputChange} value={Genero} name="Genero">
+                          <option >Elegir Tipo</option>
+                          <option value="Novela">Novela</option>
+                          <option value="Lirico">Relato</option>
+                          <option value="Ensayo">Ensayo</option>
+                          <option value="Poesía">Poesía</option>
+                          <option value="Biografía">Biografía</option>
+                          <option value="Científico">Científico</option>
+                          <option value="Biografía">Biografía</option>
                         </select>
                       </div>
                     </div>
                     <div className="col-md-4">
-                      <div className="form-group">
+                      <div className="form-group" id="Precio">
                         <label className="form-weight-bold mb-2">Precio</label>
                         <input
                           type="text"
@@ -337,7 +353,14 @@ const ActualizarLibro = () => {
                           name="Precio"
                           onChange={handleInputChange}
                           value={Precio}
+                          placeholder="Valor en Lempiras"
+                          pattern="[0-9]{1,3}" maxlength="4"
                         />
+                        {validator.precio ? (
+                          <p className="alert alert-danger error-p text-white">
+                            Se debe especificar el precio
+                          </p>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -345,32 +368,44 @@ const ActualizarLibro = () => {
 
                   <div className="row mb-3">
                     <div className="col-md-6">
-                      <div className="form-group">
+                      <div className="form-group" id="Condicion">
                         <div className="form-check form-check-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onChange={handleInputChange} />
-                          <label className="form-check-label" for="inlineRadio1">Usado</label>
+                          <label className="form-check-label" for="inlineRadio1">
+                            <input className="form-check-input" type="radio" name="Condicion"
+                              id="inlineRadio1" value="Usado" onChange={handleInputChange} checked={datos.Condicion === "Usado"} />
+                            Usado</label>
                         </div>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
                         <div className="form-check form-check-inline">
-                          <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onChange={handleInputChange} />
-                          <label className="form-check-label" for="inlineRadio2">Nuevo</label>
+                          <label className="form-check-label" for="inlineRadio2">
+                            <input className="form-check-input" type="radio" name="Condicion"
+                              id="inlineRadio2" value="Nuevo" onChange={handleInputChange} checked={datos.Condicion === "Nuevo"} />
+                            Nuevo</label>
                         </div>
                       </div>
+                      {validator.condicion ? (
+                        <p className="alert alert-danger error-p text-white">
+                          Se debe especificar el estado del libro
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                   <div className="form-group mb-5">
                     <div className="mb-3">
                       <label className="form-weight-bold mb-2">Descripción</label>
                       <textarea className="form-control" value={Descripcion} onChange={handleInputChange} id="exampleFormControlTextarea1" name="Descripcion" rows="3"
+                        placeholder="Escriba una pequena descripcion acerca del libro" maxLength="250"
                       ></textarea>
                     </div>
                   </div>
                   <center>
                     <button type="submit" class="btn btn-success width-100 btn-agregar mb-3 ">Actualizar</button>
-                    <button type="button" class="btn btn-primary width-100 btn-cancelar  mb-3">Cancelar</button>
+                    <Link to="/catalogo">
+                      <button type="button" class="btn btn-primary width-100 btn-cancelar  mb-3">Cancelar</button>
+                    </Link>
                   </center>
                 </form>
 
