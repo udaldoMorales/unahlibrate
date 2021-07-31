@@ -1,14 +1,20 @@
+const user = require('../models/user');
 const {io} = require('./../app');
 const chat = require('./../models/chat');
+
+//Arreglo de usuarios conectados al socket.io. Cada conexión se registrará con un objeto {id: socket.id, user: user._id}.
+var usuarios = [];
 
 io.on('connection', connectedUser => {
 
     console.log('Llegué al socket este.');
 	//Para que se mande un mensaje. "isImage es para saber si se manda imagen o no."
 	
-    connectedUser.on('conectado', (nombre) => {
+    connectedUser.on('conectado', (userId) => {
         console.log('Conectaaaaado.');
-        console.log('userName is: ' + nombre);
+        console.log('userId is: ' + userId);
+        console.log(connectedUser.id);
+        usuarios.push({id: connectedUser.id, user: userId});
     });
 
     connectedUser.on('message', (message, sender, receiver, isImage) => {
@@ -71,7 +77,10 @@ io.on('connection', connectedUser => {
                                 message: 'No hay chats que devolver para ese usuario'
                                 }
                             } else {
-                                io.emit('chat', chats.messages);
+                                connectedUser.emit('chat', sender, receiver, chats.messages);
+                                for (i in usuarios){
+                                    if ((usuarios[i].user === sender) || (usuarios[i].user === receiver)) connectedUser.to(usuarios[i].id).emit('chat', sender, receiver, chats.messages)
+                                }
                             }
                         })
                     }
@@ -92,7 +101,10 @@ io.on('connection', connectedUser => {
                         message: 'No hay chats que devolver para ese usuario'
                         }
                     } else {
-                        io.emit('chat', chats.messages);
+                        connectedUser.emit('chat', sender, receiver, chats.messages);
+                        for (i in usuarios){
+                            if ((usuarios[i].user === sender) || (usuarios[i].user === receiver)) connectedUser.to(usuarios[i].id).emit('chat', sender, receiver, chats.messages)
+                        }
                     }
                 })
 
@@ -117,9 +129,40 @@ io.on('connection', connectedUser => {
                     status: 'error',
                     message: 'No hay chats que devolver para ese usuario'
                 };*/
-                io.emit('nochats', chats);
+                connectedUser.emit('nochats', chats);
             } else {
-                io.emit('chats', chats);
+
+                chatsWithUsers = [];
+                
+                for (i in chats){
+
+                    let chatWithUser = {}
+                    let otherUserId;
+
+                    for (j in chats[i].users){
+                        if (chats[i].users[j] != userid) otherUserId = chats[i].users[j];
+                    }
+                    user.findById(otherUserId, (err, found) => {
+                        if (found){
+
+                            chatWithUser = {
+                                chat: chats[i],
+                                otherUser: found
+                            };
+                            chatsWithUsers.push(chatWithUser);
+
+                            console.log('chatsWithUsers');
+                            console.log(chatsWithUsers.length);
+                            console.log('Emitiendo');
+                            connectedUser.emit('chats', chatsWithUsers);
+                            for (i in usuarios){
+                                if ((usuarios[i].user === userid)) connectedUser.to(usuarios[i].id).emit('chats', chatsWithUsers);
+                            }
+
+                        }
+                    });
+
+                }
                 }
         });
    		//Termina el relajo
@@ -134,9 +177,9 @@ io.on('connection', connectedUser => {
                        message: 'Error al encontrar chat'
                    }
                } else if (!chat) {
-                   io.emit('nochat', 'None');
+                   connectedUser.emit('nochat', sender, receiver, 'None');
                } else {
-                   io.emit('chat', chat.messages);
+                   connectedUser.emit('chat', sender, receiver, chat.messages);
                }
            });
 
