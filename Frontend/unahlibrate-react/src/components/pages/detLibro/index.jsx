@@ -5,9 +5,9 @@ import './../Home/Navbar.css';
 import "./detLibro.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect, useParams, Link } from 'react-router-dom';
-
+import Swal from "sweetalert2";
 //Importaciones para la conexión con el backend
-import { individualBook } from '../../../services/UserBooks';
+import { individualBook, deleteBook } from '../../../services/UserBooks';
 import { URL_GET_IMAGE_BOOK } from '../../../constants/urls';
 import { peticionDatoUsuario, peticionUsuarioLoggeado } from '../../../services/Auth';
 
@@ -26,6 +26,8 @@ const DetLibro = () => {
 
   //State que confirma una sesión iniciada:
   const [isSigned, setIsSigned] = useState(null);
+
+  const [libroElimando, setLibroElimnado] = useState(false);
 
   const pedirDatos = async () => {
 
@@ -93,6 +95,42 @@ const DetLibro = () => {
       .catch(
       )
   }
+  const eliminarLibro = () => {
+
+    Swal.fire({
+      title: '¿Estás seguro (a)?',
+      text: "No seras capaz de recuperar la publicacion",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteBook(bookId).
+          then((res) => {
+            if (res.status == "success") {
+
+              Swal.fire(
+                'Eliminado',
+                'La publicacion de tu libro ha sido elimanda',
+                'success'
+              ).then(res => {
+                setLibroElimnado(true);
+              });
+
+            } else {
+              Swal.fire({
+                icon: "warning",
+                title: "Error al eliminar libro",
+                text: "Error en el servidor al borrar libro"
+              })
+            }
+          });
+      }
+    })
+
+  }
 
   const volverAtras = (e) => {
     //e.preventDefault();
@@ -104,13 +142,15 @@ const DetLibro = () => {
     pedirDatos();
     pedirLogg();
     bookInfo(bookId);
-  }, [isSigned]);
+  }, [isSigned, libroElimando]);
+
+
 
   if (isSigned === false) {
     return (
       <Redirect to='/login' />
     );
-  } else if (isSigned === true && user !== {}) {
+  } else if (isSigned === true && user !== {} && libroElimando == false) {
     return (
       <React.Fragment>
         <Navbar />
@@ -229,7 +269,7 @@ const DetLibro = () => {
                   <Link
                     to={{
                       pathname: "/actualizarLibros",
-                      state:{
+                      state: {
                         libro: data,
                         libroID: bookId
                       }
@@ -243,13 +283,17 @@ const DetLibro = () => {
                     </button>
                   </Link>
                 </div>}
-                {(data.usuario._id === user._id) &&
+              {(data.usuario._id === user._id) &&
                 <div className="col md-3" >
+
                   <button
                     type="button"
-                    class="btn btn-danger btn-lg">
+                    class="btn btn-danger btn-lg"
+                    onClick={eliminarLibro}>
                     Eliminar
+
                   </button>
+
                 </div>}
               <div className="col md-3" >
                 <button
@@ -268,7 +312,10 @@ const DetLibro = () => {
 
       </React.Fragment>
     )
-  } else {
+  } else if (libroElimando) {
+    return (<Redirect to="/perfilusuario"></Redirect>);
+  }
+  else {
     return (
       <React.Fragment>
         <Navbar />

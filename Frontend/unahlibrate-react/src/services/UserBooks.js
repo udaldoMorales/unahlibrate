@@ -111,7 +111,7 @@ export const updateBook = async (
         //image
     };
     try {
-        var updatedBook = await axios.put(`${URL_PUT_UPDATE_BOOK}${bookId}`,book);
+        var updatedBook = await axios.put(`${URL_PUT_UPDATE_BOOK}${bookId}`, book);
         if (updatedBook.status !== 200) console.log(updatedBook.data);
         return updatedBook.data;
     } catch (error) {
@@ -126,4 +126,23 @@ export const updateBook = async (
         return errorObj;
     }
 }
+
+export const deleteBook = async (bookId) => {
+    try {
+        var deletedBook = await axios.post(`${URL_POST_DELETE_BOOK}${bookId}`);
+        if (deletedBook.status !== 200) console.log(deletedBook.data);
+        return deletedBook.data;
+    } catch (error) {
+        let errorObj;
+        const { response } = error;
+        errorObj = {
+            title: 'No se encontró el libro',
+            text: response.data
+        }
+        console.log(response);
+        //throw errorObj;
+        return errorObj;
+    }
+}
+
 

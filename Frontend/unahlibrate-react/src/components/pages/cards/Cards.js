@@ -120,7 +120,7 @@ function Cards(props) {
 							{
 								gruposDeCuatro.map((grupo, index) => {
 									return (
-										<div className='cards__items'>
+										<div className='cards__items' key={grupo}>
 
 											{grupo.map((libro, index) => {
 												return (
@@ -131,6 +131,7 @@ function Cards(props) {
 														text={libro.title}
 														label={`${libro.price} Lps`}
 														path={`/detLibro/${libro._id}`}
+														key={libro}
 													/> :
 													<li className='cards__item_empty'></li>
 													}
