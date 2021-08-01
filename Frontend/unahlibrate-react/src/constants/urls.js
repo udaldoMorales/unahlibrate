@@ -35,6 +35,11 @@ export const URL_POST_DELETE_BOOK=`${urlApi}/api/delete-book/`;
 
 export const URL_GET_BOOKS = `${urlApi}/api/books`;
 
+//URL para obtener chats.
+
+export const URL_GET_GET_CHATS_AND_MORE = `${urlApi}/api/get-chats-and-more/`;
+export const URL_GET_GET_CHATS = `${urlApi}/api/get-chats/`;
+
 //Obtener un libro individual por su ID:
 export const URL_GET_BOOK_BY_ID = `${urlApi}/api/book/`;
 
