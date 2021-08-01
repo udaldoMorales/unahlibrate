@@ -199,6 +199,9 @@ body{
 .panel-chat {
     display: block;
     overflow-y: auto;
+    /* Para el scroll */
+    overflow: scroll;
+    max-height: 300px;
     padding-right: 15px;
     margin-bottom: 1rem;
 }

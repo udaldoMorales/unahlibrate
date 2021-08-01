@@ -6,6 +6,8 @@ import "./detLibro.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect, useParams, Link } from 'react-router-dom';
 import Swal from "sweetalert2";
+import Moment from 'react-moment';
+import 'moment/locale/es';
 //Importaciones para la conexión con el backend
 import { individualBook, deleteBook } from '../../../services/UserBooks';
 import { URL_GET_IMAGE_BOOK } from '../../../constants/urls';
@@ -69,7 +71,9 @@ const DetLibro = () => {
 
     descripcion: "",
 
-    imagenLibro: ""
+    imagenLibro: "", 
+    
+    fecha: ''
 
   });
 
@@ -87,7 +91,8 @@ const DetLibro = () => {
               estado: res.book.condition,
               usuario: res.book.user,
               descripcion: res.book.description,
-              imagenLibro: res.book.image
+              imagenLibro: res.book.image,
+              fecha: res.book.date
             })
           }
         }
@@ -240,6 +245,15 @@ const DetLibro = () => {
 
                       {/*<b>Aqui va el estado del libro </b>*/}
                       <b className="etiqueta">{data.usuario.user}</b>
+                    </div>
+                  </div>
+
+                  <div className="row mb-3">
+                    <div className="form-group">
+                      <span className="etiqueta">Publicado </span>
+
+                      {/*<b>Aqui va la fecha </b>*/}
+                      <b className="etiqueta"><Moment locale='es' fromNow>{data.fecha}</Moment></b>
                     </div>
                   </div>
 
