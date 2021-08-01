@@ -11,6 +11,11 @@ export const URL_GET_USER_ACCESS = `${urlApi}/api/user-panel`;
 export const URL_POST_USER_REFRESH = `${urlApi}/api/refreshtoken`;
 export const URL_GET_GET_USER_BY_ID = `${urlApi}/api/user/`;
 export const URL_GET_GET_USERNAME = `${urlApi}/api/user-by-name/`;
+export const URL_GET_SEARCH_USERS = `${urlApi}/search-users/`; // para buscar usuarios
+
+
+ 
+
 
 //URL para obtener una imagen de usuario
 export const URL_GET_IMAGE_USER = `${urlApi}/api/get-image/`;

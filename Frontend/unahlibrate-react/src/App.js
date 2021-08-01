@@ -1,8 +1,8 @@
 
 import React from 'react';
 import "./App.css";
-import Routes from "./components/routes";
-import Navbar from "./components/pages/Home/Navbar";
+//import Routes from "./components/routes";
+//import Navbar from "./components/pages/Home/Navbar";
 import { Login } from "./components/pages";
 import { Registro, ActualizarPerfil, Formclv, Agregarlibro,PerfilUsers, DetLibro,ActualizarLibro,PanelChat } from "./components/pages";
 import Home from "./components/pages/Home/Home";

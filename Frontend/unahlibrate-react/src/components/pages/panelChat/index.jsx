@@ -1,9 +1,9 @@
 //import React,{useState} from 'react';
 import React, { useState, useEffect, useRef } from 'react';
-import img1 from '../../../img/perfil.jpg'
-import img2 from '../../../img/perfil2.jpg'
-import img3 from '../../../img/perfil3.jpg'
-import img4 from '../../../img/perfil4.jpg'
+//import img1 from '../../../img/perfil.jpg'
+//import img2 from '../../../img/perfil2.jpg'
+//import img3 from '../../../img/perfil3.jpg'
+//import img4 from '../../../img/perfil4.jpg'
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -75,7 +75,7 @@ const PanelChat = () => {
     socket.on('nochats', chats => {
         setChats(chats);
     })
-    
+
     const pedirLogg = async () => {
 
         try {
@@ -98,16 +98,16 @@ const PanelChat = () => {
             //console.log(2);
             var rr = await peticionDatoUsuario(cookies.get('user'));
             //Para obtener la información del usuario 2 del chat.
-            if(usuario2 !== '' && !user2._id){
+            if (usuario2 !== '' && !user2._id) {
                 var rr2 = await peticionDatoUsuario_Id(usuario2);
             }
-            
+
             setUser(rr.user);
             //Mandar la info del usuario 2.
-            if (rr2){
-                setUser2(rr2.user);    
+            if (rr2) {
+                setUser2(rr2.user);
             }
-            
+
 
         } catch (err) {
             console.log(err);
@@ -118,13 +118,13 @@ const PanelChat = () => {
     const pedirChats = (userId) => {
         console.log('Pido chats con ' + userId);
         chatsAndMore(userId)
-        .then( (res) => {
-            if (res.status === 'success'){
-                setChatsPet(res.chats);
+            .then((res) => {
+                if (res.status === 'success') {
+                    setChatsPet(res.chats);
+                }
             }
-        }
-        )
-        .catch( (err) => console.log(err) );
+            )
+            .catch((err) => console.log(err));
     }
 
     useEffect(() => {
@@ -148,8 +148,8 @@ const PanelChat = () => {
             socket.emit('obtainchats', usuario1);
         }
         */
-        if (usuario1 === ''){
-            if (user && (user._id !== undefined)){
+        if (usuario1 === '') {
+            if (user && (user._id !== undefined)) {
                 console.log('Lo tomo de user');
                 socket.emit('conectado', user._id);
                 //socket.emit('obtainchats', user._id);
@@ -161,7 +161,7 @@ const PanelChat = () => {
                 socket.emit('conectado', user._id);
                 //socket.emit('obtainchats', user._id);
                 pedirChats(user._id);
-                console.log('Enviando chats desde user con '+user._id);
+                console.log('Enviando chats desde user con ' + user._id);
                 socket.emit('individualChat', user._id, user2._id);
             } else if (usuario2) {
                 console.log('Lo tomo de prop.location.state');
@@ -198,19 +198,19 @@ const PanelChat = () => {
 
         if (user && (user._id !== undefined) && user2) {
 
-                console.log('Lo tomo de user');
-                socket.emit('conectado', user._id);
-                //socket.emit('obtainchats', user._id);
-                pedirChats(user._id);
-                console.log('Enviando chats desde user con '+user._id);
-                socket.emit('individualChat', user._id, user2._id);
-            } else if (usuario2) {
-                console.log('Lo tomo de prop.location.state');
-                socket.emit('conectado', usuario1);
-                //socket.emit('obtainchats', usuario1);
-                pedirChats(usuario1);
-                socket.emit('individualChat', usuario1, usuario2);
-            }        
+            console.log('Lo tomo de user');
+            socket.emit('conectado', user._id);
+            //socket.emit('obtainchats', user._id);
+            pedirChats(user._id);
+            console.log('Enviando chats desde user con ' + user._id);
+            socket.emit('individualChat', user._id, user2._id);
+        } else if (usuario2) {
+            console.log('Lo tomo de prop.location.state');
+            socket.emit('conectado', usuario1);
+            //socket.emit('obtainchats', usuario1);
+            pedirChats(usuario1);
+            socket.emit('individualChat', usuario1, usuario2);
+        }
 
         socket.on('chats', (chats) => {
             setChats(chats);
@@ -221,30 +221,30 @@ const PanelChat = () => {
         })
 
     }, [user, user2, isSigned, mensajeEnviado]);
-    
+
     useEffect(() => {
 
         /*
         actualizarChats();
         */
-        
+
         socket.on('chat', (sender, receiver, messages) => {
             console.log('sender: ' + sender);
-            console.log('receiver '+ receiver);
+            console.log('receiver ' + receiver);
             /*
             if ((sender===(user._id || usuario1) && (receiver === (usuario2 || user2._id))) || 
                 (sender===(usuario2 || user2._id) && (receiver === (user._id || usuario1)))){
                     setMensajes(messages);
                 }
             */
-           if (((sender===user._id && receiver===user2._id) || (sender===user2._id && receiver===user._id))){
-               setMensajes(messages);
-           } else {
-               if (((sender===user._id && receiver===usuario2) || (sender===usuario2 && receiver===user._id))){
-                   setMensajes(messages);
-               }
-           }
-            
+            if (((sender === user._id && receiver === user2._id) || (sender === user2._id && receiver === user._id))) {
+                setMensajes(messages);
+            } else {
+                if (((sender === user._id && receiver === usuario2) || (sender === usuario2 && receiver === user._id))) {
+                    setMensajes(messages);
+                }
+            }
+
         });
 
         socket.on('nochat', (sender, receiver, message) => {
@@ -254,13 +254,13 @@ const PanelChat = () => {
                     setMensajes(messages);
                 }
             */
-           if (((sender===user._id && receiver===user2._id) || (sender===user2._id && receiver===user._id))){
-               setMensajes(message);
-           } else {
-               if (((sender===user._id && receiver===usuario2) || (sender===usuario2 && receiver===user._id))){
-                   setMensajes(message);
-               }
-           }
+            if (((sender === user._id && receiver === user2._id) || (sender === user2._id && receiver === user._id))) {
+                setMensajes(message);
+            } else {
+                if (((sender === user._id && receiver === usuario2) || (sender === usuario2 && receiver === user._id))) {
+                    setMensajes(message);
+                }
+            }
         })
 
         socket.on('chats', (chats) => {
@@ -271,19 +271,19 @@ const PanelChat = () => {
             setChats(chats);
         })
 
-        
+
         setMensajeEnviado(false);
 
     }, [mensajes, user, user2, mensajeEnviado]);
 
     const enviarMensaje = function (e) {
-		e.preventDefault();
+        e.preventDefault();
 
-        if(mensajeAEnviar !== ''){
+        if (mensajeAEnviar !== '') {
             console.log(mensajeAEnviar)
             if (user2) {
                 socket.emit('message', mensajeAEnviar, user._id, user2._id, false);
-                console.log('Envié con user2');    
+                console.log('Envié con user2');
             }
             else {
                 socket.emit('message', mensajeAEnviar, user._id, usuario2, false);
@@ -301,7 +301,7 @@ const PanelChat = () => {
             setMensajeEnviado(true);
             setMensajeAEnviar('');
         }
-	}
+    }
 
     if (isSigned == false) {
         return (
@@ -330,42 +330,42 @@ const PanelChat = () => {
                             {(chatsConUsuarioPet !== null && chatsConUsuarioPet !== []) &&
                                 chatsConUsuarioPet.map((chat, i) => {
                                     return (
-                                    chat.users.map((otherUser, j) => {
-                                        if (otherUser._id !== (user._id || usuario1)){
-                                            
-                                            return (
-                                                <div key={i} className="usuario" onClick={() => { setUser2(otherUser) }}>
-                                                    <div className="avatar">
-                                                        {otherUser.imageProfile !== '' &&
-                                                            <img src={`${URL_GET_IMAGE_USER}${otherUser.imageProfile}`} alt="" />
-                                                        }
-                                                        {(otherUser.imageProfile === '' || otherUser.imageProfile == undefined) &&
-                                                            <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
-                                                        }
-                                                        <span className="estado-usuario enlinea"></span>
+                                        chat.users.map((otherUser, j) => {
+                                            if (otherUser._id !== (user._id || usuario1)) {
+
+                                                return (
+                                                    <div key={i} className="usuario" onClick={() => { setUser2(otherUser) }}>
+                                                        <div className="avatar">
+                                                            {otherUser.imageProfile !== '' &&
+                                                                <img src={`${URL_GET_IMAGE_USER}${otherUser.imageProfile}`} alt="" />
+                                                            }
+                                                            {(otherUser.imageProfile === '' || otherUser.imageProfile == undefined) &&
+                                                                <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
+                                                            }
+                                                            <span className="estado-usuario enlinea"></span>
+                                                        </div>
+                                                        <div className="cuerpo">
+                                                            <span>{otherUser.user}</span>
+                                                        </div>
+                                                        <span className="notificacion">
+                                                            3
+                                                        </span>
                                                     </div>
-                                                    <div className="cuerpo">
-                                                        <span>{otherUser.user}</span>
-                                                    </div>
-                                                    <span className="notificacion">
-                                                        3
-                                                    </span>
-                                                </div>
-                                            )
-                                        }
-                                    })
+                                                )
+                                            }
+                                        })
                                     )
                                 })
                             }
                             {(chatsConUsuarioPet === []) &&
-                            <div className='usuario'>
-                                No hay chats.
-                            </div>
+                                <div className='usuario'>
+                                    No hay chats.
+                                </div>
                             }
                             {(chatsConUsuarioPet === null) &&
-                            <div className='usuario'>
-                                Cargando...
-                            </div>
+                                <div className='usuario'>
+                                    Cargando...
+                                </div>
                             }
                         </div>
                     </div>
@@ -383,7 +383,7 @@ const PanelChat = () => {
                                 </div>
                             }
                             <div className="cuerpo">
-                                {!usuario2 && 
+                                {!usuario2 &&
                                     <span>Selecciona o busca un usuario para chatear.</span>
                                 }
                                 {user2.user !== '' &&
