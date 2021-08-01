@@ -36,7 +36,7 @@ io.on('connection', connectedUser => {
 
         //Primero, tengo que buscar si hay un chat de los dos usuarios:
 
-        chat.findOneAndUpdate({ users: { "$all": [sender, receiver] } }, { "$push": { "messages": object } }, {new:true}, (err, foundChat) => {
+        chat.findOneAndUpdate({ users: { "$all": [sender, receiver] } }, { updatedAt: dateMessage, "$push": { "messages": object } }, {new:true}, (err, foundChat) => {
             if (err){
                 return {
                     status: 'error',
@@ -56,7 +56,7 @@ io.on('connection', connectedUser => {
                         }
                     } else {
                         console.log(savedChat);
-                        chat.findOneAndUpdate({ users: { "$all": [sender, receiver] } }, { "$push": { "messages": object } }, { new: true }, (err, updatedChat) => {
+                        chat.findOneAndUpdate({ users: { "$all": [sender, receiver] } }, { updatedAt: dateMessage, "$push": { "messages": object } }, { new: true }, (err, updatedChat) => {
                             if (err) {
                                 console.log(err);
                                 return {

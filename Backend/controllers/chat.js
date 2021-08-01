@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 const { updateOne } = require('../models/chat');
 const { request } = require('http');
+const { urlencoded } = require('body-parser');
 
 
 var controller = {
@@ -104,8 +105,9 @@ var controller = {
         });
     },
 
-    getChats: (response, request) => {
-        var userID = request.body.user;
+    getChats: (request, response) => {
+        var userID = request.params.user;
+        console.log(userID);
 
         chat.find({ users: { "$all": [userID] }, deleted: false }).sort('-date').exec((err, chats) => {
             if (err) {
@@ -128,7 +130,7 @@ var controller = {
     },
 
     getChat: (request, response) => {
-        var chatID = request.body.id;
+        var chatID = request.params.id;
         chat.findById(chatID, (err, foundChat) => {
             if (err) {
                 return response.status(400).send({
@@ -147,6 +149,29 @@ var controller = {
                 })
             }
         });
+    },
+    getChatsAndMore: (request, response) => {
+        var userId = request.params.userid;
+        console.log(userId);
+        chat.find({ users: { "$all": [userId] }, deleted: false }).sort('-updatedAt').exec((err, chats) => {
+            console.log(chats.length);
+            console.log(err);
+            user.populate(chats, {path: 'users'}, (errr, chatss) =>  {
+                if (err || !chats) {
+                    response.status(500).send({
+                        status: 'error',
+                        message: 'Something happened'
+                    })
+                } else {
+                    console.log(chatss);
+                    response.status(200).send({
+                        status: 'success',
+                        chats: chatss
+                    });
+                }
+            }); 
+        });        
+
     },
 
     getImageMessage: (req, res) => {

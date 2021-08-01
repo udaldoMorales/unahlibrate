@@ -9,7 +9,10 @@ var router = express.Router();
 
 var multiparty = require('connect-multiparty');
 var md_upload = multiparty({uploadDir:'./uploads/chats'});
- 
+
+router.get('/get-chats-and-more/:userid', ChatController.getChatsAndMore);
+router.get('/get-chats/:user', ChatController.getChats);
+router.get('/get-chat/:id', ChatController.getChat);
 
 router.post('/save-book',BookController.saveBook);
 router.get('/books',BookController.getBooks);
