@@ -20,6 +20,7 @@ router.get('/user-by-name/:nick', UserController.getUserByUsername); //Ruta para
 router.get('/users', UserController.getUsers);
 router.post('/send-mail',UserController.sendMail); //Ruta que envía un correo electrónico de verificación de cuenta.
 router.post('/login', UserController.login);
+router.get('/search-users/:search',UserController.searchUsers);
 
 //Ruta para subir imagen de perfil del usuario registrado y obtenerla
 router.post('/upload-image/:id',md_upload,UserController.uploadProfileImage);

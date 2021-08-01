@@ -110,7 +110,7 @@ var controller = {
                     user: foundUser
                 })
             }
-        })
+        }) 
     },
     getUserByUsername: (request, response) => {
         var userName = request.params.nick;
@@ -138,6 +138,40 @@ var controller = {
                 })
             }
         })
+    },
+    //Busqueda de usuarios
+    searchUsers: (request, response) => {
+        var valueToSearch = request.params.search;
+        user.find({
+            "$or": [
+                {
+                    "user": { "$regex": valueToSearch, "$options": "i" },
+                }, {
+                    "name": { "$regex": valueToSearch, "$options": "i" },
+                },
+                {
+                    "lastname": { "$regex": valueToSearch, "$options": "i" }
+                },
+               
+            ]
+        }).sort([['date', 'descending']]).exec((err, users) => {
+            if (err) {
+                return response.status(500).send({
+                    status: 'error',
+                    message: 'error en la peticion'
+                });
+            }
+            if (!users || users.length <= 0) {
+                return response.status(404).send({
+                    status: 'error',
+                    message: 'no hay libros para mostrar con esa busqueda'
+                });
+            }
+            return response.status(200).send({
+                status: 'success',
+                users
+            });
+        });
     },
     getUsers: (request, response) => {
         user.find({}).sort('-date').exec((error, users) => {
