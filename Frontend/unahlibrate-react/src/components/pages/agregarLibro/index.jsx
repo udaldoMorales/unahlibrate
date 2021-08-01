@@ -103,7 +103,7 @@ const AgregarLibro = () => {
       let image = document.createElement('img');
       image.src = fileReader.result;
       image.alt = "Imagen del libro";
-      image.style = "width: 235px; height: 238px;"
+      image.style = "width: 235px; height: 238px; object-fit:cover;"
       div.innerHTML = '';
       div.append(image);
     }
@@ -204,7 +204,7 @@ const AgregarLibro = () => {
             text: error.text
           });
         });
-    } else if (Nombre == "" || Precio == "" || Condicion == "" || selectFile==null) {
+    } else if (Nombre == "" || Precio == "" || Condicion == "" || selectFile == null) {
       if (Nombre == "") {
         setValidator({ nombre: true });
         console.log("entre aqui vacio");
@@ -242,11 +242,11 @@ const AgregarLibro = () => {
             <div className="col-xl-5 col-lg-12 register-bg">
               <center>
                 <div class="titulo">
-                   <p >Agrega tus libros</p>
+                  <p >Agrega tus libros</p>
                   <img className="iconolbr" src={libro} alt="" />
                 </div>
               </center>
-            </div>
+            </div> 
             <div className="col-xl-7 col-lg-12 d-flex">
               <div className="container align-self-center">
 
@@ -303,7 +303,6 @@ const AgregarLibro = () => {
                       </div>
                     </div>
 
-
                   </div>
 
                   <div className="row mb-3">
@@ -332,7 +331,6 @@ const AgregarLibro = () => {
                           <option value="Biografía">Biografía</option>
                           <option value="Científico">Científico</option>
                           <option value="Biografía">Biografía</option>
-
                         </select>
                       </div>
                     </div>
@@ -378,7 +376,6 @@ const AgregarLibro = () => {
                               id="inlineRadio2" value="Nuevo" onChange={handleInputChange} checked={datos.Condicion === "Nuevo"} />
                             Nuevo</label>
                         </div>
-
                       </div>
                       {validator.condicion ? (
                         <p className="alert alert-danger error-p text-white">
@@ -406,7 +403,6 @@ const AgregarLibro = () => {
             </div>
           </div>
         </section>
-
       </React.Fragment>
     )
   } else {
