@@ -157,7 +157,8 @@ var controller = {
             console.log(chats.length);
             console.log(err);
             user.populate(chats, {path: 'users'}, (errr, chatss) =>  {
-                if (err || !chats) {
+                if (err || errr || !chats) {
+                    console.log(errr);
                     response.status(500).send({
                         status: 'error',
                         message: 'Something happened'
