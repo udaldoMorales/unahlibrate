@@ -98,7 +98,7 @@ const PanelChat = () => {
             //console.log(2);
             var rr = await peticionDatoUsuario(cookies.get('user'));
             //Para obtener la información del usuario 2 del chat.
-            if(usuario2 !== '' && user2 === {}){
+            if(usuario2 !== '' && !user2._id){
                 var rr2 = await peticionDatoUsuario_Id(usuario2);
             }
             
@@ -192,7 +192,7 @@ const PanelChat = () => {
         console.log(`Mensajes: ${mensajes}`);
     */
 
-    }, [isSigned, user2, mensajeEnviado]);
+    }, [isSigned, user2]);
 
     useEffect(() => {
 
@@ -220,7 +220,7 @@ const PanelChat = () => {
             setChats(chats);
         })
 
-    }, [user, user2, isSigned]);
+    }, [user, user2, isSigned, mensajeEnviado]);
     
     useEffect(() => {
 
@@ -229,18 +229,38 @@ const PanelChat = () => {
         */
         
         socket.on('chat', (sender, receiver, messages) => {
+            console.log('sender: ' + sender);
+            console.log('receiver '+ receiver);
+            /*
             if ((sender===(user._id || usuario1) && (receiver === (usuario2 || user2._id))) || 
                 (sender===(usuario2 || user2._id) && (receiver === (user._id || usuario1)))){
                     setMensajes(messages);
                 }
+            */
+           if (((sender===user._id && receiver===user2._id) || (sender===user2._id && receiver===user._id))){
+               setMensajes(messages);
+           } else {
+               if (((sender===user._id && receiver===usuario2) || (sender===usuario2 && receiver===user._id))){
+                   setMensajes(messages);
+               }
+           }
             
         });
 
         socket.on('nochat', (sender, receiver, message) => {
+            /*
             if ((sender===(user._id || usuario1) && (receiver === (usuario2 || user2._id))) || 
                 (sender===(usuario2 || user2._id) && (receiver === (user._id || usuario1)))){
-                    setMensajes(message);
+                    setMensajes(messages);
                 }
+            */
+           if (((sender===user._id && receiver===user2._id) || (sender===user2._id && receiver===user._id))){
+               setMensajes(message);
+           } else {
+               if (((sender===user._id && receiver===usuario2) || (sender===usuario2 && receiver===user._id))){
+                   setMensajes(message);
+               }
+           }
         })
 
         socket.on('chats', (chats) => {
@@ -261,8 +281,14 @@ const PanelChat = () => {
 
         if(mensajeAEnviar !== ''){
             console.log(mensajeAEnviar)
-            if (user2) socket.emit('message', mensajeAEnviar, user._id, user2._id, false);
-            else if (usuario2 !== "") socket.emit('message', mensajeAEnviar, user._id, usuario2, false);
+            if (user2) {
+                socket.emit('message', mensajeAEnviar, user._id, user2._id, false);
+                console.log('Envié con user2');    
+            }
+            else {
+                socket.emit('message', mensajeAEnviar, user._id, usuario2, false);
+                console.log('Envié con usuario2');
+            }
 
             if (user && (user._id !== undefined)) {
                 //socket.emit('obtainchats', user._id);
@@ -275,12 +301,7 @@ const PanelChat = () => {
             setMensajeEnviado(true);
             setMensajeAEnviar('');
         }
-        
-        console.log('Llegué acá.');
 	}
-
-    console.log('ChatsConUsuarioPet');
-    console.log(chatsConUsuarioPet);
 
     if (isSigned == false) {
         return (
@@ -295,7 +316,7 @@ const PanelChat = () => {
                     <div className="seccion-titulo">
                         <h3 className="titulo2">
                             <i className="fas fa-comments icono-msj"></i>
-                            Sistema de mensajerías.
+                            Sistema de mensajería
                         </h3>
                     </div>
                     <div className="seccion-usuarios">

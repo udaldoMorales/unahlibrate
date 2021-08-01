@@ -125,17 +125,16 @@ function Navbar() {
         <Link to="/formclv" replace={false}>Actualizar Contraseña</Link>
       </Menu.Item>
       <Menu.Item>
+      <Link to={{pathname: "/panelChat"}} replace={false}>Chat</Link>
+      {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
+      </Menu.Item>
+      <Menu.Item>
         <Link to="/" replace={false} onClick={cerrarSesionActual}>Cerrar Sesión</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
-      <Menu.Item>
+      {/*<Menu.Item>
         <Link to="/actualizarLibros" replace={false}>Actualizar Libros</Link>
-        {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
-      </Menu.Item>
-      <Menu.Item>
-      <Link to={{pathname: "/panelChat"}} replace={false}>Panel Chat</Link>
-      {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
-    </Menu.Item>
+      </Menu.Item>*/}
     </Menu>
   );
   
