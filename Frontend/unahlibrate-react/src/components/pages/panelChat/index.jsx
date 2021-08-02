@@ -26,6 +26,9 @@ import { Redirect, useHistory, useLocation } from 'react-router-dom';
 //Cookies del proyecto
 import Cookies from 'universal-cookie';
 
+//Importacion para funcionamiento automatico de los scrolls
+import ReactScrollableFeed from 'react-scrollable-feed';
+
 const cookies = new Cookies();
 
 const PanelChat = () => {
@@ -411,77 +414,79 @@ const PanelChat = () => {
                                 <i onClick={busquedaUsuarios} className="fas fa-search"></i>
                             </div>
                         </div>
-                        <div className="seccion-lista-usuarios">
-                            {(chatsConUsuarioPet !== null && chatsConUsuarioPet !== [] && busqueda === '') &&
-                                chatsConUsuarioPet.map((chat, i) => {
-                                    return (
-                                        chat.users.map((otherUser, j) => {
-                                            if (otherUser._id !== (user._id || usuario1)) {
-
-                                                return (
-                                                    <div key={i} className="usuario" onClick={() => { setUser2(otherUser) }}>
-                                                        <div className="avatar">
-                                                            {otherUser.imageProfile !== '' &&
-                                                                <img src={`${URL_GET_IMAGE_USER}${otherUser.imageProfile}`} alt="" />
-                                                            }
-                                                            {(otherUser.imageProfile === '' || otherUser.imageProfile == undefined) &&
-                                                                <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
-                                                            }
-                                                            <span className="estado-usuario enlinea"></span>
-                                                        </div>
-                                                        <div className="cuerpo">
-                                                            <span>{otherUser.user}</span>
-                                                        </div>
-                                                        <span className="notificacion">
-                                                            3
-                                                        </span>
-                                                    </div>
-                                                )
-                                            }
-                                        })
-                                    )
-                                })
-                            }
-                            {(chatsConUsuarioPet === []) &&
-                                <div className='usuario'>
-                                    No hay chats.
-                                </div>
-                            }
-                            {(chatsConUsuarioPet === null) &&
-                                <div className='usuario'>
-                                    Cargando...
-                                </div>
-                            }
-                            {(usuariosBuscados !== null && busqueda !== '') &&
-                                <div>Búsquedas con '{busqueda}'</div>
-                            }
-                            {(usuariosBuscados !== null && busqueda !== '') &&
-
-                                usuariosBuscados.map((userO, i) => {
-                                    if (userO._id !== (user._id || usuario1)) {
-
+                        <div className="scroll-lista-usuario">
+                            <div className="seccion-lista-usuarios">
+                                {(chatsConUsuarioPet !== null && chatsConUsuarioPet !== [] && busqueda === '') &&
+                                    chatsConUsuarioPet.map((chat, i) => {
                                         return (
-                                            <div key={i} className="usuario" onClick={() => { setUser2(userO) }}>
-                                                <div className="avatar">
-                                                    {userO.imageProfile !== '' &&
-                                                        <img src={`${URL_GET_IMAGE_USER}${userO.imageProfile}`} alt="" />
-                                                    }
-                                                    {(userO.imageProfile === '' || userO.imageProfile == undefined) &&
-                                                        <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
-                                                    }
-                                                    <span className="estado-usuario enlinea"></span>
-                                                </div>
-                                                <div className="cuerpo">
-                                                    <span>{userO.user}</span>
-                                                </div>
-                                                <span className="notificacion">
-                                                    N
-                                                </span>
-                                            </div>
+                                            chat.users.map((otherUser, j) => {
+                                                if (otherUser._id !== (user._id || usuario1)) {
+
+                                                    return (
+                                                        <div key={i} className="usuario" onClick={() => { setUser2(otherUser) }}>
+                                                            <div className="avatar">
+                                                                {otherUser.imageProfile !== '' &&
+                                                                    <img src={`${URL_GET_IMAGE_USER}${otherUser.imageProfile}`} alt="" />
+                                                                }
+                                                                {(otherUser.imageProfile === '' || otherUser.imageProfile == undefined) &&
+                                                                    <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
+                                                                }
+                                                                <span className="estado-usuario enlinea"></span>
+                                                            </div>
+                                                            <div className="cuerpo">
+                                                                <span>{otherUser.user}</span>
+                                                            </div>
+                                                            <span className="notificacion">
+                                                                3
+                                                            </span>
+                                                        </div>
+                                                    )
+                                                }
+                                            })
                                         )
-                                    }
-                                })
-                            }
+                                    })
+                                }
+                                {(chatsConUsuarioPet === []) &&
+                                    <div className='usuario'>
+                                        No hay chats.
+                                    </div>
+                                }
+                                {(chatsConUsuarioPet === null) &&
+                                    <div className='usuario'>
+                                        Cargando...
+                                    </div>
+                                }
+                                {(usuariosBuscados !== null && busqueda !== '') &&
+                                    <div>Búsquedas con '{busqueda}'</div>
+                                }
+                                {(usuariosBuscados !== null && busqueda !== '') &&
+
+                                    usuariosBuscados.map((userO, i) => {
+                                        if (userO._id !== (user._id || usuario1)) {
+
+                                            return (
+                                                <div key={i} className="usuario" onClick={() => { setUser2(userO) }}>
+                                                    <div className="avatar">
+                                                        {userO.imageProfile !== '' &&
+                                                            <img src={`${URL_GET_IMAGE_USER}${userO.imageProfile}`} alt="" />
+                                                        }
+                                                        {(userO.imageProfile === '' || userO.imageProfile == undefined) &&
+                                                            <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
+                                                        }
+                                                        <span className="estado-usuario enlinea"></span>
+                                                    </div>
+                                                    <div className="cuerpo">
+                                                        <span>{userO.user}</span>
+                                                    </div>
+                                                    <span className="notificacion">
+                                                        N
+                                                    </span>
+                                                </div>
+                                            )
+                                        }
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
 
@@ -512,7 +517,9 @@ const PanelChat = () => {
                             </div>
 
                         </div>
+                        
                         <div className="panel-chat">
+                        <ReactScrollableFeed>
                             {!usuario2 && mensajes === null &&
                                 <span>Selecciona o busca un usuario para chatear.</span>
                             }
@@ -585,9 +592,9 @@ const PanelChat = () => {
                                 })
                             }
                             {(mensajes === 'None') && <div>Sin mensajes, aún.</div>}
-
+                            </ReactScrollableFeed>
                         </div>
-
+                       
                         <div className="panel-escritura">
                             {/*<form className="textarea">*/}
                             <form onSubmit={enviarMensaje} className="textarea">
