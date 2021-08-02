@@ -35,74 +35,45 @@ var controller = {
         });
     },
 
-    addMessage: (request, response) => {
-        var params = request.body;
-        var dateMessage = new Date();
-        var hourMessage = dateMessage.getHours();
+    updloadImage: (request, response) => {
+
+        //configurar el modulo connect multiparty router/chat_routes.js Listo!!
+        //Conseguir el nombre y la extension del archivo
+        var fileName = '';
         var files = request.files;
-        var message;
 
-        if (files && !params.message) {
-            //configurar el modulo connect multiparty router/chat_routes.js Listo!!
-            //Conseguir el nombre y la extension del archivo
-            var filePath = request.files.file0.path;
-            var fileSplit = filePath.split('\\') //Para linux es /
-            //Nombre del archivo
-            fileName = fileSplit[fileSplit.length - 1];
-            //Extension del archivo
-            var extensionSplit = fileName.split('\.');
-            var fileExtension = extensionSplit[extensionSplit.length - 1];
-
-            if
-                (fileExtension != 'png' && fileExtension != 'jpg' && fileExtension != 'jpeg' && fileExtension != 'gif') {
-                //borrar el archivo
-                fs.unlink(filePath, (err) => {
-                    return response.status(200).send({
-                        status: 'error',
-                        message: 'extension de la imagen invalida'
-                    });
-                });
-            } else {
-
-                message = {
-                    date: dateMessage,
-                    hour: hourMessage,
-                    content: fileName,
-                    sender: params.user1,
-                    reciver: params.user2,
-                    type: "image"
-                };
-            }
-
-        } else {
-            message = {
-                date: dateMessage,
-                hour: hourMessage,
-                content: params.message,
-                sender: params.user1,
-                reciver: params.user2,
-                type: "string"
-            };
+        //Verificar que si vienen files
+        if (!files) {
+            return response.status(404).send({
+                status: 'error',
+                message: fileName
+            });
         }
 
-        chat.findOneAndUpdate({ users: { "$all": [params.user1, params.user2] } }, { "$push": message }, { new: true }, (err, updatedChat) => {
-            if (err) {
-                return response.status(400).send({
-                    status: 'error',
-                    message: 'Error al actualizar'
-                });
-            } else if (!updatedChat) {
-                return response.status(404).send({
-                    status: 'error',
-                    message: 'No hay chat entre esos dos usuaarios'
-                });
-            } else {
+        var filePath = request.files.file0.path;
+        var fileSplit = filePath.split('\\') //Para linux es /
+        //Nombre del archivo
+        fileName = fileSplit[fileSplit.length - 1];
+        //Extension del archivo
+        var extensionSplit = fileName.split('\.');
+        var fileExtension = extensionSplit[extensionSplit.length - 1];
+
+        if
+            (fileExtension != 'png' && fileExtension != 'jpg' && fileExtension != 'jpeg' && fileExtension != 'gif') {
+            //borrar el archivo
+            fs.unlink(filePath, (err) => {
                 return response.status(200).send({
-                    status: 'success',
-                    chat: updatedChat
-                })
-            }
-        });
+                    status: 'error',
+                    message: 'extension de la imagen invalida'
+                });
+            });
+        } else {
+            //Si todo es valido, sacar ide de la URL
+            return response.status(200).send({
+                status: 'success',
+                image: fileName
+            });
+        }
     },
 
     getChats: (request, response) => {
@@ -156,7 +127,7 @@ var controller = {
         chat.find({ users: { "$all": [userId] }, deleted: false }).sort('-updatedAt').exec((err, chats) => {
             console.log(chats.length);
             console.log(err);
-            user.populate(chats, {path: 'users'}, (errr, chatss) =>  {
+            user.populate(chats, { path: 'users' }, (errr, chatss) => {
                 if (err || errr || !chats) {
                     console.log(errr);
                     response.status(500).send({
@@ -170,8 +141,8 @@ var controller = {
                         chats: chatss
                     });
                 }
-            }); 
-        });        
+            });
+        });
 
     },
 

@@ -13,18 +13,7 @@ var md_upload = multiparty({uploadDir:'./uploads/chats'});
 router.get('/get-chats-and-more/:userid', ChatController.getChatsAndMore);
 router.get('/get-chats/:user', ChatController.getChats);
 router.get('/get-chat/:id', ChatController.getChat);
-
-router.post('/save-book',BookController.saveBook);
-router.get('/books',BookController.getBooks);
-router.get('/book/:id',BookController.getBookByID);
-router.get('/books-user/:id',BookController.getBooksUser);
-router.post('/upload-book-image/:id',md_upload,BookController.uploadImageBook);
-router.get('/get-book-image/:image',BookController.getImageBook);
-router.get('/search-books/:search',BookController.searchBooks);
-router.post('/delete-book/:id',BookController.deleteBook);
-router.put('/update-book/:id', BookController.updateBook);
-
-
-
+router.post('/upload-image',md_upload,ChatController.updloadImage);
+router.get('/get-chatImage/:image',ChatController.getImageMessage);
 
 module.exports = router;
