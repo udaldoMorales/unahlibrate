@@ -20,11 +20,11 @@ import { URL_GET_IMAGE_USER } from '../../../constants/urls';
 import socket from './../../../sockets/socket';
 
 //Importación para otros chats.
-import { chatsAndMore } from "./../../../services/Chats";
+import { chatsAndMore, buscarUsuarios } from "./../../../services/Chats";
 
 //Importaciones del proyecto
 import { peticionDatoUsuario, peticionDatoUsuario_Id, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 
 //Cookies del proyecto
 import Cookies from 'universal-cookie';
@@ -66,7 +66,11 @@ const PanelChat = () => {
 
     const [chatsConUsuarioPet, setChatsPet] = useState(null);
 
-    const [selectedChat, setSelectedChat] = useState(null);
+    //Variable para guardar lo que venga de la búsqueda.
+    const [busqueda, setBusqueda] = useState("");
+
+    //Variable para guardar los usuarios de la búsqueda.
+    const [usuariosBuscados, setUsuariosBuscados] = useState(null);
 
     socket.on('chats', (chats) => {
         setChats(chats);
@@ -119,12 +123,36 @@ const PanelChat = () => {
         console.log('Pido chats con ' + userId);
         chatsAndMore(userId)
             .then((res) => {
+                console.log('Llego');
                 if (res.status === 'success') {
                     setChatsPet(res.chats);
                 }
             }
             )
             .catch((err) => console.log(err));
+    }
+
+    const cambiarBusqueda = (e) => {
+        setBusqueda(e.target.value);
+        if (busqueda === ''){
+            setUsuariosBuscados(null);
+        }
+    };
+
+    const busquedaUsuarios = () => {
+        if (busqueda.trim() !== '') {
+            buscarUsuarios(busqueda)
+            .then( (res) => {
+                if (res.status === 'success') {
+                    //Asignar busqueda a variable de estado;
+                    setUsuariosBuscados(res.users);
+                }
+            })
+            .catch((err) => console.log(err));
+        } else {
+            setUsuariosBuscados(null);
+        }
+        console.log(usuariosBuscados);
     }
 
     useEffect(() => {
@@ -322,12 +350,12 @@ const PanelChat = () => {
                     <div className="seccion-usuarios">
                         <div className="seccion-buscar">
                             <div className="input-buscar">
-                                <input type="search" placeholder="Buscar usuario" />
-                                <i className="fas fa-search"></i>
+                                <input type="search" value={busqueda} onChange={cambiarBusqueda} placeholder="Buscar usuario" />
+                                <i onClick={busquedaUsuarios} className="fas fa-search"></i>
                             </div>
                         </div>
                         <div className="seccion-lista-usuarios">
-                            {(chatsConUsuarioPet !== null && chatsConUsuarioPet !== []) &&
+                            {(chatsConUsuarioPet !== null && chatsConUsuarioPet !== [] && busqueda === '') &&
                                 chatsConUsuarioPet.map((chat, i) => {
                                     return (
                                         chat.users.map((otherUser, j) => {
@@ -367,24 +395,55 @@ const PanelChat = () => {
                                     Cargando...
                                 </div>
                             }
+                            {(usuariosBuscados !== null && busqueda !== '') && 
+                             <div>Búsquedas con '{busqueda}'</div>   
+                            }
+                            {(usuariosBuscados !== null && busqueda !== '') && 
+
+                                usuariosBuscados.map((userO, i) => {
+                                    if (userO._id !== (user._id || usuario1)) {
+
+                                        return (
+                                            <div key={i} className="usuario" onClick={() => { setUser2(userO) }}>
+                                                <div className="avatar">
+                                                    {userO.imageProfile !== '' &&
+                                                        <img src={`${URL_GET_IMAGE_USER}${userO.imageProfile}`} alt="" />
+                                                    }
+                                                    {(userO.imageProfile === '' || userO.imageProfile == undefined) &&
+                                                        <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
+                                                    }
+                                                    <span className="estado-usuario enlinea"></span>
+                                                </div>
+                                                <div className="cuerpo">
+                                                    <span>{userO.user}</span>
+                                                </div>
+                                                <span className="notificacion">
+                                                   N
+                                                </span>
+                                            </div>
+                                        )
+                                    }
+                                })
+                            }
                         </div>
                     </div>
 
                     <div className="seccion-chat">
                         <div className="usuario-seleccionado">
-                            {usuario2 &&
+                            {((user2 || usuario2) && mensajes !== null) &&
                                 <div className="avatar">
                                     {user2.imageProfile !== '' &&
                                         <img src={`${URL_GET_IMAGE_USER}${user2.imageProfile}`} alt="" />
                                     }
-                                    {(user2.imageProfile === '' || user.imageProfile == undefined) &&
+                                    {(user2.imageProfile === '' || user2.imageProfile == undefined) &&
                                         <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                     }
                                 </div>
                             }
                             <div className="cuerpo">
-                                {!usuario2 &&
-                                    <span>Selecciona o busca un usuario para chatear.</span>
+
+                                {user2.user !== '' &&
+                                    <span>{user2.name} {user2.lastname}</span>
                                 }
                                 {user2.user !== '' &&
                                     <span>{user2.user}</span>
@@ -397,6 +456,9 @@ const PanelChat = () => {
 
                         </div>
                         <div className="panel-chat">
+                            {!usuario2 && mensajes === null &&
+                                    <span>Selecciona o busca un usuario para chatear.</span>
+                            }
                             {(mensajes instanceof Array) &&
                                 mensajes.map((mensaje, i) => {
                                     if (mensaje.sender === user._id) {
