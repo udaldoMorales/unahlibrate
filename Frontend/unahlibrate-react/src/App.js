@@ -13,8 +13,8 @@ import Catalogo from './components/pages/catalogo/catalogo';
 import FormValiduser from './components/pages/recuppassword/validuser';
 import Formrecupclv from './components/pages/recuppassword/recuperar';
 
-import Chat from './components/pages/chat/Chat';
-import Chats from './components/pages/chat/Chats';
+//import Chat from './components/pages/chat/Chat';
+//import Chats from './components/pages/chat/Chats';
 
 function App() {
   return (

@@ -1,9 +1,6 @@
 //import React,{useState} from 'react';
 import React, { useState, useEffect, useRef } from 'react';
-//import img1 from '../../../img/perfil.jpg'
-//import img2 from '../../../img/perfil2.jpg'
-//import img3 from '../../../img/perfil3.jpg'
-//import img4 from '../../../img/perfil4.jpg'
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -14,13 +11,13 @@ import Moment from 'react-moment';
 import 'moment/locale/es';
 
 //Ruta para traer imágenes de usuario
-import { URL_GET_IMAGE_USER } from '../../../constants/urls';
+import { URL_GET_IMAGE_USER, URL_GET_IMAGE_CHAT } from '../../../constants/urls';
 
 //Importaciones para el chat
 import socket from './../../../sockets/socket';
 
 //Importación para otros chats.
-import { chatsAndMore, buscarUsuarios } from "./../../../services/Chats";
+import { chatsAndMore, buscarUsuarios, uploadImage } from "./../../../services/Chats";
 
 //Importaciones del proyecto
 import { peticionDatoUsuario, peticionDatoUsuario_Id, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
@@ -52,7 +49,7 @@ const PanelChat = () => {
 
     const [user2, setUser2] = useState({});
     //Cosas del proyecto
-
+    const [selectFile, setSelectFile] = useState(null);
     //Cosas para el chat entre dos
     const [mensajes, setMensajes] = useState(null);
 
@@ -134,7 +131,7 @@ const PanelChat = () => {
 
     const cambiarBusqueda = (e) => {
         setBusqueda(e.target.value);
-        if (busqueda === ''){
+        if (busqueda === '') {
             setUsuariosBuscados(null);
         }
     };
@@ -142,13 +139,13 @@ const PanelChat = () => {
     const busquedaUsuarios = () => {
         if (busqueda.trim() !== '') {
             buscarUsuarios(busqueda)
-            .then( (res) => {
-                if (res.status === 'success') {
-                    //Asignar busqueda a variable de estado;
-                    setUsuariosBuscados(res.users);
-                }
-            })
-            .catch((err) => console.log(err));
+                .then((res) => {
+                    if (res.status === 'success') {
+                        //Asignar busqueda a variable de estado;
+                        setUsuariosBuscados(res.users);
+                    }
+                })
+                .catch((err) => console.log(err));
         } else {
             setUsuariosBuscados(null);
         }
@@ -306,7 +303,48 @@ const PanelChat = () => {
 
     const enviarMensaje = function (e) {
         e.preventDefault();
+        var nombreImagen = "";
+        if (selectFile !== null) {
+            const formData = new FormData();
 
+            formData.append(
+                'file0',
+                selectFile,
+                selectFile.name
+            );
+
+            uploadImage(formData)
+                .then(res => {
+                    if (res.status == 'success') {
+                        nombreImagen = res.image;
+                        console.log("Este es el res", res);
+                        console.log("este es el nombre imagen", nombreImagen);
+                        if (user2) {
+                            socket.emit('message', nombreImagen, user._id, user2._id, true);
+                            console.log('Envié con user2');
+                        }
+                        else {
+                            socket.emit('message', nombreImagen, user._id, usuario2, true);
+                            console.log('Envié con usuario2');
+                        }
+                        if (user && (user._id !== undefined)) {
+                            //socket.emit('obtainchats', user._id);
+                            pedirChats(user._id);
+                        } else {
+                            //socket.emit('obtainchats', usuario1);
+                            pedirChats(usuario1);
+                        }
+
+                        let div = document.getElementById("imagenLibro");
+                        div.innerHTML = "";
+                        setSelectFile(null);
+                        setMensajeEnviado(true);
+                        setMensajeAEnviar('');
+
+                    }
+                }).catch((err) => { console.log(err) });
+
+        }
         if (mensajeAEnviar !== '') {
             console.log(mensajeAEnviar)
             if (user2) {
@@ -330,6 +368,25 @@ const PanelChat = () => {
             setMensajeAEnviar('');
         }
     }
+
+    const cargarImagen = (e) => {
+
+        let fileReader = new FileReader();
+        setSelectFile(e.target.files[0]);
+        fileReader.readAsDataURL(e.target.files[0]);
+
+        fileReader.onload = () => {
+            let div = document.getElementById("imagenLibro");
+
+            let image = document.createElement('img');
+            image.src = fileReader.result;
+            image.alt = "Imagen del libro";
+            image.style = "width: 235px; height: 238px; object-fit:cover;"
+            div.innerHTML = '';
+            div.append(image);
+        }
+    }
+
 
     if (isSigned == false) {
         return (
@@ -395,10 +452,10 @@ const PanelChat = () => {
                                     Cargando...
                                 </div>
                             }
-                            {(usuariosBuscados !== null && busqueda !== '') && 
-                             <div>Búsquedas con '{busqueda}'</div>   
+                            {(usuariosBuscados !== null && busqueda !== '') &&
+                                <div>Búsquedas con '{busqueda}'</div>
                             }
-                            {(usuariosBuscados !== null && busqueda !== '') && 
+                            {(usuariosBuscados !== null && busqueda !== '') &&
 
                                 usuariosBuscados.map((userO, i) => {
                                     if (userO._id !== (user._id || usuario1)) {
@@ -418,7 +475,7 @@ const PanelChat = () => {
                                                     <span>{userO.user}</span>
                                                 </div>
                                                 <span className="notificacion">
-                                                   N
+                                                    N
                                                 </span>
                                             </div>
                                         )
@@ -457,7 +514,7 @@ const PanelChat = () => {
                         </div>
                         <div className="panel-chat">
                             {!usuario2 && mensajes === null &&
-                                    <span>Selecciona o busca un usuario para chatear.</span>
+                                <span>Selecciona o busca un usuario para chatear.</span>
                             }
                             {(mensajes instanceof Array) &&
                                 mensajes.map((mensaje, i) => {
@@ -467,7 +524,14 @@ const PanelChat = () => {
                                                 <div className="cuerpo">
 
                                                     <div className="texto">
-                                                        {mensaje.content}
+                                                        {mensaje.type === "image" &&
+
+                                                            <img src={`${URL_GET_IMAGE_CHAT}${mensaje.content}`} alt="imagen enviada en chat" style={{maxHeight:"200px", maxWidth:"200px"}} />
+
+                                                        }
+                                                        {mensaje.type === "string" &&
+                                                            mensaje.content
+                                                        }
                                                         <span className="tiempo">
                                                             <i className="far fa-clock"></i>
                                                             <Moment locale='es' fromNow>{mensaje.date}</Moment>
@@ -499,7 +563,15 @@ const PanelChat = () => {
                                                 <div className="cuerpo">
 
                                                     <div className="texto">
-                                                        {mensaje.content}
+
+                                                        {mensaje.type === "image" &&
+
+                                                            <img src={`${URL_GET_IMAGE_CHAT}${mensaje.content}`} alt="imagen enviada en chat" style={{maxHeight:"200px", maxWidth:"200px"}} />
+
+                                                        }
+                                                        {mensaje.type === "string" &&
+                                                            mensaje.content
+                                                        }
                                                         <span className="tiempo">
                                                             <i className="far fa-clock"></i>
                                                             <Moment locale='es' fromNow>{mensaje.date}</Moment>
@@ -513,23 +585,26 @@ const PanelChat = () => {
                                 })
                             }
                             {(mensajes === 'None') && <div>Sin mensajes, aún.</div>}
+
                         </div>
+
                         <div className="panel-escritura">
                             {/*<form className="textarea">*/}
                             <form onSubmit={enviarMensaje} className="textarea">
                                 <div className="opcines">
-                                    <button type="button">
-                                        <i className="fas fa-file"></i>
-                                        <label for="file"></label>
-                                        <input type="file" id="file" />
-                                    </button>
+
                                     <button type="button">
                                         <i className="far fa-image"></i>
                                         <label for="img"></label>
-                                        <input type="file" id="img" />
+                                        <input type="file" id="img"
+                                            name="file0"
+                                            onChange={cargarImagen}
+                                            accept="image/*"
+                                        />
                                     </button>
                                 </div>
                                 <textarea value={mensajeAEnviar} onChange={e => setMensajeAEnviar(e.target.value)} placeholder="Escribir mensaje"></textarea>
+                                <div id="imagenLibro"></div>
                                 <button type="submit" className="enviar">
                                     <i className="fas fa-paper-plane"></i>
                                 </button>

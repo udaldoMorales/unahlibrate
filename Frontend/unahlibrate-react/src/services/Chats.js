@@ -1,5 +1,5 @@
 import axios from "axios";
-import {URL_GET_GET_CHATS_AND_MORE, URL_GET_GET_CHATS,URL_GET_SEARCH_USERS} from '../constants/urls';
+import {URL_GET_GET_CHATS_AND_MORE, URL_GET_GET_CHATS,URL_GET_SEARCH_USERS,URL_POST_UPLOAD_IMAGE} from '../constants/urls';
 
 
 export const chatsAndMore = async (userId) => {
@@ -67,7 +67,6 @@ export const getChats = async (userId) => {
 
 //Metodo para buscar usuarios
 
-
 export const buscarUsuarios = async (buscar) => {
     try {
         var usuarios = await axios.get(`${URL_GET_SEARCH_USERS}${buscar}`);
@@ -85,3 +84,26 @@ export const buscarUsuarios = async (buscar) => {
         return errorObj;
     }
 }
+
+//Metodo para guardar imagenes en el servidor
+
+export const uploadImage = async (data) => {
+
+    try {
+        var image = await axios.post(`${URL_POST_UPLOAD_IMAGE}`,data);
+        console.log(image);
+        if (image.status !== 200) console.log(image.data);
+        return image.data;
+    } catch (error){
+        let errorObj;
+        const { response } = error;
+        errorObj = {
+            title: 'No se devolvieron chats.',
+            text: response.data.message
+        }
+        console.log(response);
+        //throw errorObj;
+        return errorObj;
+    }
+
+};

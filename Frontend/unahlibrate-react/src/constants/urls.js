@@ -44,6 +44,8 @@ export const URL_GET_BOOKS = `${urlApi}/api/books`;
 
 export const URL_GET_GET_CHATS_AND_MORE = `${urlApi}/api/get-chats-and-more/`;
 export const URL_GET_GET_CHATS = `${urlApi}/api/get-chats/`;
+export const URL_POST_UPLOAD_IMAGE = `${urlApi}/api/upload-image`;
+export const URL_GET_IMAGE_CHAT = `${urlApi}/api/get-chatImage/`
 
 //Obtener un libro individual por su ID:
 export const URL_GET_BOOK_BY_ID = `${urlApi}/api/book/`;
