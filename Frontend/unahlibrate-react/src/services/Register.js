@@ -16,9 +16,12 @@ export const registerNormalUser = async (
     email,
     password
   };
-  try { 
-    const response = await axios.post(URL_POST_SAVE_USER, payload);
 
+  try { 
+    console.log("estoy aqui");
+    const response = await axios.post(URL_POST_SAVE_USER, payload);
+    console.log(response);
+    console.log("viendo el error");
     if (response.status === 200) {
       //Enviar correo de verficacion 
       var dataUser = response.data;
@@ -30,25 +33,29 @@ export const registerNormalUser = async (
                 return {
                   status:"error",
                   err
-                }
+                } 
             });
-    } else {
-      throw new Error(response);
-    }
+    } //else {
+      //throw new Error(response);
+    //}
   } catch (error) {
     let errorObj;
+    
+    
     const { response } = error;
-    if (response.status === 400) {
-      errorObj = {
-        title: 'Usuario no registrado',
-        text: 'Ocurrió un error al intentar crear un usuario'
-      }
-    } else {
+    //if (response.status === 400) {
       errorObj = {
         title: 'Error',
-        text: 'Ocurrió un error con el servidor, intente de nuevo'
+        text: response.data.message
       }
-    }
+    //} 
+    //else {
+      //errorObj = {
+        //title: 'Error',
+        //text: 'Ocurrió un error con el servidor, intente de nuevo'
+      //}
+    //}
+
     throw errorObj
   }
 };

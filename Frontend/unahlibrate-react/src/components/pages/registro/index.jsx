@@ -107,7 +107,7 @@ const FormUser = ({ history }) => {
       Apellido,
       Correo,
       Contraseña
-    )
+    ) 
       .then(res => {
         Swal.fire(
           "Registro Exitoso",

@@ -72,7 +72,7 @@ const FormLog = ({ history }) => {
 
     handleError(false);
     
-    var resp = loginUser(Usuario, Contraseña)
+    var resp = loginUser(Usuario.trim(), Contraseña)
       .then(res => {
         console.log(res);
         if (res.code === 403){
