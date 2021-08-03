@@ -114,6 +114,74 @@ const PanelChat = () => {
 
     }
 
+    const recibirMensajes = () => {
+
+        var date = Date();
+
+        socket.on('chat', (sender, receiver, messages, chat) => {
+
+            console.log(date);
+            console.log('\n--Chat--');
+            console.log(`Sender: \t${sender}`);
+            console.log(`Receiver: \t${receiver}`);
+            console.log(`User: \t\t${user._id}`);
+            console.log(`User2: \t\t${user2._id}`);
+            console.log('\n');
+
+            var aparicionUser1 = 0, aparicionUser2 = 0;
+
+            if(user._id === sender) aparicionUser1 += 1;
+            if(user._id === receiver) aparicionUser1 += 1;
+            if(user2._id === sender) aparicionUser2 += 1;
+            if(user2._id === receiver) aparicionUser2 += 1;
+
+            console.log('AparicionUser1: ' + aparicionUser1);
+            console.log('aparicionUser2: ' + aparicionUser2);
+           
+            if( (aparicionUser1 == 1 && aparicionUser2 == 1) ) {
+                setMensajes(messages);
+                if (user._id === receiver) verMensajes(sender, receiver);
+            }else {
+                console.log('AQUÍ TIENE QUE DAR ESE IF.');
+                setMensajes(null);
+                //socket.emit('individualChat', user._id, user2._id);
+            }
+
+
+        });
+
+        socket.on('nochat', (sender, receiver, message, chat) => {
+
+            console.log('\n--NoChat--');
+            console.log(`Sender: ${sender}`);
+            console.log(`Receiver: ${receiver}`);
+            console.log(`User: ${user._id}`);
+            console.log(`User2: ${user2._id}`);
+            console.log('\n');
+
+            console.log()
+            if (
+
+                ((sender === user._id) && (receiver === user2._id))
+                ||
+                ((sender === user2._id) && (receiver === user._id))
+                
+                ) {
+                //console.log(`El sender es ${sender} y el receiver es ${receiver}`);
+                setMensajes(message);
+
+                //if (user._id === receiver) verMensajes(sender, receiver);
+            }
+        })
+
+        socket.on('new', (chats) => {
+            setChatsPet(chats);
+        });
+
+        setMensajeEnviado(false);
+
+    };
+
     const pedirChats = (userId) => {
         //console.log('Pido chats con ' + userId);
         chatsAndMore(userId)
@@ -219,73 +287,11 @@ const PanelChat = () => {
         }
 
 
-    }, [user2]);    
+    }, [user2, mensajeEnviado]);    
 
     useEffect(() => {
 
-        var date = Date();
-
-        socket.on('chat', (sender, receiver, messages, chat) => {
-
-            console.log(date);
-            console.log('\n--Chat--');
-            console.log(`Sender: \t${sender}`);
-            console.log(`Receiver: \t${receiver}`);
-            console.log(`User: \t\t${user._id}`);
-            console.log(`User2: \t\t${user2._id}`);
-            console.log('\n');
-
-            var aparicionUser1 = 0, aparicionUser2 = 0;
-
-            if(user._id === sender) aparicionUser1 += 1;
-            if(user._id === receiver) aparicionUser1 += 1;
-            if(user2._id === sender) aparicionUser2 += 1;
-            if(user2._id === receiver) aparicionUser2 += 1;
-
-            console.log('AparicionUser1: ' + aparicionUser1);
-            console.log('aparicionUser2: ' + aparicionUser2);
-           
-            if(aparicionUser1 == 1 && aparicionUser2 == 1) {
-                setMensajes(messages);
-                if (user._id === receiver) verMensajes(sender, receiver);
-            }else {
-                console.log('AQUÍ TIENE QUE DAR ESE IF.');
-                setMensajes(null);
-                //socket.emit('individualChat', user._id, user2._id);
-            }
-
-
-        });
-
-        socket.on('nochat', (sender, receiver, message, chat) => {
-
-            console.log('\n--NoChat--');
-            console.log(`Sender: ${sender}`);
-            console.log(`Receiver: ${receiver}`);
-            console.log(`User: ${user._id}`);
-            console.log(`User2: ${user2._id}`);
-            console.log('\n');
-
-            console.log()
-            if (
-
-                ((sender === user._id) && (receiver === user2._id))
-                ||
-                ((sender === user2._id) && (receiver === user._id))
-                
-                ) {
-                //console.log(`El sender es ${sender} y el receiver es ${receiver}`);
-                setMensajes(message);
-
-                //if (user._id === receiver) verMensajes(sender, receiver);
-            }
-        })
-
-        socket.on('new', (chats) => {
-            setChatsPet(chats);
-        });
-
-        setMensajeEnviado(false);
+        recibirMensajes();
 
 
     }, [mensajes, user2, mensajeEnviado]);
