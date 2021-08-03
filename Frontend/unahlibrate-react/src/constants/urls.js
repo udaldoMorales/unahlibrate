@@ -53,4 +53,5 @@ export const URL_GET_BOOK_BY_ID = `${urlApi}/api/book/`;
 //Buscar libros por una cadena (string) de búsqueda
 export const URL_GET_SEARCH_BOOKS = `${urlApi}/api/search-books/`;
 
-
+//URL para dejar en visto JAJA.
+export const URL_POST_SEEN_MESSAGES = `${urlApi}/api/seen-messages`;

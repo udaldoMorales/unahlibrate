@@ -17,7 +17,7 @@ import { URL_GET_IMAGE_USER, URL_GET_IMAGE_CHAT } from '../../../constants/urls'
 import socket from './../../../sockets/socket';
 
 //Importación para otros chats.
-import { chatsAndMore, buscarUsuarios, uploadImage } from "./../../../services/Chats";
+import { chatsAndMore, buscarUsuarios, uploadImage, seenMessages } from "./../../../services/Chats";
 
 //Importaciones del proyecto
 import { peticionDatoUsuario, peticionDatoUsuario_Id, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
@@ -72,13 +72,8 @@ const PanelChat = () => {
     //Variable para guardar los usuarios de la búsqueda.
     const [usuariosBuscados, setUsuariosBuscados] = useState(null);
 
-    socket.on('chats', (chats) => {
-        setChats(chats);
-    })
-
-    socket.on('nochats', chats => {
-        setChats(chats);
-    })
+    //Variable de apoyo:
+    const [selectedChat, setSelectedChat] = useState(null);
 
     const pedirLogg = async () => {
 
@@ -120,16 +115,30 @@ const PanelChat = () => {
     }
 
     const pedirChats = (userId) => {
-        console.log('Pido chats con ' + userId);
+        //console.log('Pido chats con ' + userId);
         chatsAndMore(userId)
             .then((res) => {
-                console.log('Llego');
+                //console.log('Llego');
                 if (res.status === 'success') {
                     setChatsPet(res.chats);
                 }
             }
             )
             .catch((err) => console.log(err));
+    }
+
+    const verMensajes = (emisor, receptor) => {
+        //setChatsPet(null);
+        seenMessages(emisor, receptor)
+        .then((res) => {
+            if (res.status === 'success'){
+                //setChatsPet(res.chats);
+                console.log('Visto');
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     const cambiarBusqueda = (e) => {
@@ -160,67 +169,12 @@ const PanelChat = () => {
         pedirDatos();
         pedirLogg();
 
-        /*
-        if (user && (user._id !== undefined) && usuario2) {
-            console.log(`user1: ${user._id}`);
-            console.log(`user2: ${usuario2}`);
-            console.log('Lo tomo de user');
-            socket.emit('conectado', user._id);
-            socket.emit('individualChat', user._id, usuario2);
-            socket.emit('obtainchats', user._id);
-        } else if (usuario2) {
-            console.log('Lo tomo de prop.location.state');
-            socket.emit('conectado', usuario1);
-            socket.emit('individualChat', usuario1, usuario2);
 
-            socket.emit('obtainchats', usuario1);
-        }
-        */
-        if (usuario1 === '') {
-            if (user && (user._id !== undefined)) {
-                console.log('Lo tomo de user');
-                socket.emit('conectado', user._id);
-                //socket.emit('obtainchats', user._id);
-                pedirChats(user._id);
-            }
-        } else {
-            if (user && (user._id !== undefined) && user2) {
-                console.log('Lo tomo de user');
-                socket.emit('conectado', user._id);
-                //socket.emit('obtainchats', user._id);
-                pedirChats(user._id);
-                console.log('Enviando chats desde user con ' + user._id);
-                socket.emit('individualChat', user._id, user2._id);
-            } else if (usuario2) {
-                console.log('Lo tomo de prop.location.state');
-                socket.emit('conectado', usuario1);
-                //socket.emit('obtainchats', usuario1);
-                pedirChats(usuario1);
-                socket.emit('individualChat', usuario1, usuario2);
-            }
-        }
-
-        socket.on('chats', (chats) => {
-            setChats(chats);
-        })
-
-        socket.on('nochats', chats => {
-            setChats(chats);
-        })
-
-        /*
-        socket.on('chat', (messages) => {
-            setMensajes(messages);
+        socket.on('users', (users) => {
+            console.log(users)
         });
 
-        socket.on('nochat', (message) => {
-            setMensajes(message)
-        })
-
-        console.log(`Mensajes: ${mensajes}`);
-    */
-
-    }, [isSigned, user2]);
+    }, [isSigned]);
 
     useEffect(() => {
 
@@ -232,77 +186,109 @@ const PanelChat = () => {
             pedirChats(user._id);
             console.log('Enviando chats desde user con ' + user._id);
             socket.emit('individualChat', user._id, user2._id);
-        } else if (usuario2) {
+        } else if (usuario2 !== '') {
             console.log('Lo tomo de prop.location.state');
-            socket.emit('conectado', usuario1);
+            //socket.emit('conectado', user._id);
             //socket.emit('obtainchats', usuario1);
-            pedirChats(usuario1);
-            socket.emit('individualChat', usuario1, usuario2);
+            pedirChats(user._id);
+            socket.emit('individualChat', user._id, usuario2);
         }
+        
+        socket.on('users', (users) => {
+            console.log(users)
+        });
 
-        socket.on('chats', (chats) => {
-            setChats(chats);
-        })
-
-        socket.on('nochats', chats => {
-            setChats(chats);
-        })
-
-    }, [user, user2, isSigned, mensajeEnviado]);
+    }, [user]);
 
     useEffect(() => {
 
-        /*
-        actualizarChats();
-        */
+        if (user && (user._id !== undefined) && user2) {
 
-        socket.on('chat', (sender, receiver, messages) => {
-            console.log('sender: ' + sender);
-            console.log('receiver ' + receiver);
-            /*
-            if ((sender===(user._id || usuario1) && (receiver === (usuario2 || user2._id))) || 
-                (sender===(usuario2 || user2._id) && (receiver === (user._id || usuario1)))){
-                    setMensajes(messages);
-                }
-            */
-            if (((sender === user._id && receiver === user2._id) || (sender === user2._id && receiver === user._id))) {
+            console.log('Lo tomo de user');
+            //socket.emit('conectado', user._id);
+            //socket.emit('obtainchats', user._id);
+            pedirChats(user._id);
+            //console.log('Enviando chats desde user con ' + user._id);
+            socket.emit('individualChat', user._id, user2._id);
+        } else if (usuario2 !== '') {
+            console.log('Lo tomo de prop.location.state');
+            //socket.emit('conectado', usuario1);
+            //socket.emit('obtainchats', usuario1);
+            pedirChats(user._id);
+            socket.emit('individualChat', user._id, usuario2);
+        }
+
+
+    }, [user2]);    
+
+    useEffect(() => {
+
+        var date = Date();
+
+        socket.on('chat', (sender, receiver, messages, chat) => {
+
+            console.log(date);
+            console.log('\n--Chat--');
+            console.log(`Sender: \t${sender}`);
+            console.log(`Receiver: \t${receiver}`);
+            console.log(`User: \t\t${user._id}`);
+            console.log(`User2: \t\t${user2._id}`);
+            console.log('\n');
+
+            var aparicionUser1 = 0, aparicionUser2 = 0;
+
+            if(user._id === sender) aparicionUser1 += 1;
+            if(user._id === receiver) aparicionUser1 += 1;
+            if(user2._id === sender) aparicionUser2 += 1;
+            if(user2._id === receiver) aparicionUser2 += 1;
+
+            console.log('AparicionUser1: ' + aparicionUser1);
+            console.log('aparicionUser2: ' + aparicionUser2);
+           
+            if(aparicionUser1 == 1 && aparicionUser2 == 1) {
                 setMensajes(messages);
-            } else {
-                if (((sender === user._id && receiver === usuario2) || (sender === usuario2 && receiver === user._id))) {
-                    setMensajes(messages);
-                }
+                if (user._id === receiver) verMensajes(sender, receiver);
+            }else {
+                console.log('AQUÍ TIENE QUE DAR ESE IF.');
+                setMensajes(null);
+                //socket.emit('individualChat', user._id, user2._id);
             }
+
 
         });
 
-        socket.on('nochat', (sender, receiver, message) => {
-            /*
-            if ((sender===(user._id || usuario1) && (receiver === (usuario2 || user2._id))) || 
-                (sender===(usuario2 || user2._id) && (receiver === (user._id || usuario1)))){
-                    setMensajes(messages);
-                }
-            */
-            if (((sender === user._id && receiver === user2._id) || (sender === user2._id && receiver === user._id))) {
+        socket.on('nochat', (sender, receiver, message, chat) => {
+
+            console.log('\n--NoChat--');
+            console.log(`Sender: ${sender}`);
+            console.log(`Receiver: ${receiver}`);
+            console.log(`User: ${user._id}`);
+            console.log(`User2: ${user2._id}`);
+            console.log('\n');
+
+            console.log()
+            if (
+
+                ((sender === user._id) && (receiver === user2._id))
+                ||
+                ((sender === user2._id) && (receiver === user._id))
+                
+                ) {
+                //console.log(`El sender es ${sender} y el receiver es ${receiver}`);
                 setMensajes(message);
-            } else {
-                if (((sender === user._id && receiver === usuario2) || (sender === usuario2 && receiver === user._id))) {
-                    setMensajes(message);
-                }
+
+                //if (user._id === receiver) verMensajes(sender, receiver);
             }
         })
 
-        socket.on('chats', (chats) => {
-            setChats(chats);
-        })
-
-        socket.on('nochats', chats => {
-            setChats(chats);
-        })
-
+        socket.on('new', (chats) => {
+            setChatsPet(chats);
+        });
 
         setMensajeEnviado(false);
 
-    }, [mensajes, user, user2, mensajeEnviado]);
+
+    }, [mensajes, user2, mensajeEnviado]);
 
     const enviarMensaje = function (e) {
         e.preventDefault();
@@ -324,18 +310,18 @@ const PanelChat = () => {
                         console.log("este es el nombre imagen", nombreImagen);
                         if (user2) {
                             socket.emit('message', nombreImagen, user._id, user2._id, true);
-                            console.log('Envié con user2');
                         }
                         else {
                             socket.emit('message', nombreImagen, user._id, usuario2, true);
-                            console.log('Envié con usuario2');
                         }
                         if (user && (user._id !== undefined)) {
                             //socket.emit('obtainchats', user._id);
                             pedirChats(user._id);
+                            console.log('Pedí 3');
                         } else {
                             //socket.emit('obtainchats', usuario1);
                             pedirChats(usuario1);
+                            console.log('Pedí 4');
                         }
 
                         let div = document.getElementById("imagenLibro");
@@ -351,20 +337,21 @@ const PanelChat = () => {
         if (mensajeAEnviar !== '') {
             console.log(mensajeAEnviar)
             if (user2) {
+                console.log('Envío una vez.');
                 socket.emit('message', mensajeAEnviar, user._id, user2._id, false);
-                console.log('Envié con user2');
-            }
+            }/*
             else {
                 socket.emit('message', mensajeAEnviar, user._id, usuario2, false);
-                console.log('Envié con usuario2');
-            }
+            }*/
 
             if (user && (user._id !== undefined)) {
                 //socket.emit('obtainchats', user._id);
                 pedirChats(user._id);
+                console.log('Pedí');
             } else {
                 //socket.emit('obtainchats', usuario1);
                 pedirChats(usuario1);
+                console.log('Pedí 2');
             }
 
             setMensajeEnviado(true);
@@ -389,7 +376,6 @@ const PanelChat = () => {
             div.append(image);
         }
     }
-
 
     if (isSigned == false) {
         return (
@@ -431,14 +417,14 @@ const PanelChat = () => {
                                                                 {(otherUser.imageProfile === '' || otherUser.imageProfile == undefined) &&
                                                                     <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                                 }
-                                                                <span className="estado-usuario enlinea"></span>
+                                                                {/*<span className="estado-usuario enlinea"></span>*/}
                                                             </div>
                                                             <div className="cuerpo">
                                                                 <span>{otherUser.user}</span>
                                                             </div>
-                                                            <span className="notificacion">
-                                                                3
-                                                            </span>
+                                                            {(chat.notificationTo === (user._id || usuario1)) &&
+                                                            <span className="notificacion">{chat.alerts}</span>
+                                                            }
                                                         </div>
                                                     )
                                                 }
@@ -478,9 +464,6 @@ const PanelChat = () => {
                                                     <div className="cuerpo">
                                                         <span>{userO.user}</span>
                                                     </div>
-                                                    <span className="notificacion">
-                                                        N
-                                                    </span>
                                                 </div>
                                             )
                                         }

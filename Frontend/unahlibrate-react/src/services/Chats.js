@@ -1,12 +1,12 @@
 import axios from "axios";
-import {URL_GET_GET_CHATS_AND_MORE, URL_GET_GET_CHATS,URL_GET_SEARCH_USERS,URL_POST_UPLOAD_IMAGE} from '../constants/urls';
+import {URL_GET_GET_CHATS_AND_MORE, URL_GET_GET_CHATS,URL_GET_SEARCH_USERS,URL_POST_UPLOAD_IMAGE, URL_POST_SEEN_MESSAGES} from '../constants/urls';
 
 
 export const chatsAndMore = async (userId) => {
 
     try {
         var chatsAndMore = await axios.get(`${URL_GET_GET_CHATS_AND_MORE}${userId}`);
-        console.log(chatsAndMore);
+        //console.log(chatsAndMore);
         if (chatsAndMore.status !== 200) console.log(chatsAndMore.data);
         return chatsAndMore.data;
     } catch (error){
@@ -91,7 +91,7 @@ export const uploadImage = async (data) => {
 
     try {
         var image = await axios.post(`${URL_POST_UPLOAD_IMAGE}`,data);
-        console.log(image);
+        //console.log(image);
         if (image.status !== 200) console.log(image.data);
         return image.data;
     } catch (error){
@@ -107,3 +107,27 @@ export const uploadImage = async (data) => {
     }
 
 };
+
+export const seenMessages = async (sender, receiver) => {
+
+    try {
+
+        var seen = await axios.post(`${URL_POST_SEEN_MESSAGES}`, {sender, receiver});
+        if (seen.status !== 200) console.log(seen.data);
+        return (seen.data);
+
+    } catch (error) {
+
+        let errorObj;
+        const { response } = error;
+        errorObj = {
+            title: 'No se actualizó chat.',
+            text: response.data.message
+        }
+        console.log(response);
+        //throw errorObj;
+        return errorObj;
+
+    };
+
+}
