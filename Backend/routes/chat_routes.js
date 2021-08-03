@@ -16,4 +16,6 @@ router.get('/get-chat/:id', ChatController.getChat);
 router.post('/upload-image',md_upload,ChatController.updloadImage);
 router.get('/get-chatImage/:image',ChatController.getImageMessage);
 
+router.post('/seen-messages', ChatController.seenMessages);
+
 module.exports = router;

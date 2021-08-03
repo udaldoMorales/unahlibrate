@@ -27,16 +27,16 @@ verifyToken = (req, res, next) => {
      		} else {
                     var f = new Date();
                     console.log('Error + ', f);
-     			console.log(err);
+     			//console.log(err);
 	     		return res.status(401).send({
 	     			status: 'error',
 	     			message: 'El token no sirve. No hay acceso.'
 	     		});
      		}
      	} else if (info) {
-     		console.log('Correcto.');
-               console.log(`Este es info:`);
-               console.log(info);
+     		//console.log('Correcto.');
+               //console.log(`Este es info:`);
+               //console.log(info);
      		//Esto, traer la información decodificada.
      		res.userData = info;
      		next();

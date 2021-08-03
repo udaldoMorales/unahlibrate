@@ -125,8 +125,6 @@ var controller = {
         var userId = request.params.userid;
         console.log(userId);
         chat.find({ users: { "$all": [userId] }, deleted: false }).sort('-updatedAt').exec((err, chats) => {
-            console.log(chats.length);
-            console.log(err);
             user.populate(chats, { path: 'users' }, (errr, chatss) => {
                 if (err || errr || !chats) {
                     console.log(errr);
@@ -135,7 +133,7 @@ var controller = {
                         message: 'Something happened'
                     })
                 } else {
-                    console.log(chatss);
+                    //console.log(chatss);
                     response.status(200).send({
                         status: 'success',
                         chats: chatss
@@ -165,7 +163,7 @@ var controller = {
     deleteChat: (request, response) => {
         var chatID = request.params.id;
 
-        book.findOneAndUpdate({ _id: chatID }, { deleted: true }, { new: true }, (err, deletedChat) => {
+        chat.findOneAndUpdate({ _id: chatID }, { deleted: true }, { new: true }, (err, deletedChat) => {
             if (err || !deletedChat) {
                 return response.status(404).send({
                     status: 'error',
@@ -177,6 +175,40 @@ var controller = {
                     chat: deletedChat
                 })
             }
+        });
+    }, 
+
+    seenMessages: (request, response) => {
+
+        var {sender, receiver} = request.body;
+        
+        chat.findOneAndUpdate({ users: { "$all": [sender, receiver] } }, {notificationTo: '', alerts: 0}, { new: true }, (err, foundChat) => {
+        
+            if (err){
+                return response.status(500).send({
+                    status: 'error',
+                    message: 'No se pudo actualizar chat.'
+                });
+            } else {
+                chat.find({ users: { "$all": [sender] }, deleted: false }).sort('-updatedAt').exec((err, chats) => {
+                    user.populate(chats, { path: 'users' }, (errr, chatss) => {
+                        if (err || errr || !chats) {
+                            console.log(errr);
+                            response.status(500).send({
+                                status: 'error',
+                                message: 'Something happened'
+                            })
+                        } else {
+                            //console.log(chatss);
+                            response.status(200).send({
+                                status: 'success',
+                                chats: chatss
+                            });
+                        }
+                    });
+                });
+            }
+
         });
     }
 

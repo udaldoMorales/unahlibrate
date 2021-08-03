@@ -13,7 +13,10 @@ var ChatSchema = Schema({
     deleted:{
         type: Boolean,
         default: false
-    }
+    },
+    //Parte para las notificaciones, cuando se reciba un mensaje.
+    notificationTo: String,
+    alerts: {type: Number, default:0}
 
 });
 
