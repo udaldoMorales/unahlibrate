@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 var fs = require('fs');
 var path = require('path');
 const jwt = require('jsonwebtoken');
-const {TokenExpiredError} = jwt;
+const { TokenExpiredError } = jwt;
 const RefreshToken = require('../models/refreshtoken');
 const transporter = require('../config/email');
 const { urlApi, tokenExpires } = require('../config/Global');
@@ -29,11 +29,17 @@ var controller = {
         var params = request.body;
         //console.log(request.body);
 
-        user.find({ '$or': [{ 'email': params.email }, { 'user': params.user }] }, (err, existingUser) => {
-
+        user.find({ '$or': [{ 'email': params.email }, { 'user': params.user.trim() }] }, (err, existingUser) => {
+            console.log(existingUser);
             if (existingUser.length > 0) {
-                console.log('No te ejecutés acá, bacteria 1.');
-                return response.status(404).send({ status: "error", message: "Correo en uso ya." });
+
+                if (existingUser[0].email == params.email) {
+                    return response.status(404).send({ status: "error", message: "Correo en uso, intente nuevamente" });
+                }
+                else if (existingUser[0].user == params.user) {
+                    return response.status(404).send({ status: "error", message: "Usario en uso, intente nuevamente" });
+                }
+
             } else {
                 if (err) {
                     console.log(err);
@@ -110,13 +116,13 @@ var controller = {
                     user: foundUser
                 })
             }
-        }) 
+        })
     },
     getUserByUsername: (request, response) => {
         var userName = request.params.nick;
         console.log(userName);
 
-        if (userName === 'undefined'){
+        if (userName === 'undefined') {
             return response.status(404).send({
                 status: 'failed',
                 message: 'No se ha enviado ningún nombre.'
@@ -152,7 +158,7 @@ var controller = {
                 {
                     "lastname": { "$regex": valueToSearch, "$options": "i" }
                 },
-               
+
             ]
         }).sort([['date', 'descending']]).exec((err, users) => {
             if (err) {
@@ -436,24 +442,24 @@ var controller = {
     //Creo que hay que hacer algunos cambios
     getProfileImage: (req, res) => {
         var file = req.params.image;
-        var pathFile = './uploads/users/'+file;
+        var pathFile = './uploads/users/' + file;
         console.log(pathFile);
-        fs.stat(pathFile,(err,exists)=>{
+        fs.stat(pathFile, (err, exists) => {
 
-            if(err){
+            if (err) {
                 return res.status(404).send({
                     status: 'error',
-                    message:'imagen no encontrada'
+                    message: 'imagen no encontrada'
                 });
-            }else{
+            } else {
                 return res.sendFile(path.resolve(pathFile));
-            }  
-        }); 
+            }
+        });
     },
 
     //Actualizar usuario -sin contraseña-.
     updateUser: (request, response) => {
-        
+
         //Recoger el id del usuario por la URL
         var userId = request.params.id;
 
@@ -461,12 +467,12 @@ var controller = {
         var params = request.body;
         console.log('Params con campos especiales.');
         console.log(params);
-        
+
         //Si viene una contraseña en el cuerpo de la petición.
         if (params._id) delete params._id;
         if (params.password) delete params.password;
-        
-        if (params.verified != undefined){
+
+        if (params.verified != undefined) {
             console.log('El verified se comprueba aquí.');
             delete params.verified;
         }
@@ -483,38 +489,38 @@ var controller = {
         console.log(newParams);
 
         //Por el momento, es obligatorio recibir en la petición el "user" y el "email" del usuario a actualizar.
-        if (!params.user || !params.email) return response.status(404).json({status: 'failed', message: 'Faltan datos.'});
-        
+        if (!params.user || !params.email) return response.status(404).json({ status: 'failed', message: 'Faltan datos.' });
+
         //Encontrar el usuario que se va a actualizar:
         user.findById(userId, (errr, userToUpdate) => {
 
-            if (errr || !userToUpdate){
+            if (errr || !userToUpdate) {
                 console.log(errr);
-                return response.status(500).send({status: 'serverError', message: '(find) Error del servidor.'});                
+                return response.status(500).send({ status: 'serverError', message: '(find) Error del servidor.' });
             }
 
-            else if (userToUpdate){ //Si está, hacer las comparaciones.
+            else if (userToUpdate) { //Si está, hacer las comparaciones.
 
                 //Buscar por el usuario.
-                user.find({'user': params.user}, (err, foundUser) => {
-                    
-                    if (err){
+                user.find({ 'user': params.user }, (err, foundUser) => {
+
+                    if (err) {
                         console.log(err);
-                        return response.status(500).send({status: 'serverError', message: '(user) Error del servidor.'});
+                        return response.status(500).send({ status: 'serverError', message: '(user) Error del servidor.' });
                     }
-                    
-                    if (foundUser.length == 0 || foundUser[0].user === userToUpdate.user){
+
+                    if (foundUser.length == 0 || foundUser[0].user === userToUpdate.user) {
 
                         //No hay problema con el usuario, ahora veremos el correo.
-                        user.find({'email': params.email}, (error, foundEmail) => {
+                        user.find({ 'email': params.email }, (error, foundEmail) => {
 
                             if (error) {
-                            console.log(error);
-                            return response.status(500).send({status: 'serverError', message: '(email) Error del servidor.'});                        
+                                console.log(error);
+                                return response.status(500).send({ status: 'serverError', message: '(email) Error del servidor.' });
                             }
-                            
-                            if (foundEmail.length  == 0 || foundEmail[0].email === userToUpdate.email){
-                                
+
+                            if (foundEmail.length == 0 || foundEmail[0].email === userToUpdate.email) {
+
                                 console.log(foundEmail);
                                 //Esto es por si se cambió de correo el usuario. Necesita volverse a validar.
                                 if (foundEmail.length == 0) verificarOtraVez = true;
@@ -536,21 +542,21 @@ var controller = {
                                     });
                                 }
 
-                                if (verificarOtraVez === true){
+                                if (verificarOtraVez === true) {
                                     console.log(verificarOtraVez);
                                     newParams.verified = false;
                                 }
 
-                                if(validateUser && validateEmail && validateName && validateLastName){
+                                if (validateUser && validateEmail && validateName && validateLastName) {
                                     //Find and update
-                                    user.findOneAndUpdate({_id: userId}, newParams, {new:true}, (error, userUpdated) => {
-                                        if (error){
+                                    user.findOneAndUpdate({ _id: userId }, newParams, { new: true }, (error, userUpdated) => {
+                                        if (error) {
                                             return response.status(500).send({
                                                 status: 'error',
                                                 message: 'Error al actualizar.'
                                             });
                                         }
-                                        if (!userUpdated){
+                                        if (!userUpdated) {
                                             return response.status(404).send({
                                                 status: 'error',
                                                 message: 'El usuario no existe.'
@@ -573,16 +579,16 @@ var controller = {
 
                             } else {
                                 console.log(foundUser[0]);
-                                return response.status(404).send({status: 'emailError', message: 'Correo en uso ya.'});
+                                return response.status(404).send({ status: 'emailError', message: 'Correo en uso ya.' });
                             }
 
                         }); //Fin del find por correo.
 
                     } else {
                         console.log(foundUser[0]);
-                        return response.status(404).send({status: 'userError', message: 'Usuario en uso ya.'});
+                        return response.status(404).send({ status: 'userError', message: 'Usuario en uso ya.' });
                     }
-                
+
                 }); //Fin del find por user.
 
             }
@@ -598,10 +604,10 @@ var controller = {
 
         if (!(params.oldPass) || !(params.newPass)) {
             console.log("Falta algún parámetro.");
-            return response.status(404).send({status: 'dataError', message: 'Faltan datos. Se necesitan contraseña actual y nueva.'});
-        } else if (params.oldPass == params.newPass){
+            return response.status(404).send({ status: 'dataError', message: 'Faltan datos. Se necesitan contraseña actual y nueva.' });
+        } else if (params.oldPass == params.newPass) {
             console.log("Contraseñas iguales");
-            return response.status(404).send({status: 'sameValuesError', message: "Son la misma contraseña, intenta con diferentes."});
+            return response.status(404).send({ status: 'sameValuesError', message: "Son la misma contraseña, intenta con diferentes." });
         }
 
         try {
@@ -609,19 +615,19 @@ var controller = {
         }
         catch (findError) {
             console.log(findError);
-            return response.status(500).send({status:'findFailed', message: 'Error en el servidor, intente de nuevo.'});
+            return response.status(500).send({ status: 'findFailed', message: 'Error en el servidor, intente de nuevo.' });
         }
 
-        try{
+        try {
             var validateOldPass = !(validator.isEmpty(params.oldPass));
             var validateNewPass = !(validator.isEmpty(params.oldPass));
         }
         catch (err) {
             console.log(err);
-            return response.status(500).send({status:'validateFailed', message: 'Faltan datos por enviar, intente de nuevo.'});
+            return response.status(500).send({ status: 'validateFailed', message: 'Faltan datos por enviar, intente de nuevo.' });
         }
-        
-        if (validateOldPass && validateNewPass){
+
+        if (validateOldPass && validateNewPass) {
 
             //var hashOldPass = bcrypt.hashSync(params.oldPass, 10);
 
@@ -629,15 +635,15 @@ var controller = {
             var contrasenaCompatible = bcrypt.compareSync(params.oldPass, foundUser.password);
             if (!contrasenaCompatible) {
                 console.log(contrasenaCompatible);
-                return response.status(404).send({status: 'oldPassError', message: 'Tu contraseña actual es incorrecta.'});
+                return response.status(404).send({ status: 'oldPassError', message: 'Tu contraseña actual es incorrecta.' });
             }
             else {
                 try {
 
                     var hashNewPass = bcrypt.hashSync(params.newPass, 10);
 
-                    var userUpdated = await user.findOneAndUpdate({_id: userId}, {password: hashNewPass}, {new:true}).exec();
-                    
+                    var userUpdated = await user.findOneAndUpdate({ _id: userId }, { password: hashNewPass }, { new: true }).exec();
+
                     return response.status(200).send(
                         {
                             status: 'success',
@@ -646,14 +652,14 @@ var controller = {
                     );
 
                 } catch (updateError) {
-                    console.log (updateError);
-                    return response.status(500).send({status: 'failed', message: 'Error, intente de nuevo.'});
+                    console.log(updateError);
+                    return response.status(500).send({ status: 'failed', message: 'Error, intente de nuevo.' });
                 }
             }
-        
+
         } else {
             return response.status(404).send({
-                status: 'error', 
+                status: 'error',
                 message: 'Validacion incorrecta.'
             });
         }
@@ -662,44 +668,44 @@ var controller = {
     forgotPassword: async (request, response) => {
 
         //¿Tengo una pregunta existencial acá, lo voy a dejar como usuario o como correo? Jaja. Lo dejaré por usuario, el método por correo solo llevaría pequeños cambios.
-        
+
         //Por usuario, acá:
 
         var userName = request.body.user;
         console.log(userName);
 
         try {
-            var foundUser = await user.findOne({user: userName}).exec();
+            var foundUser = await user.findOne({ user: userName }).exec();
             console.log(foundUser);
             //Si se encuentra, generar el token.
-            var restoreToken = jwt.sign({user: foundUser.user, email: foundUser.email}, 'secretsecret', {expiresIn: '5m'});
+            var restoreToken = jwt.sign({ user: foundUser.user, email: foundUser.email }, 'secretsecret', { expiresIn: '5m' });
             //Generar también un enlace para enviar en el correo al que se va a recuperar la contraseña.
             var linkForEmail = `http://localhost:3000/restore-password/${restoreToken}`;
 
         } catch (foundUserErr) {
             console.log(foundUserErr);
-            if (foundUser == null) return response.status(404).send({status: 'userError', message: 'No existe usuario.'});
-            return response.status(500).send({status: 'serverError', message: 'Error en la búsqueda.'});
+            if (foundUser == null) return response.status(404).send({ status: 'userError', message: 'No existe usuario.' });
+            return response.status(500).send({ status: 'serverError', message: 'Error en la búsqueda.' });
         }
 
         try {
 
             //Agregar al modelo ese último token. Se agrega al modelo "user" este campo para tener un mayor control de las recuperaciones de contraseña.
-            var userUpdated = await user.findOneAndUpdate({user: userName}, {restoreToken}, {new:true}).exec();
+            var userUpdated = await user.findOneAndUpdate({ user: userName }, { restoreToken }, { new: true }).exec();
 
         } catch (userUpdatedError) {
             console.log(userUpdatedError);
-            return response.status(500).send({status: 'serverError', message: 'Error en la actualización.'});
+            return response.status(500).send({ status: 'serverError', message: 'Error en la actualización.' });
         }
 
         //Si se hace lo anterior correctamente, se envía el correo. (PARA ESTO, EL TRANSPORTER DEBE ESTAR ACTIVADO CON LAS CREDENCIALES QUE DEBEN SER).
         if (linkForEmail) {
             var mailOptions = {
-            from: "UNAHLibrate <unahlibate-noreply@gmail.com>",
-            to: foundUser.email,
-            subject: "Recuperación de cuenta: UNAHLibrate",
-            //text: "Holaaaa, soy sexi XD"
-            html: `<div>
+                from: "UNAHLibrate <unahlibate-noreply@gmail.com>",
+                to: foundUser.email,
+                subject: "Recuperación de cuenta: UNAHLibrate",
+                //text: "Holaaaa, soy sexi XD"
+                html: `<div>
             <p>Clickea el siguiente enlace para recuperar tu cuenta y tener una nueva contraseña:</p>
             <a href="${linkForEmail}">${linkForEmail}</a></div>`
             }
@@ -709,7 +715,7 @@ var controller = {
                 if (error) {
                     console.log("hubo error enviando correo");
                     console.log(error)
-                    return response.status(500).send({status: 'emailFailed', message: error.message});
+                    return response.status(500).send({ status: 'emailFailed', message: error.message });
                 } else {
                     console.log("Email de recuperación enviado");
                     return response.status(200).send({
@@ -737,76 +743,76 @@ var controller = {
 
         //Tomando los parámetros, el token -que se envía en el header de la petición, uno llamado "reset"- y la nueva contraseña en los parámetros.
         const restoreToken = request.headers.reset;
-        const {newPass} = request.body; //La nueva contraseña.
+        const { newPass } = request.body; //La nueva contraseña.
 
         //Verificar que el token esté válido y aún no expirado.
         jwt.verify(restoreToken, 'secretsecret', (err, payloadFound) => {
-            if (err || !payloadFound){
-            if(err instanceof TokenExpiredError){
-                 return response.status(403).send({
-                     status: 'expired',
-                     message: 'El token ha expirado.'
-                 });
-             } else {
-                 console.log(err);
-                 return response.status(401).send({
-                     status: 'tokenError',
-                     message: 'El token no sirve.'
-                 });
-             }
+            if (err || !payloadFound) {
+                if (err instanceof TokenExpiredError) {
+                    return response.status(403).send({
+                        status: 'expired',
+                        message: 'El token ha expirado.'
+                    });
+                } else {
+                    console.log(err);
+                    return response.status(401).send({
+                        status: 'tokenError',
+                        message: 'El token no sirve.'
+                    });
+                }
             } else if (payloadFound) {
-                 console.log(`Este es payload:`);
-                 console.log(payloadFound);
-                 //Esto, traer la información decodificada.
-                 var payload = payloadFound;
-                 
-                 
-                 //Se encontró que el token es bueno, ese lo utilizaremos para encontrar el usuario en cuestión.
-                 //Ahora, tengo que buscar el usuario por el restoreToken.
-                 user.findOne({restoreToken: restoreToken}, (error, foundUser) => {
+                console.log(`Este es payload:`);
+                console.log(payloadFound);
+                //Esto, traer la información decodificada.
+                var payload = payloadFound;
 
-                     if (error || !foundUser || foundUser == undefined){
-                         console.log(error);
-                         return response.status(404).send({status: 'userError', message: "Error encontrando al usuario"});
-                     } else {
-                         
-                         //Se encontró el usuario.
-                         //Validación de que exista newPass.
-                         try {
-                             var validateNewPass = !validator.isEmpty(newPass);
-                         } catch (errorr) {
-                             return response.status(501).send({status: 'passFailed', message: 'Error en las validaciones.'});
-                         }
 
-                         if (validateNewPass){
+                //Se encontró que el token es bueno, ese lo utilizaremos para encontrar el usuario en cuestión.
+                //Ahora, tengo que buscar el usuario por el restoreToken.
+                user.findOne({ restoreToken: restoreToken }, (error, foundUser) => {
 
-                             //Aquí hacemos lo referente al cambio de contraseña.
+                    if (error || !foundUser || foundUser == undefined) {
+                        console.log(error);
+                        return response.status(404).send({ status: 'userError', message: "Error encontrando al usuario" });
+                    } else {
 
-                             var hash = bcrypt.hashSync(newPass, 10);
+                        //Se encontró el usuario.
+                        //Validación de que exista newPass.
+                        try {
+                            var validateNewPass = !validator.isEmpty(newPass);
+                        } catch (errorr) {
+                            return response.status(501).send({ status: 'passFailed', message: 'Error en las validaciones.' });
+                        }
 
-                             //Actualizo la contraseña del usuario.
-                             user.findOneAndUpdate({restoreToken}, {password: hash}, {new:true}, (updateErr, userUpdated) => {
+                        if (validateNewPass) {
 
-                                 if (updateErr || !userUpdated || userUpdated == undefined){
-                                     console.log(updateErr);
-                                     return response.status(501).send({status: 'updateFailed', message: 'Error en la actualización.'});
-                                 } else {
-                                     console.log('This is the updated user: ');
-                                     console.log(userUpdated);
-                                     return response.status(200).send({
-                                         status: 'success',
-                                         message: 'Contraseña cambiada.',
-                                         //user: userUpdated
-                                     })
-                                 }
+                            //Aquí hacemos lo referente al cambio de contraseña.
 
-                             }); //Fin del user.findOneandUpdate
+                            var hash = bcrypt.hashSync(newPass, 10);
 
-                         } else return response.status(404).send({status: 'passFailed', message: 'La contraseña debe ingresarse.'});
+                            //Actualizo la contraseña del usuario.
+                            user.findOneAndUpdate({ restoreToken }, { password: hash }, { new: true }, (updateErr, userUpdated) => {
 
-                     }
+                                if (updateErr || !userUpdated || userUpdated == undefined) {
+                                    console.log(updateErr);
+                                    return response.status(501).send({ status: 'updateFailed', message: 'Error en la actualización.' });
+                                } else {
+                                    console.log('This is the updated user: ');
+                                    console.log(userUpdated);
+                                    return response.status(200).send({
+                                        status: 'success',
+                                        message: 'Contraseña cambiada.',
+                                        //user: userUpdated
+                                    })
+                                }
 
-                 }); //Fin del user.findOne
+                            }); //Fin del user.findOneandUpdate
+
+                        } else return response.status(404).send({ status: 'passFailed', message: 'La contraseña debe ingresarse.' });
+
+                    }
+
+                }); //Fin del user.findOne
 
             }
         }); //Fin del jwt.verify.
