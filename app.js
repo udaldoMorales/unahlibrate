@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === 'production'){
     app.use(express.static(`Frontend/unahlibrate-react/build`));
 
     app.get('*', (request, response) => {
-        res.sendFile(path.join(__dirname, 'Frontend', 'unahlibrate-react', 'build', 'index.html'));
+        response.sendFile(path.join(__dirname, 'Frontend', 'unahlibrate-react', 'build', 'index.html'));
     })
 }
 

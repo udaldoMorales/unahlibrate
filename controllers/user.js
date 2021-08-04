@@ -320,7 +320,7 @@ var controller = {
             //text: "Holaaaa, soy sexi XD"
             html: `<div><h3>¡Bienvenido a UNAHLibrate!</h3>
             <p>Clickea el siguiente enlace para verificar tu cuenta y sé parte de la comunidad:</p>
-            <a href="${urlApi}verify-user/${request.body.user._id}">Verifica tu cuenta</a></div>`
+            <a href="${urlApi}/verify-user/${request.body.user._id}">Verifica tu cuenta</a></div>`
         }
 
         //Finalmente se envia el correo
@@ -680,7 +680,7 @@ var controller = {
             //Si se encuentra, generar el token.
             var restoreToken = jwt.sign({ user: foundUser.user, email: foundUser.email }, 'secretsecret', { expiresIn: '5m' });
             //Generar también un enlace para enviar en el correo al que se va a recuperar la contraseña.
-            var linkForEmail = `http://localhost:3000/restore-password/${restoreToken}`;
+            var linkForEmail = `http://${urlApi}/restore-password/${restoreToken}`;
 
         } catch (foundUserErr) {
             console.log(foundUserErr);

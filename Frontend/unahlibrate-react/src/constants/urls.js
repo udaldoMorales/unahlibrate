@@ -1,4 +1,4 @@
-const urlApi = 'http://localhost:3900';
+const urlApi = '';
 
 //Url estaticas
 export const URL_POST_SAVE_USER = urlApi +"/api/save-user";
