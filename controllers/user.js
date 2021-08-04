@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const { TokenExpiredError } = jwt;
 const RefreshToken = require('../models/refreshtoken');
 const transporter = require('../config/email');
-const { urlApi, tokenExpires } = require('../config/Global');
+const { tokenExpires } = require('../config/Global');
 
 var controller = {
     //metodo de prueba
@@ -320,7 +320,7 @@ var controller = {
             //text: "Holaaaa, soy sexi XD"
             html: `<div><h3>¡Bienvenido a UNAHLibrate!</h3>
             <p>Clickea el siguiente enlace para verificar tu cuenta y sé parte de la comunidad:</p>
-            <a href="${urlApi}/verify-user/${request.body.user._id}">Verifica tu cuenta</a></div>`
+            <a href="/verify-user/${request.body.user._id}">Verifica tu cuenta</a></div>`
         }
 
         //Finalmente se envia el correo
@@ -680,7 +680,7 @@ var controller = {
             //Si se encuentra, generar el token.
             var restoreToken = jwt.sign({ user: foundUser.user, email: foundUser.email }, 'secretsecret', { expiresIn: '5m' });
             //Generar también un enlace para enviar en el correo al que se va a recuperar la contraseña.
-            var linkForEmail = `http://${urlApi}/restore-password/${restoreToken}`;
+            var linkForEmail = `/restore-password/${restoreToken}`;
 
         } catch (foundUserErr) {
             console.log(foundUserErr);
@@ -707,7 +707,7 @@ var controller = {
                 //text: "Holaaaa, soy sexi XD"
                 html: `<div>
             <p>Clickea el siguiente enlace para recuperar tu cuenta y tener una nueva contraseña:</p>
-            <a href="${linkForEmail}">${linkForEmail}</a></div>`
+            <a href="${linkForEmail}">Recupera tu contraseña</a></div>`
             }
 
             //Finalmente se envia el correo
