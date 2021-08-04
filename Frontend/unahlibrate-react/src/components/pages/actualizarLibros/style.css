@@ -1,0 +1,173 @@
+:root{
+    --color-dark:#15181f;
+    --color-dark-x:#2d343f;
+    --color-dark-xx:#1f232b;
+   --color-light:#ffffff;
+   --color-grey:#f5f6f8;
+}
+
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    background-color: var(--color-grey);
+    color:(var(--color-light));
+    letter-spacing: .05rem;
+    background-color: 	#f0ffff;
+}
+
+.bg-light{
+    background-color: var(--color-light) !important;
+ }
+ 
+ .bg-dark{
+ background-color: var(--color-dark) !important;
+ }
+ 
+ .p-6{
+     padding: 4rem 7rem;
+ }
+
+ 
+ .contact-box{
+    padding: 3rem;
+}
+
+.form-control{
+ 
+  font-size: 18px;
+    line-height: 1.2;
+    color: #686868;
+    display: block;
+    width: 100%;
+    background: #e6e6e6;
+    height: 62px;
+    border-radius: 3px;
+    padding: 0 30px 0 65px !important;
+ 
+}
+
+
+.register-bga{
+    background-image: url("../../../img/lbr2.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+}
+
+
+
+.centerMargen{
+   
+    border: 5px solid #179;
+    width: 250px;
+    height: 250px;
+    border-radius: 5px;
+    box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgb(0 0 0 / 0%);
+}
+
+.inputImagenLibro{
+    width: 156px;
+}
+
+.formulario{
+    box-shadow: 0 0 .5rem #8A8C8C; 
+    background-color: 	white;
+}
+.btn-agregar{
+    margin-right: 20px;
+    width: 200px;
+    border-radius: 5px;
+}
+.btn-cancelar{
+
+    width: 200px;
+    border-radius: 5px;
+}
+
+
+.titulo1{
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(161, 228, 255, 0.794) !important;
+    margin-top: 100px;
+  
+}
+
+.iconolbr1{
+    width: 150px;
+    height: 150px;
+    background-color: white!important;
+}
+
+.select-genero{
+    font-size: 18px;
+    line-height: 1.2;
+    color: #686868;
+    display: block;
+    width: 100%;
+    background: #e6e6e6;
+    height: 62px;
+    border-radius: 3px;
+    padding: 0 30px 0 65px;
+}
+input[type=file].hidden {
+    color: transparent;
+}
+/*************************************************************************/
+
+@media(max-width:575.98px){
+    .p-6{
+        padding: 2 rem;
+    }
+    .contact-box{
+        padding: 0;
+    }
+
+    .width-100{
+        width: 100%;
+    }
+
+    .titulo1{
+      
+        margin-top:0px;
+        font-size: 40px;
+        margin-bottom: 200px;
+    }
+    .iconolbr{
+        width: 100px;
+        height: 100px;
+    }
+    
+}
+
+
+@media(max-width:1200px){
+    .register-bga{
+       min-height: 60vh;
+    }
+    .titulo1{
+
+        margin-top:40px;
+        font-size: 40px;
+    }
+
+    @media (min-width:768px){
+      
+       
+    }
+   
+    
+
+}
+
+@media (max-width:320px){
+
+    .titulo1{
+
+        margin-top:10px;
+        font-size: 40px;
+        margin-bottom: 100px;
+    }
+}

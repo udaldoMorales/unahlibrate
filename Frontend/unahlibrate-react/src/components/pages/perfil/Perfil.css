@@ -1,0 +1,79 @@
+.imagenFondo{
+    background: url("../../../img/imagen1.jpg") no-repeat center center fixed;
+    height: 100vh !important;
+}
+
+.form-control {
+    margin-bottom: 20px;
+}
+
+.ant-btn{
+    margin-bottom: 20px;
+    background: #e6e6e6;
+    margin-top: 10px;
+}
+
+.ant-upload-list-text-container, .ant-upload-list-picture-container {
+    transition: opacity 0.3s, height 0.3s;
+    margin-bottom: 20px;
+}
+
+.imageProfile{
+    width: 250px;
+    height: 250px;
+}
+
+#lista{
+    padding-left: 0px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.idLista.letra{
+    float: left;
+    margin-left: 6px;
+}
+.idLista{
+    float: left;
+}
+
+.clearfix{
+    clear: both;
+}
+
+.centerListPerf{
+    width: 20rem;
+    margin: 0px auto;
+}
+
+.centerImage{
+    text-align: center;
+
+    margin: 0px auto;
+    border: 5px solid #179;
+    width: 260px;
+    height: 260px;
+    border-radius: 5px;
+}
+
+.wrap-login500perf {
+    width: 450px;
+    background: #fff;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    left: -4vw;
+}
+
+.wrap-login200perf{
+  width: 50vw;
+  height: 90vh;
+  background: #fff;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-left: 0px;
+  margin-right: 0px;
+  position: relative;
+  right: -4vw;
+}

@@ -1,0 +1,42 @@
+.imagenFondo1{
+    background: url("../../../img/imagen1.jpg") no-repeat center center fixed;
+    height: 85vw !important;
+}
+
+.form-control {
+    margin-bottom: 20px;
+}
+
+.ant-btn{
+    margin-bottom: 20px;
+    background: #e6e6e6;
+    margin-top: 10px;
+}
+
+
+.centerImage{
+    text-align: center;
+
+    margin: 0px auto;
+    /*border: 5px solid #179;*/
+    width: 260px;
+    height: 260px;
+    
+    -webkit-box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0); 
+    box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+}
+
+.ant-upload-list-text-container, .ant-upload-list-picture-container {
+    transition: opacity 0.3s, height 0.3s;
+    margin-bottom: 20px;
+}
+
+.inputImagenPerfil{
+    margin-left: 104px;
+    margin-bottom: 18px;
+    margin-top: 18px;
+}
+
+input[type=file].hidden {
+    color: transparent;
+}

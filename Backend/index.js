@@ -19,11 +19,11 @@ mongoose.Promise = global.Promise;
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology:true, useCreateIndex: true })
     .then(() => {
         //Crear servidor y ponerme a escuchar peticiones HTTP
-        app.listen(port,() => {
+        /*app.listen(port,() => {
             console.log("Servidor corriendo en http://localhost:"+port + " conectado con la base correctamente");
-        });
-        httpServer.listen(port+1, () => {
-            console.log(`Servidor http en http://localhost:${port+1} conectado`);
+        });*/
+        httpServer.listen(port, () => {
+            console.log(`Servidor http en http://localhost:${port} conectado`);
         })
     }).catch(err => console.log(err));
 

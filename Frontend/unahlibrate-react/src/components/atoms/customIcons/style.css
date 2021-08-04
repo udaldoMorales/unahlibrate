@@ -1,0 +1,33 @@
+.IconsNotebook{
+    fill: white;
+   
+}
+
+
+
+
+@media (max-width:320px){
+  
+    .Capa1{
+       
+    
+        height: 70px !important;
+        height: 70px !important;
+        margin-top: 0px !important;
+    }
+    
+}
+
+@media(max-width:1200px){
+
+
+    .Capa1{
+       
+    
+        height: 130px !important;
+        height: 130px !important;
+        margin-top: 0px !important;
+     
+    }
+    
+}
