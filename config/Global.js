@@ -1,4 +1,4 @@
-import {port} from '../index'; 
+const {port} = require('../index'); 
 
 module.exports = Global = {
 	urlApi: `http://localhost:${port}/api/`,
