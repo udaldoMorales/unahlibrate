@@ -1,4 +1,0 @@
-Backend.
-
-Para ejecutar el Backend:
-Al clonar la parte de Backend, ejecutar "npm install" para instalar las dependencias del package.json, y luego, correr "npm start".
