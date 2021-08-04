@@ -49,9 +49,11 @@ app.get('/datos', (request, response) => {
 	});
 })
 
+/*
 app.get("/", (request, response) => {
 	return response.status(200).send('Este es el backend del Proyecto.') 
 })
+*/
 
 if (process.env.NODE_ENV === 'production'){
     app.use(express.static(`Frontend/unahlibrate-react/build`));
