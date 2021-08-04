@@ -5,7 +5,7 @@ module.exports = transporter = nodemailer.createTransport({
             port: 465,
             secure: true,
             auth: {
-                user: '', //Colocar el correo que vayamos a usar.
-                pass: '' //Colocar la contraseña de aplicación.
+                user: 'unahlibrate@gmail.com', //Colocar el correo que vayamos a usar.
+                pass: 'gubkagebtcfhzuqm' //Colocar la contraseña de aplicación.
             }
         });
