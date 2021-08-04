@@ -1,4 +1,5 @@
 const user = require('../models/user');
+const { connect } = require('../routes/user_routes');
 const { io } = require('./../app');
 const chat = require('./../models/chat');
 
@@ -110,7 +111,7 @@ io.on('connect', connectedUser => {
                                     } else {
                                         connectedUser.emit('chat', sender, receiver, chats.messages, chats);
                                         for (i in usuarios) {
-                                            if ((usuarios[i].user === sender) || (usuarios[i].user === receiver)){
+                                            if (((usuarios[i].user === sender) || (usuarios[i].user === receiver)) && (usuarios[i].id !== connectedUser.id)){
                                                 console.log(`\nMando desde message 1`);
                                                 connectedUser.to(usuarios[i].id).emit('chat', sender, receiver, chats.messages, chats);
                                                 if (usuarios[i].user === receiver){
@@ -138,11 +139,11 @@ io.on('connect', connectedUser => {
                             message: 'No hay chats que devolver para ese usuario'
                         }
                     } else {
-                        connectedUser.emit('chat', sender, receiver, chats.messages, {from: sender});
+                        connectedUser.emit('chat', sender, receiver, chats.messages, chats);
                         for (i in usuarios) {
-                            if ((usuarios[i].user === sender) || (usuarios[i].user === receiver)){
+                            if (((usuarios[i].user === sender) || (usuarios[i].user === receiver)) && (usuarios[i].id !== connectedUser.id)){
                                 console.log(`\nMando desde message 2: ${sender}, ${receiver}`);
-                                connectedUser.to(usuarios[i].id).emit('chat', sender, receiver, chats.messages, {from: sender});
+                                connectedUser.to(usuarios[i].id).emit('chat', sender, receiver, chats.messages, chats);
                                 if (usuarios[i].user === receiver){
                                     pedirChats(connectedUser, usuarios[i].user, usuarios[i].id)
                                 }
@@ -224,7 +225,7 @@ io.on('connect', connectedUser => {
                 connectedUser.emit('nochat', sender, receiver, 'None');
             } else {
                 console.log(`\nMando desde individualChat: ${sender}, ${receiver}`);
-                connectedUser.emit('chat', sender, receiver, chat.messages, {from: sender});
+                connectedUser.emit('chat', sender, receiver, chat.messages, chat);
             }
         });
 
