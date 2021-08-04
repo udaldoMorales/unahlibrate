@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
-
-let socket = io("http://localhost:3900");
+//import {port} from '../../../../Backend/config/Global';
+var port = process.env.PORT || 3900;
+let socket = io(`http://localhost:${port}`);
 
 export default socket;
