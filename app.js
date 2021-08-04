@@ -6,7 +6,7 @@ const express = require('express');
 
 //Ejecutar express.
 const app = express();
-
+const path = require('path');
 //Cargar el socket.io
 const http = require('http');
 const socketio = require('socket.io');
@@ -52,6 +52,14 @@ app.get('/datos', (request, response) => {
 app.get("/", (request, response) => {
 	return response.status(200).send('Este es el backend del Proyecto.') 
 })
+
+if (process.env.NODE_ENV === 'production'){
+    app.use(express.static(`Frontend/unahlibrate-react/build`));
+
+    app.get('*', (request, response) => {
+        res.sendFile(path.join(__dirname, 'Frontend', 'unahlibrate-react', 'build', 'index.html'));
+    })
+}
 
 //Exportar el módulo (fichero actual).
 module.exports = {

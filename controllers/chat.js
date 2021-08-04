@@ -51,7 +51,7 @@ var controller = {
         }
 
         var filePath = request.files.file0.path;
-        var fileSplit = filePath.split('\\') //Para linux es /
+        var fileSplit = filePath.split(`${path.sep}`) //Para linux es /
         //Nombre del archivo
         fileName = fileSplit[fileSplit.length - 1];
         //Extension del archivo

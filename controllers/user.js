@@ -401,7 +401,7 @@ var controller = {
         }
         //Conseguir el nombre y la extension del archivo
         var filePath = req.files.file0.path;
-        var fileSplit = filePath.split('\\') //Para linux es /
+        var fileSplit = filePath.split(`${path.sep}`) //Para linux es /
 
         //Nombre del archivo
         fileName = fileSplit[fileSplit.length - 1];
