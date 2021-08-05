@@ -213,12 +213,14 @@ iframe {
 
 
 .bkgImgLogIn {
-  background: url("../img/Libros.jpg") no-repeat center center fixed;
+  background-color: #ceece1;
+  /*background: url("../img/Libros.jpg") no-repeat center center fixed;*/
   height: 50vw !important;
 }
 
 .imgFormRegUs {
-  background: url("../img/Libros.jpg") no-repeat center center fixed;
+  background-color: #ceece1;
+  /*background: url("../img/Libros.jpg") no-repeat center center fixed;*/
 }
 
 .bkg-request {
