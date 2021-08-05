@@ -1,6 +1,7 @@
 .imagenFondo{
-    background: url("../../../img/imagen1.jpg") no-repeat center center fixed;
-    height: 100vh !important;
+    background-color: #ceece1; 
+    /*background: url("../../../img/imagen1.jpg") no-repeat center center fixed;
+    height: 100vh !important;*/
 }
 
 .form-control {

@@ -11,9 +11,9 @@ class AboutUs extends Component {
 
 					<div className="limiter">
 
-						<div className="container-login100 lim2 bkgImgLogIn">
+					    <div className="container-login100 imgFormRegUs">
 
-							<div className="wrap-login200 p-l-30 p-r-30 p-t-30 p-b-30">
+                            <div className="wrap-login200 p-l-50 p-r-50 p-t-50 p-b-30">
 
 								<h1 className="login100-form-title">Esto es</h1>
 								<img id='logounahlibrate-azul-about' className='center' src='/images/Logo-266fbd.png' height={55}/>
