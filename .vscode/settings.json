@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/f78a41dc-e81c-4134-b07a-9708562bc895/resourceGroups/unahlibrate/providers/Microsoft.Web/sites/unahlibrate",
+    "appService.deploySubpath": "."
+}
