@@ -15,7 +15,7 @@ import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../.
 import { updateUser } from '../../../services/User';
 import Swal from "sweetalert2";
 
-import { URL_POST_USER_CHANGE_IMAGE_PROFILE } from "../../../constants/urls";
+import { URL_POST_USER_CHANGE_IMAGE_PROFILE,URL_GET_IMAGE_USER } from "../../../constants/urls";
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -241,7 +241,7 @@ const ActualizarPerfil = () => {
                   {
 
                     (imagenPerfil !== "") ? (
-                      <img src={"http://localhost:3900/api/" + 'get-image/' + imagenPerfil} alt={""} className="imageProfile" />
+                      <img src={`${URL_GET_IMAGE_USER}${imagenPerfil}`} alt={"imagen de perfil"} className="imageProfile" />
                     ) : (
                       <img src={"https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"} className="imageProfile"/>
                     )
