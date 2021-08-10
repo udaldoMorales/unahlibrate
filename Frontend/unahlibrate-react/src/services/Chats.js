@@ -1,5 +1,5 @@
 import axios from "axios";
-import {URL_GET_GET_CHATS_AND_MORE, URL_GET_GET_CHATS,URL_GET_SEARCH_USERS,URL_POST_UPLOAD_IMAGE, URL_POST_SEEN_MESSAGES} from '../constants/urls';
+import {URL_GET_GET_CHATS_AND_MORE, URL_GET_GET_CHATS,URL_GET_SEARCH_USERS,URL_POST_UPLOAD_IMAGE, URL_POST_UPLOAD_IMAGE_MULTER, URL_POST_SEEN_MESSAGES} from '../constants/urls';
 
 
 export const chatsAndMore = async (userId) => {
@@ -90,7 +90,8 @@ export const buscarUsuarios = async (buscar) => {
 export const uploadImage = async (data) => {
 
     try {
-        var image = await axios.post(`${URL_POST_UPLOAD_IMAGE}`,data);
+        var image = await axios.post(`${URL_POST_UPLOAD_IMAGE}`,data); //Para no usar Google Drive en la subida de las fotos, pueden usar este.
+        //var image = await axios.post(`${URL_POST_UPLOAD_IMAGE_MULTER}`,data); //Con el Heroku y el Google Drive, se usa este.
         //console.log(image);
         if (image.status !== 200) console.log(image.data);
         return image.data;

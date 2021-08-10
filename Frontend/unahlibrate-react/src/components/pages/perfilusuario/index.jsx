@@ -13,7 +13,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from 'react-router-dom';
 import { ProfileUser } from "../../atoms";
 import Cookies from 'universal-cookie';
-import { URL_GET_USER_BOOKS ,URL_GET_IMAGE_USER} from '../../../constants/urls';
+import { URL_GET_USER_BOOKS } from '../../../constants/urls';
 const cookies = new Cookies();
 
 
@@ -124,11 +124,12 @@ const PerfilUsers = () => {
               <div className="perfil-usuario-portada">
                 <div className="perfil-usuario-avatar">
                   {/*<img className="iconolbr" src={perfil} alt="" />*/}
+                  {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
                   {
 
                     (data.imagenPerfil !== "") ? (
                       
-                        <img src={`${URL_GET_IMAGE_USER}${data.imagenPerfil}`} alt={"Imagen del perfil"} className="iconolbr" />
+                        <img src={"http://localhost:3900/api/" + 'get-image/' + data.imagenPerfil} alt={"Imagen del perfil"} className="iconolbr" />
                      
                     ) : (
                       <div className='centerImage'>
@@ -137,6 +138,20 @@ const PerfilUsers = () => {
                     )
 
                   }
+                  {/*Con el Heroku y el Google Drive, se usa este.*/}
+                  {/*
+
+                    (data.imagenPerfil !== "") ? (
+                      
+                        <img src={data.imagenPerfil} alt={"Imagen del perfil"} className="iconolbr" />
+                     
+                    ) : (
+                      <div className='centerImage'>
+                        <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="imagen de perfil por defecto" className="iconolbr"/>
+                      </div>
+                    )
+
+                  */}
                 </div>
               </div>
             </div>

@@ -8,11 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
 import "./style.css";
-import axios from "../../../modules/axios";
+import axios from "axios";
 import libro from '../../../img/library.svg'
 import Swal from "sweetalert2";
 import { addBook } from "../../../services/AddBook";
-import { URL_POST_SAVE_IMAGE_BOOOK } from "../../../constants/urls"
+import { URL_POST_SAVE_IMAGE_BOOOK, URL_POST_SAVE_IMAGE_BOOOK_MULTER, URL_POST_SAVE_IMAGE_BOOOK_GOOGLE } from "../../../constants/urls"
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
 
 import Cookies from 'universal-cookie';
@@ -174,7 +174,8 @@ const AgregarLibro = () => {
               selectFile.name
             );
 
-            axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData)
+            axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData) //Para no usar Google Drive en la subida de las fotos, pueden usar este.
+            //axios.post(URL_POST_SAVE_IMAGE_BOOOK_MULTER + bookID, formData) //Con el Heroku y el Google Drive, se usa este.
               .then(res => {
 
                 if (res.data.book) {
@@ -250,7 +251,7 @@ const AgregarLibro = () => {
             <div className="col-xl-7 col-lg-12 d-flex">
               <div className="container align-self-center">
 
-                <form onSubmit={submitBook}>
+                <form onSubmit={submitBook} enctype='multipart/form-data'>
 
                   <center>
                     <div className="centerMargen mt-3 mb-4 " id="imagenLibro">

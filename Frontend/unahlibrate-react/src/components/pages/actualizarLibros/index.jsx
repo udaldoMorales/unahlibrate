@@ -13,7 +13,7 @@ import axios from "axios";
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
 
 import { updateBook } from '../../../services/UserBooks';
-import { URL_POST_SAVE_IMAGE_BOOOK, URL_GET_IMAGE_BOOK } from "../../../constants/urls";
+import { URL_POST_SAVE_IMAGE_BOOOK, URL_POST_SAVE_IMAGE_BOOOK_MULTER, URL_POST_SAVE_IMAGE_BOOOK_GOOGLE, URL_GET_IMAGE_BOOK } from "../../../constants/urls";
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -125,7 +125,9 @@ const ActualizarLibro = () => {
               selectFile.name
             );
 
-            axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData)
+            axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData) //Para no usar Google Drive en la subida de las fotos, pueden usar este.
+            //axios.post(URL_POST_SAVE_IMAGE_BOOOK_GOOGLE + bookID, formData)
+            //axios.post(URL_POST_SAVE_IMAGE_BOOOK_MULTER + bookID, formData) //Con el Heroku y el Google Drive, se usa este.
               .then(res => {
 
                 if (res.data.book) {
@@ -255,12 +257,19 @@ const ActualizarLibro = () => {
             <div className="col-xl-7 col-lg-12 d-flex">
               <div className="container align-self-center">
 
-                <form onSubmit={submitBook}>
+                <form onSubmit={submitBook} enctype='multipart/form-data'>
 
                   <center>
                     <div className="centerMargen mt-3 mb-4 " id="imagenLibro">
+                      {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
                       {libro.imagenLibro &&
                         <img src={`${URL_GET_IMAGE_BOOK}${libro.imagenLibro}`} alt="imagen del libro"
+                          style={{ width: "235px", height: "238px", "object-fit":"cover" }}
+                        />
+                      }
+                      {/*Con el Heroku y el Google Drive, se usa este.*/}
+                      {libro.imagenLibro &&
+                        <img src={`${libro.imagenLibro}`} alt="imagen del libro"
                           style={{ width: "235px", height: "238px", "object-fit":"cover" }}
                         />
                       }

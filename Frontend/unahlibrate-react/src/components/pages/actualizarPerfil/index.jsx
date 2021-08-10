@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../../modules/axios";
+import axios from "axios";
 import { Redirect } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ProfileUser } from "../../atoms";
@@ -12,10 +12,10 @@ import "./estilos.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
-import { updateUser } from '../../../services/User';
+import { updateUser, updateImageProfile } from '../../../services/User';
 import Swal from "sweetalert2";
 
-import { URL_POST_USER_CHANGE_IMAGE_PROFILE,URL_GET_IMAGE_USER } from "../../../constants/urls";
+import { URL_POST_USER_CHANGE_IMAGE_PROFILE, URL_POST_USER_CHANGE_IMAGE_PROFILE_GOOGLE, URL_POST_USER_CHANGE_IMAGE_PROFILE_MULTER} from "../../../constants/urls";
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -156,7 +156,11 @@ const ActualizarPerfil = () => {
           );
 
           console.log("en esta parte del if");
-          axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id, formData)
+          console.log(formData.file0);
+          console.log(selectFile);
+          axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id, formData) //Para no usar Google Drive en la subida de las fotos, pueden usar este.
+          //axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE_MULTER + id, formData)
+          //updateImageProfile(id, formData) //Con el Heroku y el Google Drive, se usa este.
             .then(res => {
               if (res.data.user) {
                 console.log("Se guardo la imagen");
@@ -233,20 +237,32 @@ const ActualizarPerfil = () => {
               <form
                 className="login100-form validate-form btn"
                 onSubmit={submitUser}
+                enctype='multipart/form-data'
               >
                 <span className="login100-form-title p-b-34">
                   Actualizar Perfil
                 </span>
                 <div className="centerImage" id="imagenLibro">
+                  {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
                   {
 
                     (imagenPerfil !== "") ? (
-                      <img src={`${URL_GET_IMAGE_USER}${imagenPerfil}`} alt={"imagen de perfil"} className="imageProfile" />
+                      <img src={"http://localhost:3900/api/" + 'get-image/' + imagenPerfil} alt={""} className="imageProfile" />
                     ) : (
                       <img src={"https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"} className="imageProfile"/>
                     )
 
                   }
+                  {/*Con el Heroku y el Google Drive, se usa este.*/}
+                  {/*
+
+                    (imagenPerfil !== "") ? (
+                      <img src={imagenPerfil} alt={""} className="imageProfile" />
+                    ) : (
+                      <img src={"https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"} className="imageProfile"/>
+                    )
+
+                  */}
                 </div>
 
                 <center>

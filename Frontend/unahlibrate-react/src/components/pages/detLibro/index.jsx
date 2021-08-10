@@ -174,6 +174,7 @@ const DetLibro = () => {
                 <div className="col-md-6">
 
                   <div>
+                    {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
                     {
                       (data.imagenLibro !== "") ? (
                         <div className='centerImage'>
@@ -184,8 +185,20 @@ const DetLibro = () => {
 
                         </div>
                       )
-
                     }
+                    {/*Con el Heroku y el Google Drive, se usa este.*/}
+                    {/*
+                      (data.imagenLibro !== "") ? (
+                        <div className='centerImage'>
+                          <img src={`${data.imagenLibro}`} alt={""} className="imagenLibro" />
+                        </div>
+                      ) : (
+                        <div className='centerImage'>
+
+                        </div>
+                      )
+
+                    */}
                     {/**/}
                   </div>
 
