@@ -39,11 +39,9 @@ const pedirLogg = async () => {
 
     try {
 
-      console.log(1);
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
       setAllow(response);
       setIsSigned(response.status);
-      console.log("Me ejecuté.")
 
     } catch (err) {
       console.log(err);
@@ -54,11 +52,8 @@ const pedirLogg = async () => {
 const pedirDatos = async () => {
 
     try {
-      console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
       setUser(rr.user);
-      console.log('- Yo también.');
-      console.log('- METIDO.');
     } catch (err) {
       console.log(err);
     }
@@ -68,8 +63,7 @@ const pedirLibros = (id) => {
   allBooks().then(res=>{
     if (res.status==='success') setBooks(res.books);
   });
-  console.log("Me ejecute");
-  console.log(books);
+
 };
 
 const buscarLibros = (busqueda) => {
@@ -85,12 +79,8 @@ const buscarLibros = (busqueda) => {
     pedirDatos();
     pedirLogg();
     if (search!==undefined) {
-      console.log('Search');
-      console.log(search);
       buscarLibros(search);
     } else if (search==undefined) {
-      console.log('Search en undefined');
-      console.log(search);
       pedirLibros();  
     }
     

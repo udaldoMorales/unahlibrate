@@ -37,6 +37,8 @@ function App() {
         <Route path="/detLibro/:bookId" exact component={DetLibro}/>
         <Route path="/actualizarLibros" component={ActualizarLibro}/>
         <Route path="/panelChat" exact component={PanelChat}/>
+        {/*Ruta para visualizar otro perfil de usuario*/}
+        <Route path="/perfilusuario/user/:user" exact component={PerfilUsers} />
 
       {/*Para probar el chat*/}
       {/*<Route path='/chat' exact component={Chat}/>

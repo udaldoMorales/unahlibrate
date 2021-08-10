@@ -139,7 +139,6 @@ const DetLibro = () => {
 
   const volverAtras = (e) => {
     //e.preventDefault();
-    console.log('Backeo, eo, eo.');
     window.history.back();
   }
 
@@ -257,7 +256,11 @@ const DetLibro = () => {
                       <span className="etiqueta">Por: </span>
 
                       {/*<b>Aqui va el estado del libro </b>*/}
-                      <b className="etiqueta">{data.usuario.user}</b>
+                      <Link to={`/perfilusuario/user/${data.usuario.user}`}>
+                      <b className="etiqueta link-primary">
+                        {data.usuario.user}
+                      </b>
+                      </Link>
                     </div>
                   </div>
 
