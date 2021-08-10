@@ -1,4 +1,4 @@
-const urlApi = ''; //En producción con Heroku, se tiene que hacer así.
+// const urlApi = ''; //En producción con Heroku, se tiene que hacer así.
 
 const urlApi = `http://localhost:3900`; //En desarrollo local, se usa este.
 

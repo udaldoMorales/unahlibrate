@@ -268,11 +268,11 @@ const ActualizarLibro = () => {
                         />
                       }
                       {/*Con el Heroku y el Google Drive, se usa este.*/}
-                      {libro.imagenLibro &&
+                      {/*libro.imagenLibro &&
                         <img src={`${libro.imagenLibro}`} alt="imagen del libro"
                           style={{ width: "235px", height: "238px", "object-fit":"cover" }}
                         />
-                      }
+                      */}
                     </div>
                     <input
                       className="inputImagenLibro mb-4"
