@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "heroku-postbuild": "cd Frontend && cd unahlibrate-react && npm install && npm run build"
   },
   "author": "",
   "license": "MIT",
@@ -14,8 +15,10 @@
     "body-parser": "^1.19.0",
     "connect-multiparty": "^2.2.0",
     "express": "^4.17.1",
+    "googleapis": "^83.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.14",
+    "multer": "^1.4.2",
     "nodemailer": "^6.6.2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",

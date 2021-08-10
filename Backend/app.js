@@ -6,7 +6,7 @@ const express = require('express');
 
 //Ejecutar express.
 const app = express();
-
+const path = require('path');
 //Cargar el socket.io
 const http = require('http');
 const socketio = require('socket.io');
@@ -40,6 +40,7 @@ app.use("/api", user_routes)
 app.use("/api", book_routes)
 app.use("/api", chat_routes)
 
+
 //Ruta o método de prueba para el API:
 
 app.get('/datos', (request, response) => {
@@ -49,9 +50,25 @@ app.get('/datos', (request, response) => {
 	});
 })
 
+/*
 app.get("/", (request, response) => {
 	return response.status(200).send('Este es el backend del Proyecto.') 
 })
+*/
+
+if (process.env.NODE_ENV === 'production'){
+
+    //Poner la(s) carpeta(s) pública(s) para la subida de archivos:
+    app.use(express.static( path.resolve('uploads/books') ) );
+    app.use(express.static( path.resolve('uploads/users') ) );
+    app.use(express.static( path.resolve('uploads/chats') ) );
+
+    app.use(express.static(`Frontend/unahlibrate-react/build`));
+
+    app.get('*', (request, response) => {
+        response.sendFile(path.join(__dirname, 'Frontend', 'unahlibrate-react', 'build', 'index.html'));
+    })
+}
 
 //Exportar el módulo (fichero actual).
 module.exports = {

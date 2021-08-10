@@ -7,10 +7,10 @@ const { app, httpServer } = require('./app');
 
 //Para conectarse con mongo
 const mongoose = require('mongoose'); //para usar mongoose
-const url ='mongodb://localhost:27017/unahlibrate'; //url de la base de datos local
-//const url = 'mongodb+srv://admin:123@unahlibrate.f26v3.mongodb.net/unahlibrate?retryWrites=true&w=majority'
+const url ='mongodb://localhost:27017/unahlibrate'; //url de la base de datos local - En el localhost, esta es la línea a usar.
+//const url = 'mongodb+srv://admin:123@unahlibrate.f26v3.mongodb.net/unahlibrate?retryWrites=true&w=majority' //En producción, esta línea se tiene que usar.
 //Variable para el puerto de la aplicación
-const port = 3900;
+const port = process.env.PORT || 3900;
 
 //conexion con mongoDB
 
@@ -19,13 +19,14 @@ mongoose.Promise = global.Promise;
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology:true, useCreateIndex: true })
     .then(() => {
         //Crear servidor y ponerme a escuchar peticiones HTTP
-        app.listen(port,() => {
+        /*app.listen(port,() => {
             console.log("Servidor corriendo en http://localhost:"+port + " conectado con la base correctamente");
-        });
-        httpServer.listen(port+1, () => {
-            console.log(`Servidor http en http://localhost:${port+1} conectado`);
+        });*/
+        httpServer.listen(port, () => {
+            console.log(`Servidor http en http://localhost:${port} conectado`);
         })
     }).catch(err => console.log(err));
+
 
 
 /*Prueba de enviar correo con nodemailer
@@ -62,3 +63,6 @@ app.post("/send-mail",(request, response)=>{
 });
 
 */
+module.exports = {
+    port
+};

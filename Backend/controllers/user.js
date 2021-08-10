@@ -9,7 +9,10 @@ const jwt = require('jsonwebtoken');
 const { TokenExpiredError } = jwt;
 const RefreshToken = require('../models/refreshtoken');
 const transporter = require('../config/email');
-const { urlApi, tokenExpires } = require('../config/Global');
+const { tokenExpires } = require('../config/Global');
+
+const {google} = require('googleapis');
+const {CLIENT_ID,CLIENT_SECRET,REDIRECT_URI,REFRESH_TOKEN} = require ('./../config/googleAuth');
 
 var controller = {
     //metodo de prueba
@@ -318,9 +321,16 @@ var controller = {
             to: request.body.user.email,
             subject: "Confirmación de cuenta: UNAHLibrate",
             //text: "Holaaaa, soy sexi XD"
+
+            //En producción, se tiene que usar esta línea que está comentada.
+            /*html: `<div><h3>¡Bienvenido a UNAHLibrate!</h3>
+            <p>Clickea el siguiente enlace para verificar tu cuenta y sé parte de la comunidad:</p>
+            <a href="http://unahlibrate.herokuapp.com/verify-user/${request.body.user._id}">Verifica tu cuenta</a></div>`*/
+            
+            //En local, se tiene que usar esta línea que está comentada.
             html: `<div><h3>¡Bienvenido a UNAHLibrate!</h3>
             <p>Clickea el siguiente enlace para verificar tu cuenta y sé parte de la comunidad:</p>
-            <a href="${urlApi}verify-user/${request.body.user._id}">Verifica tu cuenta</a></div>`
+            <a href="http://localhost:3000/verify-user/${request.body.user._id}">Verifica tu cuenta</a></div>`
         }
 
         //Finalmente se envia el correo
@@ -389,7 +399,8 @@ var controller = {
     //Metodo para cargar imagen de perfil
     uploadProfileImage: (req, res) => {
         //configurar el modulo connect multiparty router/user_routes.js Listo!!
-
+        console.log(req);
+        console.log(req.files);
         // Recoger el archivo de la peticion
         var fileName = 'imagen no subida';
         var files = req.files;
@@ -401,7 +412,7 @@ var controller = {
         }
         //Conseguir el nombre y la extension del archivo
         var filePath = req.files.file0.path;
-        var fileSplit = filePath.split('\\') //Para linux es /
+        var fileSplit = filePath.split(`${path.sep}`) //Para linux es /
 
         //Nombre del archivo
         fileName = fileSplit[fileSplit.length - 1];
@@ -437,19 +448,127 @@ var controller = {
             });
         }
     },
+    uploadProfileImageGoogle: (req, res) => {
 
+    var userID = req.params.id;
+
+    const oauth2Client = new google.auth.OAuth2(
+      CLIENT_ID,
+      CLIENT_SECRET,
+      REDIRECT_URI
+    )
+
+    oauth2Client.setCredentials({refresh_token: REFRESH_TOKEN});
+
+    const drive = google.drive({version: 'v3', auth: oauth2Client});
+
+    var fileName = 'imagen no subida';
+    var files = req.files;
+    if (!files) {
+        return res.status(404).send({
+            status: 'error',
+            message: fileName
+        });
+    }
+    //Conseguir el nombre y la extension del archivo
+    var filePath = req.files.file0.path;
+    var fileSplit = filePath.split(`${path.sep}`) //Para linux es /
+
+    //Nombre del archivo
+    fileName = fileSplit[fileSplit.length - 1];
+    //Extension del archivo
+    var extensionSplit = fileName.split('\.');
+    var fileExtension = extensionSplit[extensionSplit.length - 1];
+    //Comprobar con la extension, solo imagenes, si no es valida borrar el fichero
+    if
+        (fileExtension != 'png' && fileExtension != 'jpg' && fileExtension != 'jpeg' && fileExtension != 'gif') {
+        //borrar el archivo
+        fs.unlink(filePath, (err) => {
+            return res.status(501).send({
+                status: 'error',
+                message: 'extension de la imagen invalida'
+            });
+        });
+    } else {
+
+        drive.files.create({
+              requestBody: {
+                'name': fileName,
+                'parents': ['1fkDRrc0Le-OsVVBPSvp6jZ9QSOm7F4UU'], //Id de la carpeta users
+                   'mimeType': `image/${fileExtension}`
+             },
+              media: {
+                mimeType: `image/${fileExtension}`,
+                body: fs.createReadStream(`${filePath}`)
+              }
+        }, (err, file) => {
+            if (err){
+                console.log(err);
+                return res.status(500).send({
+                    status: 'error', 
+                    message: 'Error en la subida de la imagen'
+                })
+            } else {
+                console.log('FileId: ' + file.data.id);
+                drive.permissions.create({fileId: file.data.id, requestBody: {role: 'reader', type: 'anyone'}}, (err2, permission) => {
+                    if (err2) {
+                        console.log(err2);
+                        return res.status(500).send({
+                            status: 'error', 
+                            message: 'Error en los permisos de la imagen'
+                        });
+                    } else {
+                        console.log(file.data.id);
+                        drive.files.get({fileId: file.data.id, fields: '*'}, (err3, gotFile) => { //fields: 'webViewLink, webContentLink'
+                            if (err3){
+                                console.log(file.data.id);
+                                console.log(err3);
+                                return res.status(500).send({
+                                    status: 'error', 
+                                    message: 'Error en los permisos de la imagen'
+                                });
+                            } else {
+                                let fileLink = gotFile.data.webContentLink.split(`&`)[0];
+
+                                //var {fileLink} = response;
+
+                                user.findOneAndUpdate({ _id: userID }, { imageProfile: fileLink }, { new: true }, (err, userUpdate) => {
+
+                                        if (err || !userUpdate) {
+                                            return res.status(404).send({
+                                                status: 'error',
+                                                message: 'error al guardar la imagen del perfil'
+                                            });
+                                        }
+                                        return res.status(200).send({
+                                            status: 'success',
+                                            user: userUpdate
+                                        });
+                                    });
+
+                            }
+                        })
+                    }
+                });
+            }
+        });
+    }
+
+    },
+    
     //Metodo para obtner imagen de perfil(get)
     //Creo que hay que hacer algunos cambios
     getProfileImage: (req, res) => {
         var file = req.params.image;
-        var pathFile = './uploads/users/' + file;
+        var pathFile = '../uploads/users/' + file;
         console.log(pathFile);
         fs.stat(pathFile, (err, exists) => {
 
             if (err) {
                 return res.status(404).send({
                     status: 'error',
-                    message: 'imagen no encontrada'
+                    message: 'imagen no encontrada',
+                    error: err
                 });
             } else {
                 return res.sendFile(path.resolve(pathFile));
@@ -680,6 +799,11 @@ var controller = {
             //Si se encuentra, generar el token.
             var restoreToken = jwt.sign({ user: foundUser.user, email: foundUser.email }, 'secretsecret', { expiresIn: '5m' });
             //Generar también un enlace para enviar en el correo al que se va a recuperar la contraseña.
+            
+            //En producción, se utiliza esto:
+            //var linkForEmail = `http://unahlibrate.herokuapp.com/restore-password/${restoreToken}`;
+
+            //En local, se tiene que usar esto:
             var linkForEmail = `http://localhost:3000/restore-password/${restoreToken}`;
 
         } catch (foundUserErr) {
@@ -707,7 +831,7 @@ var controller = {
                 //text: "Holaaaa, soy sexi XD"
                 html: `<div>
             <p>Clickea el siguiente enlace para recuperar tu cuenta y tener una nueva contraseña:</p>
-            <a href="${linkForEmail}">${linkForEmail}</a></div>`
+            <a href="${linkForEmail}">Recupera tu contraseña</a></div>`
             }
 
             //Finalmente se envia el correo
