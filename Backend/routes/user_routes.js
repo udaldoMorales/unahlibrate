@@ -33,7 +33,7 @@ let upload = multer({storage: storage});
 
 var multiparty = require('connect-multiparty');
 
-var md_upload = multiparty({uploadDir:'../uploads/users'});
+var md_upload = multiparty({uploadDir:'./uploads/users'});
 
 
 //Rutas de prueba 

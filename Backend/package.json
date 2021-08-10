@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
+    "devStart": "nodemon index.js",
     "heroku-postbuild": "cd Frontend && cd unahlibrate-react && npm install && npm run build"
   },
   "author": "",

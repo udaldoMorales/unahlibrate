@@ -560,7 +560,7 @@ var controller = {
     //Creo que hay que hacer algunos cambios
     getProfileImage: (req, res) => {
         var file = req.params.image;
-        var pathFile = '../uploads/users/' + file;
+        var pathFile = './uploads/users/' + file;
         console.log(pathFile);
         fs.stat(pathFile, (err, exists) => {
 

@@ -50,11 +50,11 @@ app.get('/datos', (request, response) => {
 	});
 })
 
-/*
+
 app.get("/", (request, response) => {
 	return response.status(200).send('Este es el backend del Proyecto.') 
 })
-*/
+
 
 if (process.env.NODE_ENV === 'production'){
 
@@ -69,6 +69,7 @@ if (process.env.NODE_ENV === 'production'){
         response.sendFile(path.join(__dirname, 'Frontend', 'unahlibrate-react', 'build', 'index.html'));
     })
 }
+
 
 //Exportar el módulo (fichero actual).
 module.exports = {

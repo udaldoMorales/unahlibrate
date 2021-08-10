@@ -313,7 +313,7 @@ var controller = {
     //6. Obtener imagen de un libro por el nombre de la misma
     getImageBook: (req, res) => {
         var file = req.params.image;
-        var pathFile = '../uploads/books/' + file;
+        var pathFile = './uploads/books/' + file;
         console.log(pathFile);
         fs.stat(pathFile, (err, exists) => {
 

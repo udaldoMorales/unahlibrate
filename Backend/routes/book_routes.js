@@ -30,7 +30,7 @@ const {CLIENT_ID,CLIENT_SECRET,REDIRECT_URI,REFRESH_TOKEN} = require ('./../conf
 let upload = multer({storage: storage});
 
 var multiparty = require('connect-multiparty');
-var md_upload = multiparty({uploadDir:'../uploads/books'});
+var md_upload = multiparty({uploadDir:'./uploads/books'});
 
 
 router.post('/save-book',BookController.saveBook);

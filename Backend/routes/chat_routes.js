@@ -29,7 +29,7 @@ const {CLIENT_ID,CLIENT_SECRET,REDIRECT_URI,REFRESH_TOKEN} = require ('./../conf
 let upload = multer({storage: storage});
 
 var multiparty = require('connect-multiparty');
-var md_upload = multiparty({uploadDir:'../uploads/chats'});
+var md_upload = multiparty({uploadDir:'./uploads/chats'});
 
 router.get('/get-chats-and-more/:userid', ChatController.getChatsAndMore);
 router.get('/get-chats/:user', ChatController.getChats);

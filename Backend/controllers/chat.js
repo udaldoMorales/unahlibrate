@@ -247,7 +247,7 @@ var controller = {
 
     getImageMessage: (req, res) => {
         var file = req.params.image;
-        var pathFile = '../uploads/chats/' + file;
+        var pathFile = './uploads/chats/' + file;
         console.log(pathFile);
         fs.stat(pathFile, (err, exists) => {
             if (err) {
