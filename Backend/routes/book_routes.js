@@ -35,6 +35,7 @@ var md_upload = multiparty({uploadDir:'./uploads/books'});
 
 router.post('/save-book',BookController.saveBook);
 router.get('/books',BookController.getBooks);
+router.get('/books/:last',BookController.getLastBooks);
 router.get('/book/:id',BookController.getBookByID);
 router.get('/books-user/:id',BookController.getBooksUser);
 router.post('/upload-book-image/:id',md_upload,BookController.uploadImageBook);

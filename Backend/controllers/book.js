@@ -61,10 +61,34 @@ var controller = {
         }
     },
 
-    //2. Obtener todos los libros de la base
+    //2a. Obtener todos los libros de la base
     getBooks: (request, response) => {
 
         book.find({ deleted: 'false' }).sort('-date').exec((err, books) => {
+            if (err) {
+                return response.status(400).send({
+                    status: 'error',
+                    message: 'Error al devolver los libros'
+                });
+            } else if (!books || books.length == 0) {
+                return response.status(404).send({
+                    status: 'error',
+                    message: 'No hay libros que devolver.'
+                });
+            } else {
+                return response.status(200).send({
+                    status: 'success',
+                    books
+                })
+            }
+        });
+    },
+    //2b. Obtener los últimos libros (dependiendo del número que sean necesarios) de la base.
+    getLastBooks: (request, response) => {
+
+        var last = request.params.last;
+
+        book.find({ deleted: 'false' }).limit( parseInt(last) ).sort('-date').exec((err, books) => {
             if (err) {
                 return response.status(400).send({
                     status: 'error',
