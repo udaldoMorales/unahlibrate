@@ -152,7 +152,7 @@ const DetLibro = () => {
 
   if (isSigned === false) {
     return (
-      <Redirect to='/login' />
+      <Redirect to='/registro' />
     );
   } else if (isSigned === true && user !== {} && libroElimando == false) {
     return (

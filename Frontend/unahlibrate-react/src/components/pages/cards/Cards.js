@@ -114,6 +114,9 @@ function Cards(props) {
 
 		return (
 			<div className='cards'>
+				{props.mensaje &&
+					<h1>{props.mensaje}</h1>
+				}
 				<div className='cards__container'>
 					<div className='cards__wrapper'>
 							
