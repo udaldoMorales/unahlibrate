@@ -27,7 +27,6 @@ const ActualizarLibro = () => {
 
   const libro = location.state.libro;
 
-
   //State que recibe el allow de peticionUsuarioLoggeado:
   const [allowed, setAllow] = useState({});
 
@@ -74,7 +73,6 @@ const ActualizarLibro = () => {
     nombre: false,
     precio: false,
     condicion: false,
-    image: false,
   });
 
   const cargarImagen = (e) => {
@@ -98,9 +96,7 @@ const ActualizarLibro = () => {
   //Funcion para agregar el libro a la base de datos
   const submitBook = e => {
     e.preventDefault();
-
-
-    if (Nombre != "" && Precio != "" && !isNaN(Number(Precio)) && Condicion != "" && selectFile != null) {
+    if (Nombre != "" && Precio != "" && !isNaN(Number(Precio)) && Condicion != "") {
 
       updateBook(
         location.state.libroID,
@@ -169,11 +165,7 @@ const ActualizarLibro = () => {
           if (Condicion == "") {
             setValidator({ condicion: true });
             console.log("mass");
-          } else
-            if (selectFile == null) {
-              setValidator({ image: true });
-              console.log("no hay imagen");
-            }
+          } 
     }
   }
 
@@ -263,7 +255,7 @@ const ActualizarLibro = () => {
                     <div className="centerMargen mt-3 mb-4 " id="imagenLibro">
                       {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
                       {libro.imagenLibro &&
-                        <img src={`${URL_GET_IMAGE_BOOK}${libro.imagenLibro}`} alt="imagen del libro"
+                        <img src={`${URL_GET_IMAGE_BOOK}${Imagen}`} alt="imagen del libro"
                           style={{ width: "235px", height: "238px", "object-fit":"cover" }}
                         />
                       }
@@ -281,11 +273,6 @@ const ActualizarLibro = () => {
                       onChange={cargarImagen}
                       accept="image/*"
                     />
-                    {validator.image ? (
-                      <p className="alert alert-danger error-p text-white">
-                        El libro debe tener una imagen
-                      </p>
-                    ) : null}
                   </center>
                   <div className="row mb-4">
                     <div className="col-md-6">
