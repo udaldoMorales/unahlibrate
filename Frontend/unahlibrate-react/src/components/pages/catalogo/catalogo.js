@@ -1,13 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import '../catalogo/catalogo.css';
-import CardItem from '../catalogo/card-item';
-import Cards from '../cards/Cards';
 import Cards_catalogo from './cards-catalogo';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
-import Swal from "sweetalert2";
-import {Link, Redirect, useParams} from 'react-router-dom';
-import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import {Redirect, useParams} from 'react-router-dom';
+import {peticionDatoUsuario, peticionUsuarioLoggeado} from '../../../services/Auth';
 import { allBooks, searchBooks } from '../../../services/UserBooks';
 import Cookies from 'universal-cookie';
 import Search from '../searchBar/searchbar';
@@ -80,29 +77,29 @@ const buscarLibros = (busqueda) => {
     pedirLogg();
     if (search!==undefined) {
       buscarLibros(search);
-    } else if (search==undefined) {
+    } else if (search===undefined) {
       pedirLibros();  
     }
     
   }, [isSigned]);
 
-  if(isSigned==false){
+  if(isSigned===false){
       return(
         <Redirect to="/" />
       )
   } else if
-      (isSigned==true){
+      (isSigned===true){
         return (
             <React.Fragment>
             <Navbar />
             <Search/>
               {/*Esto es cuando no exista una búsqueda*/}
-              {search==undefined && books==null &&
+              {search===undefined && books===null &&
                 <div className='cards'>
                 <h1>Aún no se han publicado libros.</h1>
                 </div>
               }
-              {search==undefined && books!=null && filteredBooks==null &&
+              {search===undefined && books!==null && filteredBooks===null &&
                 <React.Fragment>
                 <h3>Estos son los libros que tenemos para ti</h3>
                 <Cards_catalogo libros={books}/>
@@ -110,12 +107,12 @@ const buscarLibros = (busqueda) => {
               }
 
               {/*Esto es cuando exista una búsqueda*/}
-              {search!==undefined && filteredBooks==null && books==null &&
+              {search!==undefined && filteredBooks===null && books===null &&
                 <div className='cards'>
                 <h3>No hay libros que coincidan con {`"${search}"`}.</h3>
                 </div>
               }
-              {search!==undefined && filteredBooks!=null && books==null &&
+              {search!==undefined && filteredBooks!==null && books===null &&
                 <React.Fragment>
                 <h3>Búsquedas coincidentes con {`"${search}"`}</h3>
                 <Cards_catalogo libros={filteredBooks}/>

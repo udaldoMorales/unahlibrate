@@ -1,5 +1,5 @@
 //import React,{useState} from 'react';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './../Home/Navbar';
@@ -20,8 +20,8 @@ import socket from './../../../sockets/socket';
 import { chatsAndMore, buscarUsuarios, uploadImage, seenMessages } from "./../../../services/Chats";
 
 //Importaciones del proyecto
-import { peticionDatoUsuario, peticionDatoUsuario_Id, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { peticionDatoUsuario, peticionDatoUsuario_Id, peticionUsuarioLoggeado } from '../../../services/Auth';
+import { Redirect, useLocation } from 'react-router-dom';
 
 //Cookies del proyecto
 import Cookies from 'universal-cookie';
@@ -138,7 +138,7 @@ const PanelChat = () => {
             console.log('AparicionUser1: ' + aparicionUser1);
             console.log('aparicionUser2: ' + aparicionUser2);
            
-            if( (aparicionUser1 == 1 && aparicionUser2 == 1) ) {
+            if( (aparicionUser1 === 1 && aparicionUser2 === 1) ) {
                 setMensajes(messages);
                 if (user._id === receiver) verMensajes(sender, receiver);
             }else {
@@ -310,7 +310,7 @@ const PanelChat = () => {
 
             uploadImage(formData)
                 .then(res => {
-                    if (res.status == 'success') {
+                    if (res.status === 'success') {
                         nombreImagen = res.image;
                         console.log("Este es el res", res);
                         console.log("este es el nombre imagen", nombreImagen);
@@ -383,11 +383,11 @@ const PanelChat = () => {
         }
     }
 
-    if (isSigned == false) {
+    if (isSigned === false) {
         return (
             <Redirect to='/' />
         );
-    } else if (isSigned == true) {
+    } else if (isSigned === true) {
         return (
             <React.Fragment>
                 <Navbar />
@@ -426,7 +426,7 @@ const PanelChat = () => {
                                                                 {/*otherUser.imageProfile !== '' &&
                                                                     <img src={`${otherUser.imageProfile}`} alt="" />
                                                                 */}                                                                
-                                                                {(otherUser.imageProfile === '' || otherUser.imageProfile == undefined) &&
+                                                                {(otherUser.imageProfile === '' || otherUser.imageProfile === undefined) &&
                                                                     <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                                 }
                                                                 {/*<span className="estado-usuario enlinea"></span>*/}
@@ -473,7 +473,7 @@ const PanelChat = () => {
                                                         {/*userO.imageProfile !== '' &&
                                                             <img src={`${userO.imageProfile}`} alt="" />
                                                         */}
-                                                        {(userO.imageProfile === '' || userO.imageProfile == undefined) &&
+                                                        {(userO.imageProfile === '' || userO.imageProfile === undefined) &&
                                                             <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                         }
                                                         {/*<span className="estado-usuario enlinea"></span>*/}
@@ -502,7 +502,7 @@ const PanelChat = () => {
                                     {/*user2.imageProfile !== '' &&
                                         <img src={`${user2.imageProfile}`} alt="" />
                                     */}
-                                    {(user2.imageProfile === '' || user2.imageProfile == undefined) &&
+                                    {(user2.imageProfile === '' || user2.imageProfile === undefined) &&
                                         <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                     }
                                 </div>
@@ -515,7 +515,7 @@ const PanelChat = () => {
                                 {user2.user !== '' &&
                                     <span>{user2.user}</span>
                                 }
-                                {(user2.user === '' || user.user == undefined) &&
+                                {(user2.user === '' || user.user === undefined) &&
                                     <span>Cargando...</span>
                                 }
                                 {/*<span>Activo - Escribiendo...</span>*/}
@@ -567,7 +567,7 @@ const PanelChat = () => {
                                                     {/*user.imageProfile !== '' &&
                                                         <img src={`${user.imageProfile}`} alt="" />
                                                     */}
-                                                    {(user.imageProfile === '' || user.imageProfile == undefined) &&
+                                                    {(user.imageProfile === '' || user.imageProfile === undefined) &&
                                                         <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                     }
                                                 </div>
@@ -585,7 +585,7 @@ const PanelChat = () => {
                                                     {/*user2.imageProfile !== '' &&
                                                         <img src={`${user2.imageProfile}`} alt="" />
                                                     */}
-                                                    {(user2.imageProfile === '' || user.imageProfile == undefined) &&
+                                                    {(user2.imageProfile === '' || user.imageProfile === undefined) &&
                                                         <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                     }
                                                 </div>

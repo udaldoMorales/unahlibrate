@@ -10,7 +10,7 @@ import "./style.css";
 import { Notebook } from "../../atoms";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
+import { peticionDatoUsuario, peticionUsuarioLoggeado } from '../../../services/Auth';
 
 import { updateBook } from '../../../services/UserBooks';
 import { URL_POST_SAVE_IMAGE_BOOOK, URL_POST_SAVE_IMAGE_BOOOK_MULTER, URL_POST_SAVE_IMAGE_BOOOK_GOOGLE, URL_GET_IMAGE_BOOK } from "../../../constants/urls";
@@ -72,7 +72,7 @@ const ActualizarLibro = () => {
   const [validator, setValidator] = useState({
     nombre: false,
     precio: false,
-    condicion: false,
+    condicion: false
   });
 
   const cargarImagen = (e) => {
@@ -96,7 +96,7 @@ const ActualizarLibro = () => {
   //Funcion para agregar el libro a la base de datos
   const submitBook = e => {
     e.preventDefault();
-    if (Nombre != "" && Precio != "" && !isNaN(Number(Precio)) && Condicion != "") {
+    if (Nombre !== "" && Precio !== "" && !isNaN(Number(Precio)) && Condicion !== "") {
 
       updateBook(
         location.state.libroID,
@@ -153,18 +153,15 @@ const ActualizarLibro = () => {
             text: error.text
           });
         });
-    } else if (Nombre == "" || Precio == "" || Condicion == "" || selectFile == null) {
-      if (Nombre == "") {
-        setValidator({ nombre: true });
-        console.log("entre aqui vacio");
+    } else if (Nombre === "" || Precio === "" || Condicion === "" || selectFile === null) {
+      if (Nombre === "") {
+        setValidator({ nombre: true });;
       } else
-        if (Precio == "") {
+        if (Precio === "") {
           setValidator({ precio: true });
-          console.log("aqui tambien vacio");
         } else
-          if (Condicion == "") {
+          if (Condicion === "") {
             setValidator({ condicion: true });
-            console.log("mass");
           } 
     }
   }
@@ -199,8 +196,6 @@ const ActualizarLibro = () => {
         Ubicacion: rr.user.ubication,
       });
 
-      console.log('- Yo también.');
-      console.log('- METIDO.');
     } catch (err) {
       console.log(err);
     }
@@ -223,16 +218,16 @@ const ActualizarLibro = () => {
   };
 
 
-  if (addedBook == true) {
+  if (addedBook === true) {
     return (
       <Redirect to='/perfilusuario'></Redirect>
     );
   }
-  if (isSigned == false) {
+  if (isSigned === false) {
     return (
       <Redirect to='/login' />
     );
-  } else if (isSigned == true) {
+  } else if (isSigned === true) {
     return (
       <React.Fragment>
         <Navbar />

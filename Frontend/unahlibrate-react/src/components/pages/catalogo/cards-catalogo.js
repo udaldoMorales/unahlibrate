@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import '../catalogo/catalogo.css';
 import CardItem from '../catalogo/card-item';
 import { URL_GET_IMAGE_BOOK } from '../../../constants/urls';

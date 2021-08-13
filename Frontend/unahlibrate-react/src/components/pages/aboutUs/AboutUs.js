@@ -16,7 +16,7 @@ class AboutUs extends Component {
                             <div className="wrap-login200 p-l-50 p-r-50 p-t-50 p-b-30">
 
 								<h1 className="login100-form-title">Esto es</h1>
-								<img id='logounahlibrate-azul-about' className='center' src='/images/Logo-266fbd.png' height={55}/>
+								<img id='logounahlibrate-azul-about' className='center' src='/images/Logo-266fbd.png' height={55} alt="logo-unahlibrate"/>
 								<div className="text-center w-full">
 
 									<h3 className='p-b-30'>¡Bienvenid@ a este sitio!</h3> 

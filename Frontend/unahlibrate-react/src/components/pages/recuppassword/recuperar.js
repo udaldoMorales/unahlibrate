@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { loginUser } from '../../../services/Login';
-import {Link, Redirect, useParams} from 'react-router-dom';
+import {Redirect, useParams} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
+import { peticionDatoUsuario, peticionUsuarioLoggeado } from '../../../services/Auth';
 import {restorePassword} from '../../../services/User';
 
 import Navbar from './../Home/Navbar';
@@ -100,12 +99,11 @@ const Formrecupclv = ({ history }) => {
         //console.log(' Perfecto ');
         //console.log(token);
         //Peticion
-
         try {
           //console.log(token);
           //console.log(ContraseñaNueva);
           var restorePass = await restorePassword(token, ContraseñaNueva);
-          if (restorePass.status == 'success'){
+          if (restorePass.status === 'success'){
             Swal.fire(
               "Actualizada",
               "Se ha actualizado tu contraseña exitosamente.",
@@ -125,7 +123,6 @@ const Formrecupclv = ({ history }) => {
           }
     
         } catch (err) {
-          //console.log('Algo pasó acá.')
           console.log(err);
           Swal.fire({
             icon: "error",
@@ -144,16 +141,16 @@ const Formrecupclv = ({ history }) => {
   //Funcion para el boton de login:
   
   
-  if (changed == true) {
+  if (changed === true) {
     return (
       <Redirect to='/perfilusuario'></Redirect>
     );
   }
-  if (isSigned == true){
+  if (isSigned === true){
     return (
       <Redirect to='/perfilusuario' />
     );
-  } else if (isSigned == false) {
+  } else if (isSigned === false) {
   return (
     <React.Fragment>
       <Navbar />

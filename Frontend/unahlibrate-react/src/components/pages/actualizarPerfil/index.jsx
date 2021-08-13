@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Redirect } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ProfileUser } from "../../atoms";
 import "antd/dist/antd.css";
-import { Upload, message, Button } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 import "../../../styles/FormLog.css";
 import "../../../styles/util.css";
 import "./estilos.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
-import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
-import { updateUser, updateImageProfile } from '../../../services/User';
+import { peticionDatoUsuario, peticionUsuarioLoggeado } from '../../../services/Auth';
+import { updateUser} from '../../../services/User';
 import Swal from "sweetalert2";
 
-import { URL_POST_USER_CHANGE_IMAGE_PROFILE, URL_POST_USER_CHANGE_IMAGE_PROFILE_GOOGLE, URL_POST_USER_CHANGE_IMAGE_PROFILE_MULTER} from "../../../constants/urls";
+import { URL_POST_USER_CHANGE_IMAGE_PROFILE, URL_POST_USER_CHANGE_IMAGE_PROFILE_GOOGLE} from "../../../constants/urls";
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -140,7 +137,7 @@ const ActualizarPerfil = () => {
 
     var logDespuesdePedir = isSigned;
 
-    if (logAntesdePedir == logDespuesdePedir) {
+    if (logAntesdePedir === logDespuesdePedir) {
       try {
 
         var update = await updateUser(id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, imagenPerfil, Ubicacion);
@@ -163,7 +160,6 @@ const ActualizarPerfil = () => {
           //updateImageProfile(id, formData) //Con el Heroku y el Google Drive, se usa este.
             .then(res => {
               if (res.data.user) {
-                console.log("Se guardo la imagen");
               } else {
                 Swal.fire({
                   icon: "warning",
@@ -172,8 +168,6 @@ const ActualizarPerfil = () => {
                 })
               }
             });
-
-          console.log("Lariza");
           console.log(formData);
         }
 
@@ -223,11 +217,11 @@ const ActualizarPerfil = () => {
       <Redirect to='/perfilusuario'></Redirect>
     );
   }
-  if (isSigned == false) {
+  if (isSigned === false) {
     return (
       <Redirect to='/login' />
     );
-  } else if (isSigned == true) {
+  } else if (isSigned === true) {
     return (
       <React.Fragment>
         <Navbar />

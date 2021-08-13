@@ -112,9 +112,9 @@ const DetLibro = () => {
       confirmButtonText: 'Si, eliminar'
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteBook(bookId).
-          then((res) => {
-            if (res.status == "success") {
+        deleteBook(bookId)
+          .then((res) => {
+            if (res.status === "success") {
 
               Swal.fire(
                 'Eliminado',
@@ -154,7 +154,7 @@ const DetLibro = () => {
     return (
       <Redirect to='/registro' />
     );
-  } else if (isSigned === true && user !== {} && libroElimando == false) {
+  } else if (isSigned === true && user !== {} && libroElimando === false) {
     return (
       <React.Fragment>
         <Navbar />
@@ -283,7 +283,7 @@ const DetLibro = () => {
                 <p>{data.descripcion}</p>
               </div>
 
-              {data.usuario._id != user._id &&
+              {data.usuario._id !== user._id &&
                 <div className="col md-3">
                   <Link to={{ pathname: '/panelChat', state: { user1: user._id, user2: data.usuario._id } }}>
                     <button

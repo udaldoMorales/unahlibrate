@@ -65,7 +65,7 @@ const FormUser = ({ history }) => {
 
   //Funcion para validar el correo:
   const validarEmail = () => {
-    const patron = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const patron = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (patron.test(document.getElementById("emailInput").value)) {
       handleErrorEmail(false);
     } else {
@@ -149,7 +149,7 @@ const FormUser = ({ history }) => {
       <div className="container-login100 imgFormRegUs">
         <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
           <form className="login100-form validate-form" onSubmit={submitUser}>
-            <img id='logounahlibrate-azul-registro' className='center' src='/images/Logo-175ca8.png' height={35}/>
+            <img id='logounahlibrate-azul-registro' className='center' src='/images/Logo-175ca8.png' height={35} alt="logo-unahlibrate"/>
             <span className="login100-form-title p-b-10">Registro</span>
             <p className='text-center w-full p-b-20'>No te quedes con las ganas, únete. Solo requerimos estos pequeños datos tuyos:</p>
 

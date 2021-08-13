@@ -1,5 +1,5 @@
 import axios from "axios";
-import {URL_GET_GET_CHATS_AND_MORE, URL_GET_GET_CHATS,URL_GET_SEARCH_USERS,URL_POST_UPLOAD_IMAGE, URL_POST_UPLOAD_IMAGE_MULTER, URL_POST_SEEN_MESSAGES} from '../constants/urls';
+import {URL_GET_GET_CHATS_AND_MORE, URL_GET_GET_CHATS,URL_GET_SEARCH_USERS,URL_POST_UPLOAD_IMAGE, URL_POST_SEEN_MESSAGES} from '../constants/urls';
 
 
 export const chatsAndMore = async (userId) => {

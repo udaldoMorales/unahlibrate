@@ -3,7 +3,7 @@ import Cards from '../cards/Cards';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
 import "./style.css";
-import perfil from '../../../img/perfil.jpg'
+//import perfil from '../../../img/perfil.jpg'
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 //Importaciones para conectar con el backend
