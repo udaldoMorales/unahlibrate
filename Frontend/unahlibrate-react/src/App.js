@@ -4,7 +4,7 @@ import "./App.css";
 //import Routes from "./components/routes";
 //import Navbar from "./components/pages/Home/Navbar";
 import { Login } from "./components/pages";
-import { Registro, ActualizarPerfil, Formclv, Agregarlibro,PerfilUsers, DetLibro,ActualizarLibro,PanelChat } from "./components/pages";
+import { Registro, ActualizarPerfil, Formclv, Agregarlibro,PerfilUsers, DetLibro,ActualizarLibro,PanelChat, DetalleLibro } from "./components/pages";
 import Home from "./components/pages/Home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AboutUs from './components/pages/aboutUs/AboutUs';
@@ -33,6 +33,7 @@ function App() {
         <Route path="/detLibro/:bookId" exact component={DetLibro}/>
         <Route path="/actualizarLibros" component={ActualizarLibro}/>
         <Route path="/panelChat" exact component={PanelChat}/>
+        <Route path="/detalleLibro" exact component={DetalleLibro}/>
         {/*Ruta para visualizar otro perfil de usuario*/}
         <Route path="/perfilusuario/user/:user" exact component={PerfilUsers} />
 
