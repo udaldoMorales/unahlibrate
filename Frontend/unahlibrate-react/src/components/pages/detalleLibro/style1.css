@@ -328,6 +328,8 @@
     .shoe{
         width: 135%;
     }
+    
+
 }
 
 @media (max-width: 1000px){
@@ -350,9 +352,14 @@
     }
 
     .nike{
-        top: 20%;
+     
         left: 5%;
     }
+    .desc-detalle {
+     
+        width: 240px!important;
+    }
+   
 }
 
 @media (max-width: 600px){
@@ -369,13 +376,19 @@
     .logo{
         width: 70px;
     }
+    .desc-detalle {
+     
+        width: 240px!important;
+    }
 }
 
 @media (max-width: 490px){
-    .nike{
-        font-size: 7rem;
-    }
+   
 
+    .desc-detalle {
+     
+        width: 240px!important;
+    }
     .shoeName div .big{
         font-size: 1.3rem;
     }
@@ -447,6 +460,7 @@
     .informacion{
         padding: 20px;
     }
+    
 }
 
 @media (max-width: 400px){
@@ -457,11 +471,43 @@
     .container1{
         padding: 20px;
     }
+    .img-detalle {
+     
+        width: 230px!important;
+    }
+    .desc-detalle {
+     
+        width: 200px!important;
+    }
+    
 }
+
+
+@media (min-width: 768px) {
+    .img-detalle {
+     
+        width: 300px!important;
+      
+    }
+
+    .nike {
+        left: 15%;
+        /* text-align: center; */
+    }
+    .desc-detalle {
+     
+        width: 440px!important;
+    }
+}
+  
+
+
 
 .divis{
     border-bottom: 1px solid #dadada;
 }
+
+
 
 
 .desc-detalle{
@@ -525,3 +571,5 @@
     margin-top: 170px; 
     width: 300px
 }
+
+
