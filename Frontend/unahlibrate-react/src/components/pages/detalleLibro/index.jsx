@@ -28,7 +28,7 @@ const DetalleLibro = () => {
             <div className="infomacion">
                 <div className="shoeName">
                     <div className="big">
-                        <h1 >Logica programacion</h1>
+                        <h1 >Millennials</h1>
                      
                     </div>
                     <h3 className="small tiltulo-autor">Marcio Martinez</h3>
