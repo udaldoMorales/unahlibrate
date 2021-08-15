@@ -147,7 +147,7 @@ const FormUser = ({ history }) => {
       <Navbar />
     <div className="limiter">
       <div className="container-login100 imgFormRegUs">
-        <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
+        <div className="wrap-login">
           <form className="login100-form validate-form" onSubmit={submitUser}>
             <img id='logounahlibrate-azul-registro' className='center' src='/images/Logo-175ca8.png' height={35} alt="logo-unahlibrate"/>
             <span className="login100-form-title p-b-10">Registro</span>
