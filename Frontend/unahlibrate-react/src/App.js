@@ -33,7 +33,7 @@ function App() {
         <Route path="/detLibro/:bookId" exact component={DetLibro}/>
         <Route path="/actualizarLibros" component={ActualizarLibro}/>
         <Route path="/panelChat" exact component={PanelChat}/>
-        <Route path="/detalleLibro" exact component={DetalleLibro}/>
+        <Route path="/detalleLibro/:bookId" exact component={DetalleLibro}/>
         {/*Ruta para visualizar otro perfil de usuario*/}
         <Route path="/perfilusuario/user/:user" exact component={PerfilUsers} />
 

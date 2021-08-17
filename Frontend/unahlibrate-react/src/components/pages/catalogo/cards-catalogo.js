@@ -118,7 +118,7 @@ function Cards_catalogo(props) {
                             src={`${URL_GET_IMAGE_BOOK}${libro.image}`}
                             text={libro.title}
                             label={`${libro.price} Lps`}
-                            path={`/detLibro/${libro._id}`}
+                            path={`/detalleLibro/${libro._id}`}
                             key={libro}
                           /> :
                           <li className='cards__item_empty'></li>
@@ -129,7 +129,7 @@ function Cards_catalogo(props) {
                             src={`${libro.image}`}
                             text={libro.title}
                             label={`${libro.price} Lps`}
-                            path={`/detLibro/${libro._id}`}
+                            path={`/detalleLibro/${libro._id}`}
                           /> :
                           <div className='cards__item_empty'></div>
                           */}
