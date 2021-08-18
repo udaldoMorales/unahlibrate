@@ -31,10 +31,8 @@ export const Button = ({
 
   const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0];
 
-  var abrirNuevaPestana = onClick.includes('/videos') ? "_blank" : '';
-
   return (
-    <Link to={onClick} target={abrirNuevaPestana} className='btn-mobile'>
+    <Link to='/login' className='btn-mobile'>
       <button
         className={`btn ${checkButtonStyle} ${checkButtonSize}`}
         onClick={onClick}
