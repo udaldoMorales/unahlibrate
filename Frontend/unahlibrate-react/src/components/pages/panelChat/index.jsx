@@ -377,9 +377,15 @@ const PanelChat = () => {
             let image = document.createElement('img');
             image.src = fileReader.result;
             image.alt = "Imagen del libro";
+<<<<<<< HEAD
             image.style = "width: 80px; height: 80px; object-fit:cover;"
+=======
+            //image.style = "width: 235px; height: 238px; object-fit:cover;"
+            image.className="imagenEnviar"
+>>>>>>> b443b2f425418b299b4efc45c544afb9f43db286
             div.innerHTML = '';
             div.append(image);
+
         }
     }
 
