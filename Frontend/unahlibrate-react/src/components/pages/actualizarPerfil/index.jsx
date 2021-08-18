@@ -227,7 +227,7 @@ const ActualizarPerfil = () => {
         <Navbar />
         <div className="limiter">
         <div className="container-login100 imgFormRegUs">
-            <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
+            <div className="wrap-login">
               <form
                 className="login100-form validate-form btn"
                 onSubmit={submitUser}
