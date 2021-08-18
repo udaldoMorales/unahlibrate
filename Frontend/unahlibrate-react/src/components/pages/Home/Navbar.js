@@ -132,10 +132,10 @@ function Navbar() {
         <Link to="/" replace={false} onClick={cerrarSesionActual}>Cerrar Sesión</Link>
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
-      <Menu.Item>
+      {/* <Menu.Item>
       <Link to="/detalleLibro" replace={false} >Detalle Libro</Link>
       {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
-    </Menu.Item>
+    {/*</Menu.Item>*/}
       {/*<Menu.Item>
         <Link to="/actualizarLibros" replace={false}>Actualizar Libros</Link>
       </Menu.Item>*/}

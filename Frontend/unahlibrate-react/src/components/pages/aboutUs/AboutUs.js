@@ -10,8 +10,8 @@ function AboutUs() {
 	<Navbar />
     <div className='cards'>
       
-	<h1 className="login100-form-title">Esto es</h1>
-	    <div align="center"><img src='/images/Logo-266fbd.png' height={55} alt="logo-unahlibrate"/></div>
+	<h1 className="login100-form-title">¡Esto es UNAHLibrate!</h1>
+	    {/*<div align="center"><img src='/images/Logo-266fbd.png' height={55} alt="logo-unahlibrate"/></div>*/}
 		<div className="text-center w-full">
         <h3 className='p-b-30'></h3>
 		<div align="center"><h3 className='p-b-30'>¡Bienvenid@ a este sitio!</h3> </div> 
