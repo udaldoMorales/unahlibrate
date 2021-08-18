@@ -31,7 +31,7 @@ function Home() {
 
     getBooks(4); //Cambiar este número significa que van a cambiar los libros que estén en el mostrador.
 
-  })
+  }, []);
 
   return (
     <>

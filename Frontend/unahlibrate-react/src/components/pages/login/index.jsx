@@ -129,7 +129,7 @@ const FormLog = ({ history }) => {
       <div className="container-login100 bkgImgLogIn">
         <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-30">
           <form className="login-form validate-form" onSubmit={submitUser}>
-            <img id='logounahlibrate-azul' className='center' src='/images/Logo-175ca8.png' height={35} alt="logo-unahlibrate"/>
+            {/*<img id='logounahlibrate-azul' className='center' src='/images/Logo-175ca8.png' height={35} alt="logo-unahlibrate"/>*/}
             <p className='text-center w-full p-b-25'>Bienvenido a esta comunidad en crecimiento.</p>
 
             <div
