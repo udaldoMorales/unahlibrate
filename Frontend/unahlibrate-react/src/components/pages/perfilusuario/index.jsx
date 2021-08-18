@@ -170,7 +170,7 @@ const PerfilUsers = () => {
 
                     (viewingUser.imagenPerfil !== "") ? (
                       
-                        <img src={"http://localhost:3900/api/" + 'get-image/' + viewingUser.imagenPerfil} alt={"Imagen del perfil"} className="iconolbr" />
+                        <img src={"http://localhost:3900/api/" + 'get-image/' + viewingUser.imagenPerfil} alt={"Imagen del perfil"} />
                      
                     ) : (
                       <div className='centerImage'>
@@ -322,7 +322,7 @@ const PerfilUsers = () => {
                      
                     ) : (
                       <div className='centerImage'>
-                        <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="imagen de perfil por defecto" className="iconolbr"/>
+                        <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="imagen de perfil por defecto" className="iconolbr2"/>
                       </div>
                     )
 

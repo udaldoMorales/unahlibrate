@@ -123,7 +123,7 @@ const ActualizarPerfil = () => {
       let image = document.createElement('img');
       image.src = fileReader.result;
       image.alt = "Imagen del libro";
-      image.style = "width: 243px; height: 247px;"
+      image.style = "width: auto; height: 247px;"
       div.innerHTML = '';
       div.append(image);
     }

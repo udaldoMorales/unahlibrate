@@ -7,6 +7,9 @@ body{
 }
 .body-chat .avatar img {
     border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
 }
 .body-chat {
     display: flex;
@@ -92,10 +95,10 @@ body{
 .mensaje .avatar {
     width: 35px;
     height: 35px;
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 .mensaje.left .avatar {
-    margin-right: 0;
+    margin-right: 25px;
     margin-left: 1rem;
 }
 
@@ -133,6 +136,10 @@ body{
     background-color: #ADADAD;
 }
 
+.scroll-lista-usuario{
+overflow-y: auto;
+height: inherit;
+}
 
 .notificacion {
     display: block;
@@ -359,6 +366,7 @@ body{
 .titulo2{
     text-align: left;
 }
+
 /****************************************************************************************************************************************************/
 @media (max-width: 780px) {
     .seccion-usuarios {
