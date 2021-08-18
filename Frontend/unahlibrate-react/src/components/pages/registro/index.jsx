@@ -149,7 +149,7 @@ const FormUser = ({ history }) => {
       <div className="container-login100 imgFormRegUs">
         <div className="wrap-login">
           <form className="login100-form validate-form" onSubmit={submitUser}>
-            <img id='logounahlibrate-azul-registro' className='center' src='/images/Logo-175ca8.png' height={35} alt="logo-unahlibrate"/>
+          <div align="center"><img  src='/images/Logo-175ca8.png' height={35} alt="logo-unahlibrate"/></div>
             <span className="login100-form-title p-b-10">Registro</span>
             <p className='text-center w-full p-b-20'>No te quedes con las ganas, únete. Solo requerimos estos pequeños datos tuyos:</p>
 
