@@ -9,6 +9,7 @@ import { allBooks, searchBooks } from '../../../services/UserBooks';
 import Cookies from 'universal-cookie';
 import Search from '../searchBar/searchbar';
 import '../searchBar/search.css'
+import Footer from '../footer/Footer';
 
 const cookies = new Cookies();
 
@@ -118,6 +119,7 @@ const buscarLibros = (busqueda) => {
                 <Cards_catalogo libros={filteredBooks}/>
                 </React.Fragment>
               }
+              <Footer />
             </React.Fragment>
             ); 
       }
@@ -125,6 +127,7 @@ const buscarLibros = (busqueda) => {
         return (
         <React.Fragment>
         <Navbar />
+        <Footer />
         </React.Fragment>
         );
       }
