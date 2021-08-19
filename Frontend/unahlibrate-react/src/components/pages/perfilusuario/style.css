@@ -129,7 +129,7 @@
 }
 
 /*.form-control{
-    /*padding: 0 30px 0 50px !important
+    /*padding: 0 30px 0 50px 
 }*/
 
 .inputubucacion{
@@ -172,12 +172,23 @@
 .form-control{
     padding: 0 0px 0 0px !important;
 }
+.cards__item_css_cards {
+  
+    margin-bottom: 30px;
 }
 
+}
 @media (min-width: 768px) and (max-width: 1024px) {
     .inputubucacion{
         margin-left: 150px;
     }
 
+    .cards__item_css_cards {
+  
+        margin-bottom: 30px;
+    }
 }
 
+.form-control1 {
+    padding: 0px !important;
+}
