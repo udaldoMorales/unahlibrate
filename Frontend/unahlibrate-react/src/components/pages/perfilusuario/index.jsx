@@ -14,7 +14,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect, useParams } from 'react-router-dom';
 import { ProfileUser } from "../../atoms";
 import Cookies from 'universal-cookie';
-import { URL_GET_USER_BOOKS } from '../../../constants/urls';
+import { URL_GET_USER_BOOKS, URL_GET_IMAGE_USER } from '../../../constants/urls';
 const cookies = new Cookies();
 
 
@@ -170,7 +170,7 @@ const PerfilUsers = () => {
 
                     (viewingUser.imagenPerfil !== "") ? (
                       
-                        <img src={"http://localhost:3900/api/" + 'get-image/' + viewingUser.imagenPerfil} alt={"Imagen del perfil"} />
+                        <img src={`${URL_GET_IMAGE_USER}${viewingUser.imagenPerfil}`} alt={"Imagen del perfil"} />
                      
                     ) : (
                       <div className='centerImage'>
@@ -318,7 +318,7 @@ const PerfilUsers = () => {
 
                     (data.imagenPerfil !== "") ? (
                       
-                        <img src={"http://localhost:3900/api/" + 'get-image/' + data.imagenPerfil} alt={"Imagen del perfil"} className="iconolbr" />
+                        <img src={`${URL_GET_IMAGE_USER}${data.imagenPerfil}`} alt={"Imagen del perfil"} className="iconolbr" />
                      
                     ) : (
                       <div className='centerImage'>
