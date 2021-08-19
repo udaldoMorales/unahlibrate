@@ -207,7 +207,7 @@ const PerfilUsers = () => {
                       <label className="form-weight-bold lnr lnr-user">Usuario</label>
                       <input
                         type="text"
-                        className="form-control inputnombre"
+                        className="form-control1 inputnombre"
                         name="Nombre"
                         disabled
                         value={viewingUser.usuario}
@@ -220,7 +220,7 @@ const PerfilUsers = () => {
                       <label className="form-weight-bold lnr lnr-user">Nombre</label>
                       <input
                         type="text"
-                        className="form-control inputnombre"
+                        className="form-control1 inputnombre"
                         name="Nombre"
                         disabled
                         value={`${viewingUser.nombre} ${viewingUser.apellido}`}
@@ -355,7 +355,7 @@ const PerfilUsers = () => {
                       <label className="form-weight-bold lnr lnr-user">Usuario</label>
                       <input
                         type="text"
-                        className="form-control inputnombre"
+                        className="form-control1 inputnombre"
                         name="Nombre"
                         disabled
                         value={data.usuario}
@@ -368,7 +368,7 @@ const PerfilUsers = () => {
                       <label className="form-weight-bold lnr lnr-user">Nombre</label>
                       <input
                         type="text"
-                        className="form-control inputnombre"
+                        className="form-control1 inputnombre"
                         name="Nombre"
                         disabled
                         value={`${data.nombre} ${data.apellido}`}
