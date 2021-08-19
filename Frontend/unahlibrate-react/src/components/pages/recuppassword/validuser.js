@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import './style.css'
 import "../../../styles/FormLog.css";
 import "../../../styles/util.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import Swal from "sweetalert2";
-import SessionStorageService from "../../../services/Storage";
 import { forgotPassword } from '../../../services/User';
 import {Redirect} from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -52,11 +50,9 @@ const FormValiduser = ({ history }) => {
 
     try {
 
-      console.log(1);
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
       setAllow(response);
       setIsSigned(response.status);
-      console.log("Me ejecuté.")
 
     } catch (err) {
       console.log(err);
@@ -129,7 +125,7 @@ const FormValiduser = ({ history }) => {
       <div className="container-login100 bkgImgLogIn">
         <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-30">
           <form className="login-form validate-form" onSubmit={submitUser}>
-            <img id='logounahlibrate-azul' className='center' src='/images/Logo-175ca8.png' height={35}/>
+            <img id='logounahlibrate-azul' className='center' src='/images/Logo-175ca8.png' height={35} alt="logo-unahlibrate"/>
             <p className='text-center w-full p-b-25'>Ingresar Usuario</p>
 
             <div

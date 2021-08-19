@@ -114,6 +114,9 @@ function Cards(props) {
 
 		return (
 			<div className='cards'>
+				{props.mensaje &&
+					<h1>{props.mensaje}</h1>
+				}
 				<div className='cards__container'>
 					<div className='cards__wrapper'>
 							
@@ -125,12 +128,24 @@ function Cards(props) {
 											{grupo.map((libro, index) => {
 												return (
 													<React.Fragment>
-													{(libro !== 'Empty') ?
+													{/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+													{/*(libro !== 'Empty') ?
 													<CardItem
 														src={`${URL_GET_IMAGE_BOOK}${libro.image}`}
 														text={libro.title}
 														label={`${libro.price} Lps`}
-														path={`/detLibro/${libro._id}`}
+														path={`/detalleLibro/${libro._id}`}
+														key={libro}
+													/> :
+													<li className='cards__item_empty'></li>
+													*/}
+													{/*Con el Heroku y el Google Drive, se usa este.*/}
+													{(libro !== 'Empty') ?
+													<CardItem
+														src={`${libro.image}`}
+														text={libro.title}
+														label={`${libro.price} Lps`}
+														path={`/detalleLibro/${libro._id}`}
 														key={libro}
 													/> :
 													<li className='cards__item_empty'></li>

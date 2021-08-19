@@ -1,4 +1,6 @@
-const urlApi = '';
+const urlApi = ''; //En producción con Heroku, se tiene que hacer así.
+
+// const urlApi = `http://localhost:3900`; //En desarrollo local, se usa este.
 
 //Url estaticas
 export const URL_POST_SAVE_USER = urlApi +"/api/save-user";
@@ -55,3 +57,13 @@ export const URL_GET_SEARCH_BOOKS = `${urlApi}/api/search-books/`;
 
 //URL para dejar en visto JAJA.
 export const URL_POST_SEEN_MESSAGES = `${urlApi}/api/seen-messages`;
+
+//URL's de Google:
+export const URL_POST_USER_CHANGE_IMAGE_PROFILE_GOOGLE = `${urlApi}/api/upload-image-google/`;
+export const URL_POST_SAVE_IMAGE_BOOOK_GOOGLE = `${urlApi}/api/upload-book-image-google/`;
+export const URL_POST_UPLOAD_IMAGE_GOOGLE = `${urlApi}/api/upload-chat-image-google`;
+
+//Probando el multer:
+export const URL_POST_SAVE_IMAGE_BOOOK_MULTER = `${urlApi}/api/upload-image-book/`;
+export const URL_POST_USER_CHANGE_IMAGE_PROFILE_MULTER = `${urlApi}/api/upload-image-user/`;
+export const URL_POST_UPLOAD_IMAGE_MULTER = `${urlApi}/api/upload-image-chat/`;

@@ -30,7 +30,6 @@ export const esUsuario = async (cookie, refreshCookie) => {
 		
 			responseTo = response.data;
 			//console.log('No hay token');
-			console.log(responseTo);
 			return responseTo;
 		
 		} else if (response.data.status === 'error' && response.status === 401) {
@@ -44,7 +43,6 @@ export const esUsuario = async (cookie, refreshCookie) => {
 		
 			//Petición refresh.
 			//console.log('El token expiró');
-			console.log(response.data);
 			try {
 				//console.log('Llegaste? Digo, a pedir el nuevo token');
 				var refresh = await axios.post(URL_POST_USER_REFRESH, {refreshToken: refreshCookie});
@@ -116,7 +114,7 @@ export const peticionUsuarioLoggeado = async (cookie, refreshCookie) => {
 		var response = await esUsuario(cookie, refreshCookie);
 		if (response) {
 			//console.log('¿Qué hay acá?');
-			console.log(response);
+			
 		}
 
 
@@ -165,7 +163,7 @@ export const peticionUsuarioLoggeado = async (cookie, refreshCookie) => {
           //console.log('Cambié todo.');
           //setUserLogged(response.loggedUser);
           
-		console.log('Respuesta de Usuario: 5')
+		//console.log('Respuesta de Usuario: 5')
           allowed = {
               status: true,
               message: 'in'

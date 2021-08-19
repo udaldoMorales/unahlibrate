@@ -5,10 +5,9 @@ import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
 import "./estilos.css";
 import Swal from "sweetalert2";
-import { loginUser } from '../../../services/Login';
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import {peticionDatoUsuario, peticionUsuarioLoggeado} from '../../../services/Auth';
 import {changePassword} from '../../../services/User';
 
 import Navbar from './../Home/Navbar';
@@ -61,11 +60,8 @@ const Formclv = ({ history }) => {
   const pedirDatos = async () => {
 
     try {
-      console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
       setUser(rr.user);
-      console.log('- Yo también.');
-      console.log('- METIDO.');
     } catch (err) {
       console.log(err);
     }
@@ -74,12 +70,9 @@ const Formclv = ({ history }) => {
   const pedirLogg = async () => {
     
     try {
-
-      console.log(1);
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
       setAllow(response);
       setIsSigned(response.status);
-      console.log("Me ejecuté.")
 
     } catch (err) {
       console.log(err);
@@ -124,7 +117,7 @@ const Formclv = ({ history }) => {
 
         try {
           var changePass = await changePassword(user._id, ContraseñaActual, ContraseñaNueva);
-          if (changePass.status == 'success'){
+          if (changePass.status === 'success'){
             Swal.fire(
               "Actualizada",
               "Se ha actualizado tu contraseña exitosamente.",
@@ -162,16 +155,16 @@ const Formclv = ({ history }) => {
   //Funcion para el boton de login:
   
   
-  if (changed == true) {
+  if (changed === true) {
     return (
       <Redirect to='/perfilusuario'></Redirect>
     );
   }
-  if (isSigned == false){
+  if (isSigned === false){
     return (
       <Redirect to='/login' />
     );
-  } else if (isSigned == true) {
+  } else if (isSigned === true) {
   return (
     <React.Fragment>
       <Navbar />

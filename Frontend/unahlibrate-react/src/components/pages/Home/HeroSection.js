@@ -16,16 +16,16 @@ function HeroSection() {
           buttonSize='btn--large'
           onClick={'/registro'}
         >
-          REGISTRATE
+          INICIA SESIÓN
         </Button>
-        <Button
-          className='btns'
-          buttonStyle='btn--primary'
-          buttonSize='btn--large'
-          onClick={'/videos/Trailer.mp4'}
-        >
-          MIRA EL TRAILER <i className='far fa-play-circle' />
-        </Button>
+        {/*<Button
+                  className='btns'
+                  buttonStyle='btn--primary'
+                  buttonSize='btn--large'
+                  onClick={'/videos/Trailer.mp4'}
+                >
+                  MIRA EL TRAILER <i className='far fa-play-circle' />
+                </Button>*/}
       </div>
     </div>
   );

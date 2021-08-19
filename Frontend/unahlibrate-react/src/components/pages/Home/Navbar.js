@@ -133,6 +133,10 @@ function Navbar() {
         {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
       </Menu.Item>
       {/*<Menu.Item>
+            <Link to="/detalleLibro" replace={false} >Detalle Libro</Link>
+            {/*<Redirect to="/" onClick={cerrarSesionActual}>Cerrar Sesión</Redirect>*/}
+      {/*</Menu.Item>*/}
+      {/*<Menu.Item>
         <Link to="/actualizarLibros" replace={false}>Actualizar Libros</Link>
       </Menu.Item>*/}
     </Menu>
@@ -175,6 +179,16 @@ function Navbar() {
                   Registrarse
                 </Link>
               </li>
+              
+              <li>
+              <Link
+                to='/login'
+                className='nav-links-mobile'
+                onClick={closeMobileMenu}
+              >
+                Login
+              </Link>
+            </li>
 
               {/*
               <li>
@@ -187,11 +201,12 @@ function Navbar() {
                 </Link>
               </li>
               */}
+            
             </ul>
           )}
 
           {button && (isSigned == false || user == undefined) && (
-            <Button onClick={'/login'} buttonStyle="btn--outline">Login</Button>
+            <Button buttonStyle='btn--outline'>Login</Button>
           )}
 
           {(isSigned == true && user != undefined) && (
@@ -224,6 +239,16 @@ function Navbar() {
               >
                 Agregar Libros
               </Link>
+            </li>
+            <li>
+              <Dropdown
+                className='nav-links-mobile'
+                onClick={closeMobileMenu}
+                overlay={menu}
+                placement="bottomLeft"
+              >
+                <button>{user.user}</button>
+              </Dropdown>
             </li>
              </ul>            
 

@@ -8,7 +8,7 @@ const { app, httpServer } = require('./app');
 //Para conectarse con mongo
 const mongoose = require('mongoose'); //para usar mongoose
 //const url ='mongodb://localhost:27017/unahlibrate'; //url de la base de datos local
-const url = 'mongodb+srv://admin:123@unahlibrate.f26v3.mongodb.net/unahlibrate?retryWrites=true&w=majority'
+const url = '' //Se ubica la dirección de Mongo aquí, preguntar por ella.
 //Variable para el puerto de la aplicación
 const port = process.env.PORT || 3900;
 

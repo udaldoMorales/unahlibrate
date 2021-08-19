@@ -7,6 +7,9 @@ body{
 }
 .body-chat .avatar img {
     border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
 }
 .body-chat {
     display: flex;
@@ -17,10 +20,9 @@ body{
     margin-right: auto;
     max-width: 1200px;
     border-radius: 8px;
-    margin-top: 25px;
+    margin-top: 50px;
     box-shadow: 0 0 0.5rem #8a8c8c;
     height: 610px;
-
 }
 .seccion-titulo {
     display: block;
@@ -45,11 +47,6 @@ body{
     height: 500px;
 }
 
-.scroll-lista-usuario{
-    overflow-y: auto;
-    height: 455px;
-    padding: inherit;
-}
 /* seccion usuarios */
 .input-buscar {
     display: flex;
@@ -77,7 +74,6 @@ body{
     display: flex;
     flex-direction: column;
     width: 100%;
-    cursor: pointer;
 }
 .usuario {
     display: flex;
@@ -99,10 +95,10 @@ body{
 .mensaje .avatar {
     width: 35px;
     height: 35px;
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 .mensaje.left .avatar {
-    margin-right: 0;
+    margin-right: 25px;
     margin-left: 1rem;
 }
 
@@ -140,6 +136,10 @@ body{
     background-color: #ADADAD;
 }
 
+.scroll-lista-usuario{
+overflow-y: auto;
+height: inherit;
+}
 
 .notificacion {
     display: block;
@@ -194,7 +194,7 @@ body{
     align-items: center;
     justify-content: center;
     width: 35px;
-    height: 35px;
+  
     border-radius: 50%;
     border: 0;
     cursor: pointer;
@@ -210,9 +210,6 @@ body{
 .panel-chat {
     display: block;
     overflow-y: auto;
-    /* Para el scroll */
-    overflow: auto;
-    max-height: 300px;
     padding-right: 15px;
     margin-bottom: 1rem;
     height: 300px;
@@ -311,14 +308,12 @@ body{
 /* panel escritura */
 .panel-escritura {
     display: block;
-  
 }
 .panel-escritura .textarea {
     display: flex;
     flex-wrap: wrap;
     border-top: 1px solid #E7E7E7;
     padding-top: 1rem;
-    
 }
 .panel-escritura .textarea textarea,
 .panel-escritura .opcines {
@@ -371,9 +366,56 @@ body{
 .titulo2{
     text-align: left;
 }
+
 /****************************************************************************************************************************************************/
 @media (max-width: 780px) {
     .seccion-usuarios {
-        width: 280px;
+        width: 400px;
+        height: 400px;
     }
+
+    .body-chat {
+        
+        height: 1300px;
+    }
+    .seccion-titulo {
+      
+        height: 80px;
+    }
+
+    .panel-chat {
+        display: block;
+        overflow-y: auto;
+        padding-right: 15px;
+        margin-bottom: 1rem;
+        height: 600px;
+    }
+    
+}
+
+@media (min-width: 768px) {
+    .seccion-usuarios {
+        width: 400px;
+        height: 900px;
+    }
+
+    .body-chat {
+        
+        height: 1000px;
+    }
+    .seccion-titulo {
+      
+        height: 50px;
+    }
+
+    .panel-chat {
+      
+        height: 700px;
+    }
+}
+  
+
+.imagenEnviar{
+    height: 70px!important;
+    width: 70px!important;
 }

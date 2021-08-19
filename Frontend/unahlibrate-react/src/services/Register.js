@@ -18,14 +18,13 @@ export const registerNormalUser = async (
   };
 
   try { 
-    console.log("estoy aqui");
+ 
     const response = await axios.post(URL_POST_SAVE_USER, payload);
     console.log(response);
-    console.log("viendo el error");
+
     if (response.status === 200) {
       //Enviar correo de verficacion 
       var dataUser = response.data;
-      console.log(dataUser);
       axios.post(URL_POST_SEND_MAIL , dataUser)
             .then(res => {
               return res.data;

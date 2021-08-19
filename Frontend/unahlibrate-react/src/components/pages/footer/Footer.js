@@ -1,10 +1,7 @@
 import React from 'react';
 import './Footer.css';
-import { Button } from '../Home/Button';
+
 import { Link } from 'react-router-dom';
-import { MdPhone, MdEmail, MdMap } from 'react-icons/md'
-import { FaFacebook, FaInstagram } from 'react-icons/fa'
-import FooterItem from './FooterItem';
 
 function Footer() {
   return (
@@ -20,7 +17,7 @@ function Footer() {
           <div className='footer-logo'>
             <Link to='/' className='social-logo'>
               {/*UNAHLibrate*/}
-              <img id='logounahlibrate-footer' src='/images/Logo.png' height={35}/>
+              <img id='logounahlibrate-footer' src='/images/Logo.png' height={35} alt="logo-unahlibrate"/>
               <i className='fab fa-typo4' />
             </Link>
           </div>

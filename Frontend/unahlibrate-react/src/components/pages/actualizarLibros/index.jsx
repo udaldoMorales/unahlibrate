@@ -10,10 +10,10 @@ import "./style.css";
 import { Notebook } from "../../atoms";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
+import { peticionDatoUsuario, peticionUsuarioLoggeado } from '../../../services/Auth';
 
 import { updateBook } from '../../../services/UserBooks';
-import { URL_POST_SAVE_IMAGE_BOOOK, URL_GET_IMAGE_BOOK } from "../../../constants/urls";
+import { URL_POST_SAVE_IMAGE_BOOOK, URL_POST_SAVE_IMAGE_BOOOK_MULTER, URL_POST_SAVE_IMAGE_BOOOK_GOOGLE, URL_GET_IMAGE_BOOK } from "../../../constants/urls";
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -26,7 +26,6 @@ const ActualizarLibro = () => {
   const location = new useLocation();
 
   const libro = location.state.libro;
-
 
   //State que recibe el allow de peticionUsuarioLoggeado:
   const [allowed, setAllow] = useState({});
@@ -73,8 +72,7 @@ const ActualizarLibro = () => {
   const [validator, setValidator] = useState({
     nombre: false,
     precio: false,
-    condicion: false,
-    image: false,
+    condicion: false
   });
 
   const cargarImagen = (e) => {
@@ -98,9 +96,7 @@ const ActualizarLibro = () => {
   //Funcion para agregar el libro a la base de datos
   const submitBook = e => {
     e.preventDefault();
-
-
-    if (Nombre != "" && Precio != "" && !isNaN(Number(Precio)) && Condicion != "" && selectFile != null) {
+    if (Nombre !== "" && Precio !== "" && !isNaN(Number(Precio)) && Condicion !== "") {
 
       updateBook(
         location.state.libroID,
@@ -125,7 +121,9 @@ const ActualizarLibro = () => {
               selectFile.name
             );
 
-            axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData)
+            //axios.post(URL_POST_SAVE_IMAGE_BOOOK + bookID, formData) //Para no usar Google Drive en la subida de las fotos, pueden usar este.
+            //axios.post(URL_POST_SAVE_IMAGE_BOOOK_GOOGLE + bookID, formData)
+            axios.post(URL_POST_SAVE_IMAGE_BOOOK_MULTER + bookID, formData) //Con el Heroku y el Google Drive, se usa este.
               .then(res => {
 
                 if (res.data.book) {
@@ -155,23 +153,16 @@ const ActualizarLibro = () => {
             text: error.text
           });
         });
-    } else if (Nombre == "" || Precio == "" || Condicion == "" || selectFile == null) {
-      if (Nombre == "") {
-        setValidator({ nombre: true });
-        console.log("entre aqui vacio");
+    } else if (Nombre === "" || Precio === "" || Condicion === "" || selectFile === null) {
+      if (Nombre === "") {
+        setValidator({ nombre: true });;
       } else
-        if (Precio == "") {
+        if (Precio === "") {
           setValidator({ precio: true });
-          console.log("aqui tambien vacio");
         } else
-          if (Condicion == "") {
+          if (Condicion === "") {
             setValidator({ condicion: true });
-            console.log("mass");
-          } else
-            if (selectFile == null) {
-              setValidator({ image: true });
-              console.log("no hay imagen");
-            }
+          } 
     }
   }
 
@@ -205,8 +196,6 @@ const ActualizarLibro = () => {
         Ubicacion: rr.user.ubication,
       });
 
-      console.log('- Yo también.');
-      console.log('- METIDO.');
     } catch (err) {
       console.log(err);
     }
@@ -229,16 +218,16 @@ const ActualizarLibro = () => {
   };
 
 
-  if (addedBook == true) {
+  if (addedBook === true) {
     return (
       <Redirect to='/perfilusuario'></Redirect>
     );
   }
-  if (isSigned == false) {
+  if (isSigned === false) {
     return (
       <Redirect to='/login' />
     );
-  } else if (isSigned == true) {
+  } else if (isSigned === true) {
     return (
       <React.Fragment>
         <Navbar />
@@ -255,12 +244,19 @@ const ActualizarLibro = () => {
             <div className="col-xl-7 col-lg-12 d-flex">
               <div className="container align-self-center">
 
-                <form onSubmit={submitBook}>
+                <form onSubmit={submitBook} enctype='multipart/form-data'>
 
                   <center>
                     <div className="centerMargen mt-3 mb-4 " id="imagenLibro">
+                      {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                      {/*libro.imagenLibro &&
+                        <img src={`${URL_GET_IMAGE_BOOK}${Imagen}`} alt="imagen del libro"
+                          style={{ width: "235px", height: "238px", "object-fit":"cover" }}
+                        />
+                      */}
+                      {/*Con el Heroku y el Google Drive, se usa este.*/}
                       {libro.imagenLibro &&
-                        <img src={`${URL_GET_IMAGE_BOOK}${libro.imagenLibro}`} alt="imagen del libro"
+                        <img src={`${libro.imagenLibro}`} alt="imagen del libro"
                           style={{ width: "235px", height: "238px", "object-fit":"cover" }}
                         />
                       }
@@ -272,11 +268,6 @@ const ActualizarLibro = () => {
                       onChange={cargarImagen}
                       accept="image/*"
                     />
-                    {validator.image ? (
-                      <p className="alert alert-danger error-p text-white">
-                        El libro debe tener una imagen
-                      </p>
-                    ) : null}
                   </center>
                   <div className="row mb-4">
                     <div className="col-md-6">

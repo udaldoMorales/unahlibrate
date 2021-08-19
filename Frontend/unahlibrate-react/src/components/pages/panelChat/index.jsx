@@ -1,5 +1,5 @@
 //import React,{useState} from 'react';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './../Home/Navbar';
@@ -20,8 +20,8 @@ import socket from './../../../sockets/socket';
 import { chatsAndMore, buscarUsuarios, uploadImage, seenMessages } from "./../../../services/Chats";
 
 //Importaciones del proyecto
-import { peticionDatoUsuario, peticionDatoUsuario_Id, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { peticionDatoUsuario, peticionDatoUsuario_Id, peticionUsuarioLoggeado } from '../../../services/Auth';
+import { Redirect, useLocation } from 'react-router-dom';
 
 //Cookies del proyecto
 import Cookies from 'universal-cookie';
@@ -135,10 +135,10 @@ const PanelChat = () => {
             if(user2._id === sender) aparicionUser2 += 1;
             if(user2._id === receiver) aparicionUser2 += 1;
 
-            console.log('AparicionUser1: ' + aparicionUser1);
-            console.log('aparicionUser2: ' + aparicionUser2);
+            //console.log('AparicionUser1: ' + aparicionUser1);
+            //console.log('aparicionUser2: ' + aparicionUser2);
            
-            if( (aparicionUser1 == 1 && aparicionUser2 == 1) ) {
+            if( (aparicionUser1 === 1 && aparicionUser2 === 1) ) {
                 setMensajes(messages);
                 if (user._id === receiver) verMensajes(sender, receiver);
             }else {
@@ -310,7 +310,7 @@ const PanelChat = () => {
 
             uploadImage(formData)
                 .then(res => {
-                    if (res.status == 'success') {
+                    if (res.status === 'success') {
                         nombreImagen = res.image;
                         console.log("Este es el res", res);
                         console.log("este es el nombre imagen", nombreImagen);
@@ -377,17 +377,19 @@ const PanelChat = () => {
             let image = document.createElement('img');
             image.src = fileReader.result;
             image.alt = "Imagen del libro";
-            image.style = "width: 235px; height: 238px; object-fit:cover;"
+            //image.style = "width: 235px; height: 238px; object-fit:cover;"
+            image.className="imagenEnviar"
             div.innerHTML = '';
             div.append(image);
+
         }
     }
 
-    if (isSigned == false) {
+    if (isSigned === false) {
         return (
             <Redirect to='/' />
         );
-    } else if (isSigned == true) {
+    } else if (isSigned === true) {
         return (
             <React.Fragment>
                 <Navbar />
@@ -417,10 +419,16 @@ const PanelChat = () => {
                                                     return (
                                                         <div key={i} className="usuario" onClick={() => { setUser2(otherUser) }}>
                                                             <div className="avatar">
-                                                                {otherUser.imageProfile !== '' &&
+                                                                {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                                                                {/*otherUser.imageProfile !== '' &&
                                                                     <img src={`${URL_GET_IMAGE_USER}${otherUser.imageProfile}`} alt="" />
-                                                                }
-                                                                {(otherUser.imageProfile === '' || otherUser.imageProfile == undefined) &&
+                                                                */}
+                                                                
+                                                                {/*Con el Heroku y el Google Drive, se usa este.*/}
+                                                                {otherUser.imageProfile !== '' &&
+                                                                    <img src={`${otherUser.imageProfile}`} alt="" />
+                                                                }                                                                
+                                                                {(otherUser.imageProfile === '' || otherUser.imageProfile === undefined) &&
                                                                     <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                                 }
                                                                 {/*<span className="estado-usuario enlinea"></span>*/}
@@ -429,7 +437,7 @@ const PanelChat = () => {
                                                                 <span>{otherUser.user}</span>
                                                             </div>
                                                             {(chat.notificationTo === (user._id || usuario1)) &&
-                                                            <span className="notificacion">{chat.alerts}</span>
+                                                            <span className="notificacion">!</span>
                                                             }
                                                         </div>
                                                     )
@@ -459,13 +467,18 @@ const PanelChat = () => {
                                             return (
                                                 <div key={i} className="usuario" onClick={() => { setUser2(userO) }}>
                                                     <div className="avatar">
-                                                        {userO.imageProfile !== '' &&
+                                                        {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                                                        {/*userO.imageProfile !== '' &&
                                                             <img src={`${URL_GET_IMAGE_USER}${userO.imageProfile}`} alt="" />
+                                                        */}
+                                                        {/*Con el Heroku y el Google Drive, se usa este.*/}
+                                                        {userO.imageProfile !== '' &&
+                                                            <img src={`${userO.imageProfile}`} alt="" />
                                                         }
-                                                        {(userO.imageProfile === '' || userO.imageProfile == undefined) &&
+                                                        {(userO.imageProfile === '' || userO.imageProfile === undefined) &&
                                                             <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                         }
-                                                        <span className="estado-usuario enlinea"></span>
+                                                        {/*<span className="estado-usuario enlinea"></span>*/}
                                                     </div>
                                                     <div className="cuerpo">
                                                         <span>{userO.user}</span>
@@ -483,10 +496,15 @@ const PanelChat = () => {
                         <div className="usuario-seleccionado">
                             {((user2 || usuario2) && mensajes !== null) &&
                                 <div className="avatar">
-                                    {user2.imageProfile !== '' &&
+                                    {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                                    {/*user2.imageProfile !== '' &&
                                         <img src={`${URL_GET_IMAGE_USER}${user2.imageProfile}`} alt="" />
+                                    */}
+                                    {/*Con el Heroku y el Google Drive, se usa este.*/}
+                                    {user2.imageProfile !== '' &&
+                                        <img src={`${user2.imageProfile}`} alt="" />
                                     }
-                                    {(user2.imageProfile === '' || user2.imageProfile == undefined) &&
+                                    {(user2.imageProfile === '' || user2.imageProfile === undefined) &&
                                         <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                     }
                                 </div>
@@ -499,7 +517,7 @@ const PanelChat = () => {
                                 {user2.user !== '' &&
                                     <span>{user2.user}</span>
                                 }
-                                {(user2.user === '' || user.user == undefined) &&
+                                {(user2.user === '' || user.user === undefined) &&
                                     <span>Cargando...</span>
                                 }
                                 {/*<span>Activo - Escribiendo...</span>*/}
@@ -520,9 +538,16 @@ const PanelChat = () => {
                                                 <div className="cuerpo">
 
                                                     <div className="texto">
-                                                        {mensaje.type === "image" &&
+                                                        {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                                                        {/*mensaje.type === "image" &&
 
                                                             <img src={`${URL_GET_IMAGE_CHAT}${mensaje.content}`} alt="imagen enviada en chat" style={{maxHeight:"200px", maxWidth:"200px"}} />
+
+                                                        */}
+                                                        {/*Con el Heroku y el Google Drive, se usa este.*/}
+                                                        {mensaje.type === "image" &&
+
+                                                            <img src={`${mensaje.content}`} alt="imagen enviada en chat" style={{maxHeight:"200px", maxWidth:"200px"}} />
 
                                                         }
                                                         {mensaje.type === "string" &&
@@ -536,10 +561,15 @@ const PanelChat = () => {
 
                                                 </div>
                                                 <div className="avatar">
-                                                    {user.imageProfile !== '' &&
+                                                    {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                                                    {/*user.imageProfile !== '' &&
                                                         <img src={`${URL_GET_IMAGE_USER}${user.imageProfile}`} alt="" />
+                                                    */}
+                                                    {/*Con el Heroku y el Google Drive, se usa este.*/}
+                                                    {user.imageProfile !== '' &&
+                                                        <img src={`${user.imageProfile}`} alt="" />
                                                     }
-                                                    {(user.imageProfile === '' || user.imageProfile == undefined) &&
+                                                    {(user.imageProfile === '' || user.imageProfile === undefined) &&
                                                         <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                     }
                                                 </div>
@@ -549,20 +579,31 @@ const PanelChat = () => {
                                         return (
                                             <div key={i} className="mensaje">
                                                 <div className="avatar">
-                                                    {user2.imageProfile !== '' &&
+                                                    {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                                                    {/*user2.imageProfile !== '' &&
                                                         <img src={`${URL_GET_IMAGE_USER}${user2.imageProfile}`} alt="" />
+                                                    */}
+                                                    {/*Con el Heroku y el Google Drive, se usa este.*/}
+                                                    {user2.imageProfile !== '' &&
+                                                        <img src={`${user2.imageProfile}`} alt="" />
                                                     }
-                                                    {(user2.imageProfile === '' || user.imageProfile == undefined) &&
+                                                    {(user2.imageProfile === '' || user.imageProfile === undefined) &&
                                                         <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" />
                                                     }
                                                 </div>
                                                 <div className="cuerpo">
 
                                                     <div className="texto">
+                                                        {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                                                        {/*mensaje.type === "image" &&
 
+                                                            <img src={`${URL_GET_IMAGE_CHAT}${mensaje.content}`} alt="imagen enviada en chat" style={{maxHeight:"200px", maxWidth:"200px", objectFit: 'cover'}} />
+
+                                                        */}
+                                                        {/*Con el Heroku y el Google Drive, se usa este.*/}
                                                         {mensaje.type === "image" &&
 
-                                                            <img src={`${URL_GET_IMAGE_CHAT}${mensaje.content}`} alt="imagen enviada en chat" style={{maxHeight:"200px", maxWidth:"200px"}} />
+                                                            <img src={`${mensaje.content}`} alt="imagen enviada en chat" style={{maxHeight:"200px", maxWidth:"200px", objectFit: 'cover'}} />
 
                                                         }
                                                         {mensaje.type === "string" &&
@@ -586,7 +627,7 @@ const PanelChat = () => {
                        
                         <div className="panel-escritura">
                             {/*<form className="textarea">*/}
-                            <form onSubmit={enviarMensaje} className="textarea">
+                            <form onSubmit={enviarMensaje} enctype='multipart/form-data' className="textarea">
                                 <div className="opcines">
 
                                     <button type="button">

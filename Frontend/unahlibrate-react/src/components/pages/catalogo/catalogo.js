@@ -1,17 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import '../catalogo/catalogo.css';
-import CardItem from '../catalogo/card-item';
-import Cards from '../cards/Cards';
 import Cards_catalogo from './cards-catalogo';
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
-import Swal from "sweetalert2";
-import {Link, Redirect, useParams} from 'react-router-dom';
-import {peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion} from '../../../services/Auth';
+import {Redirect, useParams} from 'react-router-dom';
+import {peticionDatoUsuario, peticionUsuarioLoggeado} from '../../../services/Auth';
 import { allBooks, searchBooks } from '../../../services/UserBooks';
 import Cookies from 'universal-cookie';
 import Search from '../searchBar/searchbar';
 import '../searchBar/search.css'
+import Footer from '../footer/Footer';
 
 const cookies = new Cookies();
 
@@ -39,11 +37,9 @@ const pedirLogg = async () => {
 
     try {
 
-      console.log(1);
       var response = await peticionUsuarioLoggeado(cookies.get('auth'), cookies.get('refreshToken'));
       setAllow(response);
       setIsSigned(response.status);
-      console.log("Me ejecuté.")
 
     } catch (err) {
       console.log(err);
@@ -54,11 +50,8 @@ const pedirLogg = async () => {
 const pedirDatos = async () => {
 
     try {
-      console.log(2);
       var rr = await peticionDatoUsuario(cookies.get('user'));
       setUser(rr.user);
-      console.log('- Yo también.');
-      console.log('- METIDO.');
     } catch (err) {
       console.log(err);
     }
@@ -68,8 +61,7 @@ const pedirLibros = (id) => {
   allBooks().then(res=>{
     if (res.status==='success') setBooks(res.books);
   });
-  console.log("Me ejecute");
-  console.log(books);
+
 };
 
 const buscarLibros = (busqueda) => {
@@ -85,34 +77,30 @@ const buscarLibros = (busqueda) => {
     pedirDatos();
     pedirLogg();
     if (search!==undefined) {
-      console.log('Search');
-      console.log(search);
       buscarLibros(search);
-    } else if (search==undefined) {
-      console.log('Search en undefined');
-      console.log(search);
+    } else if (search===undefined) {
       pedirLibros();  
     }
     
   }, [isSigned]);
 
-  if(isSigned==false){
+  if(isSigned===false){
       return(
         <Redirect to="/" />
       )
   } else if
-      (isSigned==true){
+      (isSigned===true){
         return (
             <React.Fragment>
             <Navbar />
             <Search/>
               {/*Esto es cuando no exista una búsqueda*/}
-              {search==undefined && books==null &&
+              {search===undefined && books===null &&
                 <div className='cards'>
                 <h1>Aún no se han publicado libros.</h1>
                 </div>
               }
-              {search==undefined && books!=null && filteredBooks==null &&
+              {search===undefined && books!==null && filteredBooks===null &&
                 <React.Fragment>
                 <h3>Estos son los libros que tenemos para ti</h3>
                 <Cards_catalogo libros={books}/>
@@ -120,17 +108,18 @@ const buscarLibros = (busqueda) => {
               }
 
               {/*Esto es cuando exista una búsqueda*/}
-              {search!==undefined && filteredBooks==null && books==null &&
+              {search!==undefined && filteredBooks===null && books===null &&
                 <div className='cards'>
                 <h3>No hay libros que coincidan con {`"${search}"`}.</h3>
                 </div>
               }
-              {search!==undefined && filteredBooks!=null && books==null &&
+              {search!==undefined && filteredBooks!==null && books===null &&
                 <React.Fragment>
                 <h3>Búsquedas coincidentes con {`"${search}"`}</h3>
                 <Cards_catalogo libros={filteredBooks}/>
                 </React.Fragment>
               }
+              <Footer />
             </React.Fragment>
             ); 
       }
@@ -138,6 +127,7 @@ const buscarLibros = (busqueda) => {
         return (
         <React.Fragment>
         <Navbar />
+        <Footer />
         </React.Fragment>
         );
       }

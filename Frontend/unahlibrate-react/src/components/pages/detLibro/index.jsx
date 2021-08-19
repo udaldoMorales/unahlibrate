@@ -112,9 +112,9 @@ const DetLibro = () => {
       confirmButtonText: 'Si, eliminar'
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteBook(bookId).
-          then((res) => {
-            if (res.status == "success") {
+        deleteBook(bookId)
+          .then((res) => {
+            if (res.status === "success") {
 
               Swal.fire(
                 'Eliminado',
@@ -139,7 +139,6 @@ const DetLibro = () => {
 
   const volverAtras = (e) => {
     //e.preventDefault();
-    console.log('Backeo, eo, eo.');
     window.history.back();
   }
 
@@ -153,9 +152,9 @@ const DetLibro = () => {
 
   if (isSigned === false) {
     return (
-      <Redirect to='/login' />
+      <Redirect to='/registro' />
     );
-  } else if (isSigned === true && user !== {} && libroElimando == false) {
+  } else if (isSigned === true && user !== {} && libroElimando === false) {
     return (
       <React.Fragment>
         <Navbar />
@@ -174,10 +173,23 @@ const DetLibro = () => {
                 <div className="col-md-6">
 
                   <div>
-                    {
+                    {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                    {/*
                       (data.imagenLibro !== "") ? (
                         <div className='centerImage'>
                           <img src={`${URL_GET_IMAGE_BOOK}${data.imagenLibro}`} alt={""} className="imagenLibro" />
+                        </div>
+                      ) : (
+                        <div className='centerImage'>
+
+                        </div>
+                      )
+                    */}
+                    {/*Con el Heroku y el Google Drive, se usa este.*/}
+                    {
+                      (data.imagenLibro !== "") ? (
+                        <div className='centerImage'>
+                          <img src={`${data.imagenLibro}`} alt={""} className="imagenLibro" />
                         </div>
                       ) : (
                         <div className='centerImage'>
@@ -244,7 +256,11 @@ const DetLibro = () => {
                       <span className="etiqueta">Por: </span>
 
                       {/*<b>Aqui va el estado del libro </b>*/}
-                      <b className="etiqueta">{data.usuario.user}</b>
+                      <Link to={`/perfilusuario/user/${data.usuario.user}`}>
+                      <b className="etiqueta link-primary">
+                        {data.usuario.user}
+                      </b>
+                      </Link>
                     </div>
                   </div>
 
@@ -267,7 +283,7 @@ const DetLibro = () => {
                 <p>{data.descripcion}</p>
               </div>
 
-              {data.usuario._id != user._id &&
+              {data.usuario._id !== user._id &&
                 <div className="col md-3">
                   <Link to={{ pathname: '/panelChat', state: { user1: user._id, user2: data.usuario._id } }}>
                     <button

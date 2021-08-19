@@ -40,6 +40,7 @@ app.use("/api", user_routes)
 app.use("/api", book_routes)
 app.use("/api", chat_routes)
 
+
 //Ruta o método de prueba para el API:
 
 app.get('/datos', (request, response) => {
@@ -56,6 +57,12 @@ app.get("/", (request, response) => {
 */
 
 if (process.env.NODE_ENV === 'production'){
+
+    //Poner la(s) carpeta(s) pública(s) para la subida de archivos:
+    app.use(express.static( path.resolve('uploads/books') ) );
+    app.use(express.static( path.resolve('uploads/users') ) );
+    app.use(express.static( path.resolve('uploads/chats') ) );
+
     app.use(express.static(`Frontend/unahlibrate-react/build`));
 
     app.get('*', (request, response) => {

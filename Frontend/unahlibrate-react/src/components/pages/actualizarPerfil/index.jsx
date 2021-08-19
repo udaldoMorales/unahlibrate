@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../../modules/axios";
+import axios from "axios";
 import { Redirect } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ProfileUser } from "../../atoms";
 import "antd/dist/antd.css";
-import { Upload, message, Button } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 import "../../../styles/FormLog.css";
 import "../../../styles/util.css";
 import "./estilos.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
-import { peticionDatoUsuario, peticionUsuarioLoggeado, cerrarSesion } from '../../../services/Auth';
-import { updateUser } from '../../../services/User';
+import { peticionDatoUsuario, peticionUsuarioLoggeado } from '../../../services/Auth';
+import { updateUser} from '../../../services/User';
 import Swal from "sweetalert2";
 
-import { URL_POST_USER_CHANGE_IMAGE_PROFILE ,URL_GET_IMAGE_USER} from "../../../constants/urls";
+import { URL_POST_USER_CHANGE_IMAGE_PROFILE, URL_POST_USER_CHANGE_IMAGE_PROFILE_MULTER, URL_POST_USER_CHANGE_IMAGE_PROFILE_GOOGLE, URL_GET_IMAGE_USER} from "../../../constants/urls";
 
 import Navbar from './../Home/Navbar';
 import './../Home/Navbar.css';
@@ -126,7 +123,7 @@ const ActualizarPerfil = () => {
       let image = document.createElement('img');
       image.src = fileReader.result;
       image.alt = "Imagen del libro";
-      image.style = "width: 243px; height: 247px;"
+      image.style = "width: auto; height: 247px;"
       div.innerHTML = '';
       div.append(image);
     }
@@ -140,7 +137,7 @@ const ActualizarPerfil = () => {
 
     var logDespuesdePedir = isSigned;
 
-    if (logAntesdePedir == logDespuesdePedir) {
+    if (logAntesdePedir === logDespuesdePedir) {
       try {
 
         var update = await updateUser(id, Usuario, Nombre, Apellido, Correo, NumeroTelefono, imagenPerfil, Ubicacion);
@@ -156,10 +153,13 @@ const ActualizarPerfil = () => {
           );
 
           console.log("en esta parte del if");
-          axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id, formData)
+          console.log(formData.file0);
+          console.log(selectFile);
+          //axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + id, formData) //Para no usar Google Drive en la subida de las fotos, pueden usar este.
+          axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE_MULTER + id, formData)
+          //updateImageProfile(id, formData) //Con el Heroku y el Google Drive, se usa este.
             .then(res => {
               if (res.data.user) {
-                console.log("Se guardo la imagen");
               } else {
                 Swal.fire({
                   icon: "warning",
@@ -168,8 +168,6 @@ const ActualizarPerfil = () => {
                 })
               }
             });
-
-          console.log("Lariza");
           console.log(formData);
         }
 
@@ -219,29 +217,41 @@ const ActualizarPerfil = () => {
       <Redirect to='/perfilusuario'></Redirect>
     );
   }
-  if (isSigned == false) {
+  if (isSigned === false) {
     return (
       <Redirect to='/login' />
     );
-  } else if (isSigned == true) {
+  } else if (isSigned === true) {
     return (
       <React.Fragment>
         <Navbar />
         <div className="limiter">
-          <div className="container-login100 imagenFondo1">
-            <div className="wrap-login300 p-l-50 p-r-50 p-t-50 p-b-30">
+        <div className="container-login100 imgFormRegUs">
+            <div className="wrap-login">
               <form
                 className="login100-form validate-form btn"
                 onSubmit={submitUser}
+                enctype='multipart/form-data'
               >
                 <span className="login100-form-title p-b-34">
                   Actualizar Perfil
                 </span>
                 <div className="centerImage" id="imagenLibro">
-                  {
+                  {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                  {/*
 
                     (imagenPerfil !== "") ? (
                       <img src={`${URL_GET_IMAGE_USER}${imagenPerfil}`} alt={""} className="imageProfile" />
+                    ) : (
+                      <img src={"https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"} className="imageProfile"/>
+                    )
+
+                  /*}
+                  {/*Con el Heroku y el Google Drive, se usa este.*/}
+                  {
+
+                    (imagenPerfil !== "") ? (
+                      <img src={imagenPerfil} alt={""} className="imageProfile" />
                     ) : (
                       <img src={"https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"} className="imageProfile"/>
                     )

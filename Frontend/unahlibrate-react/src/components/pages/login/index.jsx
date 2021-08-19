@@ -5,8 +5,6 @@ import "../../../styles/FormLog.css";
 import "../../../styles/util.css";
 import "../../../styles/fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 import "../../../styles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css";
-import Swal from "sweetalert2";
-import SessionStorageService from "../../../services/Storage";
 import { loginUser } from '../../../services/Login';
 import {Redirect} from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -131,7 +129,7 @@ const FormLog = ({ history }) => {
       <div className="container-login100 bkgImgLogIn">
         <div className="wrap-login500 p-l-50 p-r-50 p-t-77 p-b-30">
           <form className="login-form validate-form" onSubmit={submitUser}>
-            <img id='logounahlibrate-azul' className='center' src='/images/Logo-175ca8.png' height={35}/>
+            {/*<img id='logounahlibrate-azul' className='center' src='/images/Logo-175ca8.png' height={35} alt="logo-unahlibrate"/>*/}
             <p className='text-center w-full p-b-25'>Bienvenido a esta comunidad en crecimiento.</p>
 
             <div

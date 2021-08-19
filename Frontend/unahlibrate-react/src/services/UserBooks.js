@@ -21,6 +21,26 @@ export const allBooks = async () => {
 
 }
 
+export const getLastBooks = async (lastNumber) => {
+
+    try {
+        var books = await axios.get(`${URL_GET_BOOKS}/${lastNumber}`);
+        if (books.status !== 200) console.log(books.data);
+        return books.data;
+    } catch (error) {
+        let errorObj;
+        const { response } = error;
+        errorObj = {
+            title: 'No se devolvieron libros',
+            text: response.data.message
+        }
+        console.log(response);
+        //throw errorObj;
+        return errorObj;
+    }
+
+}
+
 export const userBooks = async (
     id_user
 ) => {

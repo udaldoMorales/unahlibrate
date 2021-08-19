@@ -1,6 +1,7 @@
 .imagenFondo1{
-    background: url("../../../img/imagen1.jpg") no-repeat center center fixed;
-    height: 85vw !important;
+    background-color: #ceece1;
+    /*background: url("../../../img/imagen1.jpg") no-repeat center center fixed;
+    height: 85vw !important;*/
 }
 
 .form-control {
@@ -39,4 +40,34 @@
 
 input[type=file].hidden {
     color: transparent;
+}
+
+.wrap-login {
+    padding-left: 70px;
+    padding-right: 70px;
+    padding-top: 20px ;
+    padding-bottom: 30px;
+    width:500px;
+    background: #fff;
+    overflow: 300px;
+    }
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .wrap-login {
+      width: 500px;
+      padding-left: 20px;
+      padding-right: 20px;
+      height: 100%;
+    }
+    
+}
+
+    @media only screen and (min-width: 280px) and (max-width: 767px) {
+        .wrap-login {
+          width: 100%;
+          padding-left: 20px;
+          padding-right: 20px;
+          height: 100%;
+        }
+        
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_POST_ADD_BOOK, URL_POST_SAVE_IMAGE_BOOOK } from "../constants/urls";
+import { URL_POST_ADD_BOOK } from "../constants/urls";
 
 export const addBook = async (
 

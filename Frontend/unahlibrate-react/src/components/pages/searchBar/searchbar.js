@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import { Divider } from "antd";
-import {Redirect} from 'react-router-dom';
 
 const SearchBar = () => {
 
@@ -44,7 +42,7 @@ const SearchBar = () => {
             />
             <button type="submit" className="boton btn btn-primary">Buscar</button>
             
-            {error==true ? (
+            {error===true ? (
               <p className="alerta alert alert-danger error-p text-white">
                 Debes ingresar un campo.
               </p>

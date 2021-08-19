@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_POST_SAVE_USER, URL_PUT_USER_UPDATE, URL_PUT_USER_CHANGE_PASSWORD,URL_POST_USER_CHANGE_IMAGE_PROFILE, URL_PUT_USER_FORGOT_PASSWORD, URL_PUT_USER_RESTORE_PASSWORD} from "../constants/urls";
+import { URL_PUT_USER_UPDATE, URL_PUT_USER_CHANGE_PASSWORD,URL_POST_USER_CHANGE_IMAGE_PROFILE, URL_POST_USER_CHANGE_IMAGE_PROFILE_MULTER, URL_PUT_USER_FORGOT_PASSWORD, URL_PUT_USER_RESTORE_PASSWORD, URL_GET_GET_USERNAME} from "../constants/urls";
 
 export const updateUser = async (
     id,
@@ -50,7 +50,8 @@ export const updateUser = async (
 
 export const updateImageProfile = async (idUser,imageProfile) =>{
     
-    axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + idUser,imageProfile)
+    //axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE + idUser,imageProfile) //Para no usar Google Drive en la subida de las fotos, pueden usar este.
+    axios.post(URL_POST_USER_CHANGE_IMAGE_PROFILE_MULTER + idUser,imageProfile) //Con el Heroku y el Google Drive, se usa este.
     .then(res=>{
         if(res.data.user){
             
@@ -152,4 +153,24 @@ export const restorePassword = async(token, newPass) => {
     
     }
 
-}
+};
+
+export const getUserByUsername = async (userName) => {
+
+    try {
+        var user = await axios.get(`${URL_GET_GET_USERNAME}${userName}`);
+        if (user.status !== 200) console.log(user.data);
+        return user.data;
+    } catch (error) {
+        let errorObj;
+        const { response } = error;
+        errorObj = {
+            title: 'No se obtuvo un usuario',
+            text: response.data.message
+        }
+        console.log(response);
+        //throw errorObj;
+        return errorObj;
+    }
+
+};

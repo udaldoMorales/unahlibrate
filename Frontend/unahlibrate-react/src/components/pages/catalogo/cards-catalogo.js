@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import '../catalogo/catalogo.css';
 import CardItem from '../catalogo/card-item';
 import { URL_GET_IMAGE_BOOK } from '../../../constants/urls';
@@ -112,12 +112,24 @@ function Cards_catalogo(props) {
                       {grupo.map((libro, index) => {
                         return (
                           <React.Fragment>
-                          {(libro !== 'Empty') ?
+                          {/*Para no usar Google Drive en la subida de las fotos, pueden usar este.*/}
+                          {/*(libro !== 'Empty') ?
                           <CardItem
                             src={`${URL_GET_IMAGE_BOOK}${libro.image}`}
                             text={libro.title}
                             label={`${libro.price} Lps`}
-                            path={`/detLibro/${libro._id}`}
+                            path={`/detalleLibro/${libro._id}`}
+                            key={libro}
+                          /> :
+                          <li className='cards__item_empty'></li>
+                          */}
+                          {/*Con el Heroku y el Google Drive, se usa este.*/}
+                          {(libro !== 'Empty') ?
+                          <CardItem
+                            src={`${libro.image}`}
+                            text={libro.title}
+                            label={`${libro.price} Lps`}
+                            path={`/detalleLibro/${libro._id}`}
                           /> :
                           <div className='cards__item_empty'></div>
                           }
