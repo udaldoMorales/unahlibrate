@@ -1,8 +1,6 @@
 # UnahLibrate
 Plataforma de compra y venta de libros de nivel universitario, actualmente en desarrollo.
 
-Lisandro Estuvo aqui. :3
-
 # Instrucciones: Correr Backend
 
 Para correr el backend, hacer el pull de la rama "Backend" (o clonar el repositorio y situarse en la rama del Backend), ejecutar:
