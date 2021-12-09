@@ -1,8 +1,6 @@
 # UnahLibrate
 Plataforma de compra y venta de libros de nivel universitario, actualmente en desarrollo para la asignatura "Ingeniería de Software" en la UNAH en su segundo Periodo Academico 2021.
 
-Lisandro Estuvo aqui. :3
-
 # Instrucciones: Correr Frontend
 
 Para correr el backend, hacer el pull de la rama "Frontend" (o clonar el repositorio y situarse en la rama del Frontend), ubicarse en la carpeta **`unahlibrate-react`**, y allí dentro, ejecutar:
